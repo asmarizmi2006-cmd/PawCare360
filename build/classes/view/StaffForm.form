@@ -424,7 +424,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="8c" green="80" red="71" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="PHONE"/>
+                <Property name="text" type="java.lang.String" value="STAFF"/>
               </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">

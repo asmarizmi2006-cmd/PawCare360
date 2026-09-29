@@ -182,7 +182,7 @@ public class StaffForm extends javax.swing.JFrame {
 
         lblStaffLabel.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         lblStaffLabel.setForeground(new java.awt.Color(113, 128, 140));
-        lblStaffLabel.setText("PHONE");
+        lblStaffLabel.setText("STAFF");
         pnlAppointmentDetails.add(lblStaffLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 90, 270, 18));
 
         cmbStaff.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
