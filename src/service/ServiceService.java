@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
 
 import dao.ServiceDAO;
@@ -9,18 +5,44 @@ import model.ServiceItem;
 
 import java.util.List;
 
-public class ServiceService 
-{
+public class ServiceService {
 
-    private final ServiceDAO serviceDAO;
+    private final ServiceDAO serviceDAO = new ServiceDAO();
 
-    public ServiceService() 
-    {
-        serviceDAO = new ServiceDAO();
+    public void addService(ServiceItem s) {
+        validate(s);
+        if (s.getStatus() == null || s.getStatus().isEmpty()) {
+            s.setStatus("Active");
+        }
+        serviceDAO.addService(s);
     }
 
-    public List<ServiceItem> getAllServices() 
-    {
+    public List<ServiceItem> getAllServices() {
         return serviceDAO.getAllServices();
+    }
+
+    public List<ServiceItem> getAllServicesForManagement() {
+        return serviceDAO.getAllServicesForManagement();
+    }
+
+    public void updateService(ServiceItem s) {
+        validate(s);
+        serviceDAO.updateService(s);
+    }
+
+    public void deleteService(int serviceId) {
+        serviceDAO.deleteService(serviceId);
+    }
+
+    private void validate(ServiceItem s) {
+        if (s.getServiceName() == null || s.getServiceName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Service name is required.");
+        }
+        if (s.getPrice() == null || s.getPrice().compareTo(java.math.BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Price cannot be negative.");
+        }
+        if (s.getDurationMinutes() <= 0) {
+            throw new IllegalArgumentException("Duration must be greater than 0.");
+        }
     }
 }

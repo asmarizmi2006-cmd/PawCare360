@@ -44,33 +44,31 @@ public class StaffForm extends javax.swing.JFrame {
         lblInactiveTitle = new javax.swing.JLabel();
         lblTitle = new javax.swing.JLabel();
         lblSubtitle = new javax.swing.JLabel();
-        pnlAppointmentDetails = new javax.swing.JPanel();
+        pnlStaffDetails = new javax.swing.JPanel();
         lblFormSubtitle = new javax.swing.JLabel();
         lblformTitle = new javax.swing.JLabel();
-        lblDateLabel = new javax.swing.JLabel();
+        lblSpecialization = new javax.swing.JLabel();
         lblRole = new javax.swing.JLabel();
         cmbRole = new javax.swing.JComboBox<>();
-        lblStaffLabel = new javax.swing.JLabel();
-        cmbStaff = new javax.swing.JComboBox<>();
-        lblServiceLabel = new javax.swing.JLabel();
-        cmbService = new javax.swing.JComboBox<>();
+        lblPhone = new javax.swing.JLabel();
+        lblEmail = new javax.swing.JLabel();
         lblFullName = new javax.swing.JLabel();
-        txtDate = new javax.swing.JTextField();
-        lblTimeTable = new javax.swing.JLabel();
-        txtTime = new javax.swing.JTextField();
-        lblReasonLabel = new javax.swing.JLabel();
-        txtReason = new javax.swing.JTextField();
-        txtNotes = new javax.swing.JTextField();
-        lblNotes = new javax.swing.JLabel();
+        txtSpecialization = new javax.swing.JTextField();
+        lblHireDate = new javax.swing.JLabel();
+        txtHireDate = new javax.swing.JTextField();
+        lblStatus = new javax.swing.JLabel();
         lblMessage = new javax.swing.JLabel();
-        btnBook = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
-        btnCancelAppointment = new javax.swing.JButton();
-        btnClear = new javax.swing.JButton();
+        btnAddStaff = new javax.swing.JButton();
+        btnUpdateStaff = new javax.swing.JButton();
+        btnDeleteStaff = new javax.swing.JButton();
+        btnClearStaff = new javax.swing.JButton();
         txtFullName = new javax.swing.JTextField();
-        lblRecentsAppointments = new javax.swing.JLabel();
+        txtPhone = new javax.swing.JTextField();
+        txtEmail = new javax.swing.JTextField();
+        cmbStatus = new javax.swing.JComboBox<>();
+        lblStaffListTitle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblAppointments = new javax.swing.JTable();
+        tblStaff = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1500, 900));
@@ -154,164 +152,150 @@ public class StaffForm extends javax.swing.JFrame {
         lblSubtitle.setText("Manage clinic staff records");
         pnlStaffContent.add(lblSubtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 500, 20));
 
-        pnlAppointmentDetails.setBackground(new java.awt.Color(255, 255, 255));
-        pnlAppointmentDetails.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 217, 217)));
-        pnlAppointmentDetails.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlStaffDetails.setBackground(new java.awt.Color(255, 255, 255));
+        pnlStaffDetails.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 217, 217)));
+        pnlStaffDetails.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblFormSubtitle.setForeground(new java.awt.Color(110, 125, 135));
         lblFormSubtitle.setText("Register and manage staff records");
-        pnlAppointmentDetails.add(lblFormSubtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 42, 500, 20));
+        pnlStaffDetails.add(lblFormSubtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 42, 500, 20));
 
-        lblformTitle.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        lblformTitle.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblformTitle.setForeground(new java.awt.Color(74, 91, 106));
         lblformTitle.setText("STAFF REGISTRATION");
-        pnlAppointmentDetails.add(lblformTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 15, 500, 25));
+        pnlStaffDetails.add(lblformTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 15, 500, 25));
 
-        lblDateLabel.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblDateLabel.setForeground(new java.awt.Color(113, 128, 140));
-        lblDateLabel.setText("DATE (YYYY-MM-DD)");
-        pnlAppointmentDetails.add(lblDateLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 366, 18));
+        lblSpecialization.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblSpecialization.setForeground(new java.awt.Color(113, 128, 140));
+        lblSpecialization.setText("SPECIALIZATION");
+        pnlStaffDetails.add(lblSpecialization, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 366, 18));
 
         lblRole.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         lblRole.setForeground(new java.awt.Color(113, 128, 140));
         lblRole.setText("ROLE");
-        pnlAppointmentDetails.add(lblRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, 270, 18));
+        pnlStaffDetails.add(lblRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, 270, 18));
 
         cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        pnlAppointmentDetails.add(cmbRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 110, 270, 32));
+        pnlStaffDetails.add(cmbRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 110, 270, 32));
 
-        lblStaffLabel.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblStaffLabel.setForeground(new java.awt.Color(113, 128, 140));
-        lblStaffLabel.setText("STAFF");
-        pnlAppointmentDetails.add(lblStaffLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 90, 270, 18));
+        lblPhone.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblPhone.setForeground(new java.awt.Color(113, 128, 140));
+        lblPhone.setText("PHONE");
+        pnlStaffDetails.add(lblPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 90, 270, 18));
 
-        cmbStaff.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        pnlAppointmentDetails.add(cmbStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 110, 270, 32));
-
-        lblServiceLabel.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblServiceLabel.setForeground(new java.awt.Color(113, 128, 140));
-        lblServiceLabel.setText("SERVICE");
-        pnlAppointmentDetails.add(lblServiceLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 90, 270, 18));
-
-        cmbService.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        pnlAppointmentDetails.add(cmbService, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 110, 270, 32));
+        lblEmail.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblEmail.setForeground(new java.awt.Color(113, 128, 140));
+        lblEmail.setText("EMAIL");
+        pnlStaffDetails.add(lblEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 90, 270, 18));
 
         lblFullName.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         lblFullName.setForeground(new java.awt.Color(113, 128, 140));
         lblFullName.setText("FULL NAME");
-        pnlAppointmentDetails.add(lblFullName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 270, 18));
+        pnlStaffDetails.add(lblFullName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 270, 18));
 
-        txtDate.addActionListener(this::txtDateActionPerformed);
-        pnlAppointmentDetails.add(txtDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 366, 32));
+        txtSpecialization.addActionListener(this::txtSpecializationActionPerformed);
+        pnlStaffDetails.add(txtSpecialization, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 366, 32));
 
-        lblTimeTable.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblTimeTable.setForeground(new java.awt.Color(113, 128, 140));
-        lblTimeTable.setText("TIME (HH:MM)");
-        pnlAppointmentDetails.add(lblTimeTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 160, 366, 18));
+        lblHireDate.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblHireDate.setForeground(new java.awt.Color(113, 128, 140));
+        lblHireDate.setText("HIRE DATE (YYYY-MM-DD)");
+        pnlStaffDetails.add(lblHireDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 160, 366, 18));
 
-        txtTime.addActionListener(this::txtTimeActionPerformed);
-        pnlAppointmentDetails.add(txtTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 180, 366, 32));
+        txtHireDate.addActionListener(this::txtHireDateActionPerformed);
+        pnlStaffDetails.add(txtHireDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 180, 366, 32));
 
-        lblReasonLabel.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblReasonLabel.setForeground(new java.awt.Color(113, 128, 140));
-        lblReasonLabel.setText("REASON");
-        pnlAppointmentDetails.add(lblReasonLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(792, 160, 366, 18));
-
-        txtReason.addActionListener(this::txtReasonActionPerformed);
-        pnlAppointmentDetails.add(txtReason, new org.netbeans.lib.awtextra.AbsoluteConstraints(792, 180, 366, 32));
-        pnlAppointmentDetails.add(txtNotes, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 1140, 70));
-
-        lblNotes.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblNotes.setForeground(new java.awt.Color(113, 128, 140));
-        lblNotes.setText("NOTES");
-        pnlAppointmentDetails.add(lblNotes, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 1140, 18));
+        lblStatus.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblStatus.setForeground(new java.awt.Color(113, 128, 140));
+        lblStatus.setText("STATUS");
+        pnlStaffDetails.add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(792, 160, 366, 18));
 
         lblMessage.setForeground(java.awt.Color.red);
-        pnlAppointmentDetails.add(lblMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 600, 20));
+        pnlStaffDetails.add(lblMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 600, 20));
 
-        btnBook.setBackground(new java.awt.Color(157, 201, 163));
-        btnBook.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnBook.setForeground(new java.awt.Color(74, 91, 106));
-        btnBook.setText("Book Appointment");
-        btnBook.addActionListener(this::btnBookActionPerformed);
-        pnlAppointmentDetails.add(btnBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 355, 270, 45));
+        btnAddStaff.setBackground(new java.awt.Color(157, 201, 163));
+        btnAddStaff.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAddStaff.setForeground(new java.awt.Color(74, 91, 106));
+        btnAddStaff.setText("Add Staff");
+        btnAddStaff.addActionListener(this::btnAddStaffActionPerformed);
+        pnlStaffDetails.add(btnAddStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 270, 45));
 
-        btnUpdate.setBackground(new java.awt.Color(190, 210, 230));
-        btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnUpdate.setForeground(new java.awt.Color(74, 91, 106));
-        btnUpdate.setText("Update Status");
-        btnUpdate.addActionListener(this::btnUpdateActionPerformed);
-        pnlAppointmentDetails.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 355, 270, 45));
+        btnUpdateStaff.setBackground(new java.awt.Color(190, 210, 230));
+        btnUpdateStaff.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnUpdateStaff.setForeground(new java.awt.Color(74, 91, 106));
+        btnUpdateStaff.setText("Update ");
+        btnUpdateStaff.addActionListener(this::btnUpdateStaffActionPerformed);
+        pnlStaffDetails.add(btnUpdateStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 270, 45));
 
-        btnCancelAppointment.setBackground(new java.awt.Color(220, 170, 170));
-        btnCancelAppointment.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnCancelAppointment.setForeground(new java.awt.Color(120, 40, 40));
-        btnCancelAppointment.setText("Cancel");
-        btnCancelAppointment.addActionListener(this::btnCancelAppointmentActionPerformed);
-        pnlAppointmentDetails.add(btnCancelAppointment, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 355, 270, 45));
+        btnDeleteStaff.setBackground(new java.awt.Color(220, 170, 170));
+        btnDeleteStaff.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDeleteStaff.setForeground(new java.awt.Color(120, 40, 40));
+        btnDeleteStaff.setText("Delete");
+        btnDeleteStaff.addActionListener(this::btnDeleteStaffActionPerformed);
+        pnlStaffDetails.add(btnDeleteStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 270, 270, 45));
 
-        btnClear.setBackground(new java.awt.Color(235, 235, 230));
-        btnClear.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnClear.setForeground(new java.awt.Color(74, 91, 106));
-        btnClear.setText("Clear");
-        btnClear.addActionListener(this::btnClearActionPerformed);
-        pnlAppointmentDetails.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 355, 270, 45));
-        pnlAppointmentDetails.add(txtFullName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 270, 32));
+        btnClearStaff.setBackground(new java.awt.Color(235, 235, 230));
+        btnClearStaff.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnClearStaff.setForeground(new java.awt.Color(74, 91, 106));
+        btnClearStaff.setText("Clear");
+        btnClearStaff.addActionListener(this::btnClearStaffActionPerformed);
+        pnlStaffDetails.add(btnClearStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 270, 270, 45));
+        pnlStaffDetails.add(txtFullName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 270, 32));
+        pnlStaffDetails.add(txtPhone, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 110, 270, 32));
+        pnlStaffDetails.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 110, 270, 32));
 
-        pnlStaffContent.add(pnlAppointmentDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 1180, 420));
+        cmbStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlStaffDetails.add(cmbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(792, 180, 366, 32));
 
-        lblRecentsAppointments.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblRecentsAppointments.setForeground(new java.awt.Color(113, 128, 140));
-        lblRecentsAppointments.setText("RECENT APPOINTMENTS");
-        pnlStaffContent.add(lblRecentsAppointments, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 630, 400, 25));
+        pnlStaffContent.add(pnlStaffDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 1180, 340));
 
-        tblAppointments.setModel(new javax.swing.table.DefaultTableModel(
+        lblStaffListTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblStaffListTitle.setForeground(new java.awt.Color(113, 128, 140));
+        lblStaffListTitle.setText("ALL STAFF");
+        pnlStaffContent.add(lblStaffListTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 550, 400, 25));
+
+        tblStaff.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Customer", "Pet", "Staff", "Service", "Date & Time", "Status"
+                "ID", "Full Name", "Role", "Phone", "Email", "Specialization", "Hire Date", "Status"
             }
         ));
-        jScrollPane1.setViewportView(tblAppointments);
+        jScrollPane1.setViewportView(tblStaff);
 
-        pnlStaffContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 658, 1180, 160));
+        pnlStaffContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 580, 1180, 160));
 
         getContentPane().add(pnlStaffContent, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDateActionPerformed
+    private void txtSpecializationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSpecializationActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtDateActionPerformed
+    }//GEN-LAST:event_txtSpecializationActionPerformed
 
-    private void txtTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimeActionPerformed
+    private void txtHireDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtHireDateActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTimeActionPerformed
+    }//GEN-LAST:event_txtHireDateActionPerformed
 
-    private void txtReasonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtReasonActionPerformed
+    private void btnAddStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStaffActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtReasonActionPerformed
+    }//GEN-LAST:event_btnAddStaffActionPerformed
 
-    private void btnBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookActionPerformed
+    private void btnUpdateStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateStaffActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnBookActionPerformed
+    }//GEN-LAST:event_btnUpdateStaffActionPerformed
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+    private void btnDeleteStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteStaffActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnUpdateActionPerformed
+    }//GEN-LAST:event_btnDeleteStaffActionPerformed
 
-    private void btnCancelAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelAppointmentActionPerformed
+    private void btnClearStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearStaffActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnCancelAppointmentActionPerformed
-
-    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnClearActionPerformed
+    }//GEN-LAST:event_btnClearStaffActionPerformed
 
     /**
      * @param args the command line arguments
@@ -339,48 +323,46 @@ public class StaffForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBook;
-    private javax.swing.JButton btnCancelAppointment;
-    private javax.swing.JButton btnClear;
-    private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton btnAddStaff;
+    private javax.swing.JButton btnClearStaff;
+    private javax.swing.JButton btnDeleteStaff;
+    private javax.swing.JButton btnUpdateStaff;
     private javax.swing.JComboBox<String> cmbRole;
-    private javax.swing.JComboBox<String> cmbService;
-    private javax.swing.JComboBox<String> cmbStaff;
+    private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblActiveCount;
-    private javax.swing.JLabel lblDateLabel;
+    private javax.swing.JLabel lblEmail;
     private javax.swing.JLabel lblFormSubtitle;
     private javax.swing.JLabel lblFullName;
+    private javax.swing.JLabel lblHireDate;
     private javax.swing.JLabel lblInactiveCount;
     private javax.swing.JLabel lblInactiveTitle;
     private javax.swing.JLabel lblMessage;
-    private javax.swing.JLabel lblNotes;
     private javax.swing.JLabel lblOnLeaveCount;
     private javax.swing.JLabel lblOnLeaveTitle;
-    private javax.swing.JLabel lblReasonLabel;
-    private javax.swing.JLabel lblRecentsAppointments;
+    private javax.swing.JLabel lblPhone;
     private javax.swing.JLabel lblRole;
     private javax.swing.JLabel lblScheduledTitle;
-    private javax.swing.JLabel lblServiceLabel;
-    private javax.swing.JLabel lblStaffLabel;
+    private javax.swing.JLabel lblSpecialization;
+    private javax.swing.JLabel lblStaffListTitle;
+    private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblSubtitle;
-    private javax.swing.JLabel lblTimeTable;
     private javax.swing.JLabel lblTitle;
     private javax.swing.JLabel lblTotalCount;
     private javax.swing.JLabel lblTotalTitle;
     private javax.swing.JLabel lblformTitle;
-    private javax.swing.JPanel pnlAppointmentDetails;
     private javax.swing.JPanel pnlCardActive;
     private javax.swing.JPanel pnlCardInactive;
     private javax.swing.JPanel pnlCardOnLeave;
     private javax.swing.JPanel pnlCardTotal;
     private javax.swing.JPanel pnlStaffContent;
+    private javax.swing.JPanel pnlStaffDetails;
     private view.SidebarPanel sidebarPanel1;
-    private javax.swing.JTable tblAppointments;
-    private javax.swing.JTextField txtDate;
+    private javax.swing.JTable tblStaff;
+    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtFullName;
-    private javax.swing.JTextField txtNotes;
-    private javax.swing.JTextField txtReason;
-    private javax.swing.JTextField txtTime;
+    private javax.swing.JTextField txtHireDate;
+    private javax.swing.JTextField txtPhone;
+    private javax.swing.JTextField txtSpecialization;
     // End of variables declaration//GEN-END:variables
 }

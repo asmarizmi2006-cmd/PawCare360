@@ -532,7 +532,7 @@ public class AppointmentForm extends javax.swing.JFrame
         lblFormSubtitle.setText("Register and manage appointment bookings");
         pnlAppointmentDetails.add(lblFormSubtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 42, 500, 20));
 
-        lblformTitle.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
+        lblformTitle.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
         lblformTitle.setForeground(new java.awt.Color(74, 91, 106));
         lblformTitle.setText("APPOINTMENT BOOKING");
         pnlAppointmentDetails.add(lblformTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 15, 500, 25));
