@@ -55,18 +55,18 @@ public class ServiceForm extends javax.swing.JFrame {
         txtDescription = new javax.swing.JTextField();
         lblStatus = new javax.swing.JLabel();
         lblMessage = new javax.swing.JLabel();
-        btnAddStaff = new javax.swing.JButton();
-        btnUpdateStaff = new javax.swing.JButton();
-        btnDeleteStaff = new javax.swing.JButton();
-        btnClearStaff = new javax.swing.JButton();
+        btnAddService = new javax.swing.JButton();
+        btnUpdateService = new javax.swing.JButton();
+        btnDeleteServcie = new javax.swing.JButton();
+        btnClearService = new javax.swing.JButton();
         txtServiceName = new javax.swing.JTextField();
         txtPrice = new javax.swing.JTextField();
         txtDuartion = new javax.swing.JTextField();
         cmbStatus = new javax.swing.JComboBox<>();
         txtCategory = new javax.swing.JTextField();
-        lblStaffListTitle = new javax.swing.JLabel();
+        lblServiceListTitle = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblStaff = new javax.swing.JTable();
+        tblServices = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(1500, 900));
@@ -190,7 +190,7 @@ public class ServiceForm extends javax.swing.JFrame {
         pnlServiceDetails.add(lblServiceName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 270, 18));
 
         txtDescription.addActionListener(this::txtDescriptionActionPerformed);
-        pnlServiceDetails.add(txtDescription, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 400, 32));
+        pnlServiceDetails.add(txtDescription, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 750, 32));
 
         lblStatus.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         lblStatus.setForeground(new java.awt.Color(113, 128, 140));
@@ -200,33 +200,33 @@ public class ServiceForm extends javax.swing.JFrame {
         lblMessage.setForeground(java.awt.Color.red);
         pnlServiceDetails.add(lblMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 600, 20));
 
-        btnAddStaff.setBackground(new java.awt.Color(157, 201, 163));
-        btnAddStaff.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnAddStaff.setForeground(new java.awt.Color(74, 91, 106));
-        btnAddStaff.setText("Add Staff");
-        btnAddStaff.addActionListener(this::btnAddStaffActionPerformed);
-        pnlServiceDetails.add(btnAddStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 270, 45));
+        btnAddService.setBackground(new java.awt.Color(157, 201, 163));
+        btnAddService.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAddService.setForeground(new java.awt.Color(74, 91, 106));
+        btnAddService.setText("Add Service");
+        btnAddService.addActionListener(this::btnAddServiceActionPerformed);
+        pnlServiceDetails.add(btnAddService, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 270, 45));
 
-        btnUpdateStaff.setBackground(new java.awt.Color(190, 210, 230));
-        btnUpdateStaff.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnUpdateStaff.setForeground(new java.awt.Color(74, 91, 106));
-        btnUpdateStaff.setText("Update ");
-        btnUpdateStaff.addActionListener(this::btnUpdateStaffActionPerformed);
-        pnlServiceDetails.add(btnUpdateStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 270, 45));
+        btnUpdateService.setBackground(new java.awt.Color(190, 210, 230));
+        btnUpdateService.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnUpdateService.setForeground(new java.awt.Color(74, 91, 106));
+        btnUpdateService.setText("Update ");
+        btnUpdateService.addActionListener(this::btnUpdateServiceActionPerformed);
+        pnlServiceDetails.add(btnUpdateService, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 270, 45));
 
-        btnDeleteStaff.setBackground(new java.awt.Color(220, 170, 170));
-        btnDeleteStaff.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnDeleteStaff.setForeground(new java.awt.Color(120, 40, 40));
-        btnDeleteStaff.setText("Delete");
-        btnDeleteStaff.addActionListener(this::btnDeleteStaffActionPerformed);
-        pnlServiceDetails.add(btnDeleteStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 270, 270, 45));
+        btnDeleteServcie.setBackground(new java.awt.Color(220, 170, 170));
+        btnDeleteServcie.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnDeleteServcie.setForeground(new java.awt.Color(120, 40, 40));
+        btnDeleteServcie.setText("Delete");
+        btnDeleteServcie.addActionListener(this::btnDeleteServcieActionPerformed);
+        pnlServiceDetails.add(btnDeleteServcie, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 270, 270, 45));
 
-        btnClearStaff.setBackground(new java.awt.Color(235, 235, 230));
-        btnClearStaff.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnClearStaff.setForeground(new java.awt.Color(74, 91, 106));
-        btnClearStaff.setText("Clear");
-        btnClearStaff.addActionListener(this::btnClearStaffActionPerformed);
-        pnlServiceDetails.add(btnClearStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 270, 270, 45));
+        btnClearService.setBackground(new java.awt.Color(235, 235, 230));
+        btnClearService.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnClearService.setForeground(new java.awt.Color(74, 91, 106));
+        btnClearService.setText("Clear");
+        btnClearService.addActionListener(this::btnClearServiceActionPerformed);
+        pnlServiceDetails.add(btnClearService, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 270, 270, 45));
         pnlServiceDetails.add(txtServiceName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 270, 32));
         pnlServiceDetails.add(txtPrice, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 110, 270, 32));
         pnlServiceDetails.add(txtDuartion, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 110, 270, 32));
@@ -237,23 +237,23 @@ public class ServiceForm extends javax.swing.JFrame {
 
         pnlServiceContent.add(pnlServiceDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 1180, 340));
 
-        lblStaffListTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblStaffListTitle.setForeground(new java.awt.Color(113, 128, 140));
-        lblStaffListTitle.setText("ALL STAFF");
-        pnlServiceContent.add(lblStaffListTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 550, 400, 25));
+        lblServiceListTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblServiceListTitle.setForeground(new java.awt.Color(113, 128, 140));
+        lblServiceListTitle.setText("ALL SERVICES");
+        pnlServiceContent.add(lblServiceListTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 550, 400, 25));
 
-        tblStaff.setModel(new javax.swing.table.DefaultTableModel(
+        tblServices.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "Full Name", "Role", "Phone", "Email", "Specialization", "Hire Date", "Status"
+                "ID", "Service Name", "Category", "Price", "Duration (min)", "Description", "Status"
             }
         ));
-        jScrollPane1.setViewportView(tblStaff);
+        jScrollPane1.setViewportView(tblServices);
 
         pnlServiceContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 580, 1180, 160));
 
@@ -266,21 +266,21 @@ public class ServiceForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtDescriptionActionPerformed
 
-    private void btnAddStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStaffActionPerformed
+    private void btnAddServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddServiceActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddStaffActionPerformed
+    }//GEN-LAST:event_btnAddServiceActionPerformed
 
-    private void btnUpdateStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateStaffActionPerformed
+    private void btnUpdateServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateServiceActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnUpdateStaffActionPerformed
+    }//GEN-LAST:event_btnUpdateServiceActionPerformed
 
-    private void btnDeleteStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteStaffActionPerformed
+    private void btnDeleteServcieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteServcieActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnDeleteStaffActionPerformed
+    }//GEN-LAST:event_btnDeleteServcieActionPerformed
 
-    private void btnClearStaffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearStaffActionPerformed
+    private void btnClearServiceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearServiceActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnClearStaffActionPerformed
+    }//GEN-LAST:event_btnClearServiceActionPerformed
 
     /**
      * @param args the command line arguments
@@ -308,10 +308,10 @@ public class ServiceForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddStaff;
-    private javax.swing.JButton btnClearStaff;
-    private javax.swing.JButton btnDeleteStaff;
-    private javax.swing.JButton btnUpdateStaff;
+    private javax.swing.JButton btnAddService;
+    private javax.swing.JButton btnClearService;
+    private javax.swing.JButton btnDeleteServcie;
+    private javax.swing.JButton btnUpdateService;
     private javax.swing.JComboBox<String> cmbStatus;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblActiveCount;
@@ -327,8 +327,8 @@ public class ServiceForm extends javax.swing.JFrame {
     private javax.swing.JLabel lblPageTitle;
     private javax.swing.JLabel lblPrice;
     private javax.swing.JLabel lblScheduledTitle;
+    private javax.swing.JLabel lblServiceListTitle;
     private javax.swing.JLabel lblServiceName;
-    private javax.swing.JLabel lblStaffListTitle;
     private javax.swing.JLabel lblStatus;
     private javax.swing.JLabel lblSubtitle;
     private javax.swing.JLabel lblTotalCount;
@@ -341,7 +341,7 @@ public class ServiceForm extends javax.swing.JFrame {
     private javax.swing.JPanel pnlServiceContent;
     private javax.swing.JPanel pnlServiceDetails;
     private view.SidebarPanel sidebarPanel1;
-    private javax.swing.JTable tblStaff;
+    private javax.swing.JTable tblServices;
     private javax.swing.JTextField txtCategory;
     private javax.swing.JTextField txtDescription;
     private javax.swing.JTextField txtDuartion;
