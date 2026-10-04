@@ -28,21 +28,293 @@ public class GroomingForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        sidebarPanel1 = new view.SidebarPanel();
+        pnlGroomingContent = new javax.swing.JPanel();
+        pnlCardToday = new javax.swing.JPanel();
+        lblTodayTitle = new javax.swing.JLabel();
+        lblTodayCount = new javax.swing.JLabel();
+        pnlCardScheduled = new javax.swing.JPanel();
+        lblScheduledTitle = new javax.swing.JLabel();
+        lblScheduledCount = new javax.swing.JLabel();
+        pnlCardCompleted = new javax.swing.JPanel();
+        lblCompletedCount = new javax.swing.JLabel();
+        lblCompletedTitle = new javax.swing.JLabel();
+        pnlCardCancelled = new javax.swing.JPanel();
+        lblCancelledCount = new javax.swing.JLabel();
+        lblCancelledTitle = new javax.swing.JLabel();
+        lblTitle = new javax.swing.JLabel();
+        lblSubtitle = new javax.swing.JLabel();
+        pnlGroomingDetails = new javax.swing.JPanel();
+        lblFormSubtitle = new javax.swing.JLabel();
+        lblformTitle = new javax.swing.JLabel();
+        lblDateLabel = new javax.swing.JLabel();
+        cmbCustomer = new javax.swing.JComboBox<>();
+        lblPetLabel = new javax.swing.JLabel();
+        cmbPet = new javax.swing.JComboBox<>();
+        lblStaffLabel = new javax.swing.JLabel();
+        cmbStaff = new javax.swing.JComboBox<>();
+        lblServiceLabel = new javax.swing.JLabel();
+        cmbService = new javax.swing.JComboBox<>();
+        lblCustomerLabel = new javax.swing.JLabel();
+        txtDate = new javax.swing.JTextField();
+        lblTimeTable = new javax.swing.JLabel();
+        txtTime = new javax.swing.JTextField();
+        lblReasonLabel = new javax.swing.JLabel();
+        txtReason = new javax.swing.JTextField();
+        txtNotes = new javax.swing.JTextField();
+        lblNotes = new javax.swing.JLabel();
+        lblMessage = new javax.swing.JLabel();
+        btnBook = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnCancelAppointment = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
+        lblRecentsGroomings = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblGroomings = new javax.swing.JTable();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1500, 900));
+        setPreferredSize(new java.awt.Dimension(1500, 900));
+        setSize(new java.awt.Dimension(1500, 900));
+        getContentPane().add(sidebarPanel1, java.awt.BorderLayout.WEST);
+
+        pnlGroomingContent.setBackground(new java.awt.Color(250, 246, 240));
+        pnlGroomingContent.setMinimumSize(new java.awt.Dimension(1200, 900));
+        pnlGroomingContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pnlCardToday.setBackground(new java.awt.Color(255, 255, 255));
+        pnlCardToday.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 217, 217)));
+        pnlCardToday.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblTodayTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblTodayTitle.setForeground(new java.awt.Color(110, 125, 135));
+        lblTodayTitle.setText("TODAY");
+        pnlCardToday.add(lblTodayTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 12, 190, 18));
+
+        lblTodayCount.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
+        lblTodayCount.setForeground(new java.awt.Color(74, 91, 106));
+        lblTodayCount.setText("0");
+        pnlCardToday.add(lblTodayCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 40, 190, 36));
+
+        pnlGroomingContent.add(pnlCardToday, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 280, 90));
+
+        pnlCardScheduled.setBackground(new java.awt.Color(255, 255, 255));
+        pnlCardScheduled.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 217, 217)));
+        pnlCardScheduled.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblScheduledTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblScheduledTitle.setForeground(new java.awt.Color(110, 125, 135));
+        lblScheduledTitle.setText("SHEDULED");
+        pnlCardScheduled.add(lblScheduledTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 12, 190, 18));
+
+        lblScheduledCount.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
+        lblScheduledCount.setForeground(new java.awt.Color(74, 91, 106));
+        lblScheduledCount.setText("0");
+        pnlCardScheduled.add(lblScheduledCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 40, 190, 36));
+
+        pnlGroomingContent.add(pnlCardScheduled, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 90, 280, 90));
+
+        pnlCardCompleted.setBackground(new java.awt.Color(255, 255, 255));
+        pnlCardCompleted.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 217, 217)));
+        pnlCardCompleted.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblCompletedCount.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
+        lblCompletedCount.setForeground(new java.awt.Color(74, 91, 106));
+        lblCompletedCount.setText("0");
+        pnlCardCompleted.add(lblCompletedCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 40, 190, 36));
+
+        lblCompletedTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblCompletedTitle.setForeground(new java.awt.Color(110, 125, 135));
+        lblCompletedTitle.setText("COMPLETED");
+        pnlCardCompleted.add(lblCompletedTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 12, 190, 18));
+
+        pnlGroomingContent.add(pnlCardCompleted, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 90, 280, 90));
+
+        pnlCardCancelled.setBackground(new java.awt.Color(255, 255, 255));
+        pnlCardCancelled.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 217, 217)));
+        pnlCardCancelled.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblCancelledCount.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
+        lblCancelledCount.setForeground(new java.awt.Color(74, 91, 106));
+        lblCancelledCount.setText("0");
+        pnlCardCancelled.add(lblCancelledCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 40, 190, 36));
+
+        lblCancelledTitle.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblCancelledTitle.setForeground(new java.awt.Color(110, 125, 135));
+        lblCancelledTitle.setText("CANCELLED");
+        pnlCardCancelled.add(lblCancelledTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(15, 12, 190, 18));
+
+        pnlGroomingContent.add(pnlCardCancelled, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 90, 280, 90));
+
+        lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblTitle.setForeground(new java.awt.Color(74, 91, 106));
+        lblTitle.setText("Grooming");
+        pnlGroomingContent.add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 15, 500, 35));
+
+        lblSubtitle.setForeground(new java.awt.Color(110, 125, 135));
+        lblSubtitle.setText("Book and manage grooming appointments");
+        pnlGroomingContent.add(lblSubtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, 500, 20));
+
+        pnlGroomingDetails.setBackground(new java.awt.Color(255, 255, 255));
+        pnlGroomingDetails.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 217, 217)));
+        pnlGroomingDetails.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblFormSubtitle.setForeground(new java.awt.Color(110, 125, 135));
+        lblFormSubtitle.setText("Register and manage grooming bookings");
+        pnlGroomingDetails.add(lblFormSubtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 42, 500, 20));
+
+        lblformTitle.setFont(new java.awt.Font("Segoe UI", 1, 16)); // NOI18N
+        lblformTitle.setForeground(new java.awt.Color(74, 91, 106));
+        lblformTitle.setText("GROOMING BOOKINGS");
+        pnlGroomingDetails.add(lblformTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 15, 500, 25));
+
+        lblDateLabel.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblDateLabel.setForeground(new java.awt.Color(113, 128, 140));
+        lblDateLabel.setText("DATE (YYYY-MM-DD)");
+        pnlGroomingDetails.add(lblDateLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 366, 18));
+
+        cmbCustomer.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlGroomingDetails.add(cmbCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 270, 32));
+
+        lblPetLabel.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblPetLabel.setForeground(new java.awt.Color(113, 128, 140));
+        lblPetLabel.setText("PET");
+        pnlGroomingDetails.add(lblPetLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 90, 270, 18));
+
+        cmbPet.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlGroomingDetails.add(cmbPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 110, 270, 32));
+
+        lblStaffLabel.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblStaffLabel.setForeground(new java.awt.Color(113, 128, 140));
+        lblStaffLabel.setText("STAFF");
+        pnlGroomingDetails.add(lblStaffLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 90, 270, 18));
+
+        cmbStaff.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlGroomingDetails.add(cmbStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 110, 270, 32));
+
+        lblServiceLabel.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblServiceLabel.setForeground(new java.awt.Color(113, 128, 140));
+        lblServiceLabel.setText("SERVICE");
+        pnlGroomingDetails.add(lblServiceLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 90, 270, 18));
+
+        cmbService.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        pnlGroomingDetails.add(cmbService, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 110, 270, 32));
+
+        lblCustomerLabel.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblCustomerLabel.setForeground(new java.awt.Color(113, 128, 140));
+        lblCustomerLabel.setText("CUSTOMER");
+        pnlGroomingDetails.add(lblCustomerLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 270, 18));
+
+        txtDate.addActionListener(this::txtDateActionPerformed);
+        pnlGroomingDetails.add(txtDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 366, 32));
+
+        lblTimeTable.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblTimeTable.setForeground(new java.awt.Color(113, 128, 140));
+        lblTimeTable.setText("TIME (HH:MM)");
+        pnlGroomingDetails.add(lblTimeTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 160, 366, 18));
+
+        txtTime.addActionListener(this::txtTimeActionPerformed);
+        pnlGroomingDetails.add(txtTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 180, 366, 32));
+
+        lblReasonLabel.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblReasonLabel.setForeground(new java.awt.Color(113, 128, 140));
+        lblReasonLabel.setText("REASON");
+        pnlGroomingDetails.add(lblReasonLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(792, 160, 366, 18));
+
+        txtReason.addActionListener(this::txtReasonActionPerformed);
+        pnlGroomingDetails.add(txtReason, new org.netbeans.lib.awtextra.AbsoluteConstraints(792, 180, 370, 32));
+        pnlGroomingDetails.add(txtNotes, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 1140, 70));
+
+        lblNotes.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblNotes.setForeground(new java.awt.Color(113, 128, 140));
+        lblNotes.setText("NOTES");
+        pnlGroomingDetails.add(lblNotes, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 1140, 18));
+
+        lblMessage.setForeground(java.awt.Color.red);
+        pnlGroomingDetails.add(lblMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 600, 20));
+
+        btnBook.setBackground(new java.awt.Color(157, 201, 163));
+        btnBook.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBook.setForeground(new java.awt.Color(74, 91, 106));
+        btnBook.setText("Book Appointment");
+        btnBook.addActionListener(this::btnBookActionPerformed);
+        pnlGroomingDetails.add(btnBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 355, 270, 45));
+
+        btnUpdate.setBackground(new java.awt.Color(190, 210, 230));
+        btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnUpdate.setForeground(new java.awt.Color(74, 91, 106));
+        btnUpdate.setText("Update Status");
+        btnUpdate.addActionListener(this::btnUpdateActionPerformed);
+        pnlGroomingDetails.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 355, 270, 45));
+
+        btnCancelAppointment.setBackground(new java.awt.Color(220, 170, 170));
+        btnCancelAppointment.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCancelAppointment.setForeground(new java.awt.Color(120, 40, 40));
+        btnCancelAppointment.setText("Cancel");
+        btnCancelAppointment.addActionListener(this::btnCancelAppointmentActionPerformed);
+        pnlGroomingDetails.add(btnCancelAppointment, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 355, 270, 45));
+
+        btnClear.setBackground(new java.awt.Color(235, 235, 230));
+        btnClear.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnClear.setForeground(new java.awt.Color(74, 91, 106));
+        btnClear.setText("Clear");
+        btnClear.addActionListener(this::btnClearActionPerformed);
+        pnlGroomingDetails.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 355, 270, 45));
+
+        pnlGroomingContent.add(pnlGroomingDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 1180, 420));
+
+        lblRecentsGroomings.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblRecentsGroomings.setForeground(new java.awt.Color(113, 128, 140));
+        lblRecentsGroomings.setText("RECENT GROOMINGS");
+        pnlGroomingContent.add(lblRecentsGroomings, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 630, 400, 25));
+
+        tblGroomings.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Customer", "Pet", "Staff", "Service", "Date & Time", "Status"
+            }
+        ));
+        jScrollPane1.setViewportView(tblGroomings);
+
+        pnlGroomingContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 658, 1180, 160));
+
+        getContentPane().add(pnlGroomingContent, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtDateActionPerformed
+
+    private void txtTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtTimeActionPerformed
+
+    private void txtReasonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtReasonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtReasonActionPerformed
+
+    private void btnBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnBookActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnCancelAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelAppointmentActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelAppointmentActionPerformed
+
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnClearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -70,5 +342,48 @@ public class GroomingForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBook;
+    private javax.swing.JButton btnCancelAppointment;
+    private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cmbCustomer;
+    private javax.swing.JComboBox<String> cmbPet;
+    private javax.swing.JComboBox<String> cmbService;
+    private javax.swing.JComboBox<String> cmbStaff;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCancelledCount;
+    private javax.swing.JLabel lblCancelledTitle;
+    private javax.swing.JLabel lblCompletedCount;
+    private javax.swing.JLabel lblCompletedTitle;
+    private javax.swing.JLabel lblCustomerLabel;
+    private javax.swing.JLabel lblDateLabel;
+    private javax.swing.JLabel lblFormSubtitle;
+    private javax.swing.JLabel lblMessage;
+    private javax.swing.JLabel lblNotes;
+    private javax.swing.JLabel lblPetLabel;
+    private javax.swing.JLabel lblReasonLabel;
+    private javax.swing.JLabel lblRecentsGroomings;
+    private javax.swing.JLabel lblScheduledCount;
+    private javax.swing.JLabel lblScheduledTitle;
+    private javax.swing.JLabel lblServiceLabel;
+    private javax.swing.JLabel lblStaffLabel;
+    private javax.swing.JLabel lblSubtitle;
+    private javax.swing.JLabel lblTimeTable;
+    private javax.swing.JLabel lblTitle;
+    private javax.swing.JLabel lblTodayCount;
+    private javax.swing.JLabel lblTodayTitle;
+    private javax.swing.JLabel lblformTitle;
+    private javax.swing.JPanel pnlCardCancelled;
+    private javax.swing.JPanel pnlCardCompleted;
+    private javax.swing.JPanel pnlCardScheduled;
+    private javax.swing.JPanel pnlCardToday;
+    private javax.swing.JPanel pnlGroomingContent;
+    private javax.swing.JPanel pnlGroomingDetails;
+    private view.SidebarPanel sidebarPanel1;
+    private javax.swing.JTable tblGroomings;
+    private javax.swing.JTextField txtDate;
+    private javax.swing.JTextField txtNotes;
+    private javax.swing.JTextField txtReason;
+    private javax.swing.JTextField txtTime;
     // End of variables declaration//GEN-END:variables
 }
