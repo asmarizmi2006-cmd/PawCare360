@@ -1,152 +1,1467 @@
 package view;
 
-/**
- * LoginForm: passive view (designer form).
- * Logic lives in LoginController.
- */
-public class LoginForm extends javax.swing.JFrame {
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Insets;
+import java.awt.RenderingHints;
 
-    public LoginForm() {
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JProgressBar;
+import javax.swing.plaf.basic.BasicProgressBarUI;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.Timer;
+import javax.swing.WindowConstants;
+import javax.swing.border.AbstractBorder;
+
+/**
+ * PawCare360 Login Form
+ *
+ * Passive View:
+ * Login logic remains inside LoginController.
+ */
+public class LoginForm extends JFrame
+{
+    // =========================================================
+    // PAWCARE360 BRAND COLORS
+    // =========================================================
+
+    // Main navy
+    private static final Color NAVY =
+            new Color(15, 39, 64);
+
+    // Dark navy
+    private static final Color DARK_NAVY =
+            new Color(7, 22, 38);
+
+    // YOUR ACTUAL BRAND GREEN
+    // RGB(157, 201, 163)
+    private static final Color BRAND_GREEN =
+            new Color(157, 201, 163);
+
+    // Soft beige
+    private static final Color BEIGE =
+            new Color(232, 226, 211);
+
+    // White
+    private static final Color WHITE =
+            new Color(255, 255, 255);
+
+    // Main text
+    private static final Color TEXT =
+            new Color(35, 48, 61);
+
+    // Secondary text
+    private static final Color MUTED =
+            new Color(105, 120, 135);
+
+    // Error
+    private static final Color ERROR =
+            new Color(190, 55, 55);
+
+    // =========================================================
+    // COMPONENTS
+    // =========================================================
+
+    private JLabel lblTitle;
+    private JLabel lblSubtitle;
+    private JLabel lblUsernameLabel;
+    private JLabel lblPassword;
+    private JLabel lblRole;
+    private JLabel lblError;
+    private JLabel lblLoading;
+
+    private JTextField txtUsername;
+    private JPasswordField txtPassword;
+
+    private JComboBox<String> cmbRole;
+
+    private JCheckBox chkShowPassword;
+
+    private JButton btnLogin;
+
+    private JProgressBar progressBar;
+
+    private JPanel backgroundPanel;
+    private JPanel loginCard;
+
+    private char passwordEchoChar;
+
+    // =========================================================
+    // CONSTRUCTOR
+    // =========================================================
+
+    public LoginForm()
+    {
         initComponents();
+
         setResizable(false);
         setLocationRelativeTo(null);
+
         lblError.setText(" ");
+
+        lblLoading.setVisible(false);
+        progressBar.setVisible(false);
+
+        passwordEchoChar =
+                txtPassword.getEchoChar();
     }
 
-    public String getUsername() {
+    // =========================================================
+    // GET USERNAME
+    // =========================================================
+
+    public String getUsername()
+    {
         return txtUsername.getText().trim();
     }
 
-    public char[] getPassword() {
+    // =========================================================
+    // GET PASSWORD
+    // =========================================================
+
+    public char[] getPassword()
+    {
         return txtPassword.getPassword();
     }
 
-    // Blank = no role
-    public String getRole() {
-        Object item = cmbRole.getSelectedItem();
-        return item == null ? "" : item.toString().trim();
+    // =========================================================
+    // GET ROLE
+    // =========================================================
+
+    public String getRole()
+    {
+        Object item =
+                cmbRole.getSelectedItem();
+
+        if (item == null)
+        {
+            return "";
+        }
+
+        return item.toString().trim();
     }
 
-    public void showError(String message) {
+    // =========================================================
+    // SHOW ERROR
+    // =========================================================
+
+    public void showError(String message)
+    {
+        lblError.setForeground(ERROR);
         lblError.setText(message);
     }
 
-    public void clearPassword() {
+    // =========================================================
+    // CLEAR PASSWORD
+    // =========================================================
+
+    public void clearPassword()
+    {
         txtPassword.setText("");
     }
 
-    public javax.swing.JButton getBtnLogin() {
+    // =========================================================
+    // GET LOGIN BUTTON
+    // =========================================================
+
+    public JButton getBtnLogin()
+    {
         return btnLogin;
     }
 
-    public javax.swing.JTextField getTxtUsername() {
+    // =========================================================
+    // GET USERNAME FIELD
+    // =========================================================
+
+    public JTextField getTxtUsername()
+    {
         return txtUsername;
     }
 
-    public javax.swing.JPasswordField getTxtPassword() {
+    // =========================================================
+    // GET PASSWORD FIELD
+    // =========================================================
+
+    public JPasswordField getTxtPassword()
+    {
         return txtPassword;
     }
 
-    public javax.swing.JComboBox<String> getCmbRole() {
+    // =========================================================
+    // GET ROLE COMBO
+    // =========================================================
+
+    public JComboBox<String> getCmbRole()
+    {
         return cmbRole;
     }
 
+    // =========================================================
+    // START GREEN LOADING BAR
+    // =========================================================
+
     /**
-     * App entry point.
+     * This method should only be called after
+     * username + password + role are successfully verified.
      */
-    public static void main(String[] args) {
-        util.GlobalExceptionHandler.install();
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
+    public void startLoading(Runnable afterLoading)
+    {
+        lblError.setText(" ");
+
+        lblLoading.setText(
+                "Loading PawCare360..."
+        );
+
+        lblLoading.setForeground(
+                NAVY
+        );
+
+        lblLoading.setVisible(true);
+
+        progressBar.setValue(0);
+        progressBar.setVisible(true);
+
+        btnLogin.setEnabled(false);
+        txtUsername.setEnabled(false);
+        txtPassword.setEnabled(false);
+        cmbRole.setEnabled(false);
+        chkShowPassword.setEnabled(false);
+
+        Timer timer =
+                new Timer(25, null);
+
+        timer.addActionListener(e ->
+        {
+            int value =
+                    progressBar.getValue();
+
+            if (value < 100)
+            {
+                progressBar.setValue(
+                        value + 2
+                );
             }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            ex.printStackTrace();
-        }
-        java.awt.EventQueue.invokeLater(() -> controller.LoginController.open().setVisible(true));
+            else
+            {
+                timer.stop();
+
+                lblLoading.setText(
+                        "Login successful"
+                );
+
+                lblLoading.setForeground(
+                        new Color(
+                                57,
+                                125,
+                                76
+                        )
+                );
+
+                Timer finishTimer =
+                        new Timer(
+                                400,
+                                event ->
+                                {
+                                    ((Timer) event.getSource())
+                                            .stop();
+
+                                    if (afterLoading != null)
+                                    {
+                                        afterLoading.run();
+                                    }
+                                }
+                        );
+
+                finishTimer.setRepeats(false);
+                finishTimer.start();
+            }
+        });
+
+        timer.start();
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    // =========================================================
+    // COMPONENT POSITION HELPER
+    // =========================================================
 
-        lblTitle = new javax.swing.JLabel();
-        lblSubtitle = new javax.swing.JLabel();
-        lblUsernameLabel = new javax.swing.JLabel();
-        lblPassword = new javax.swing.JLabel();
-        lblError = new javax.swing.JLabel();
-        txtUsername = new javax.swing.JTextField();
-        txtPassword = new javax.swing.JPasswordField();
-        btnLogin = new javax.swing.JButton();
-        lblRole = new javax.swing.JLabel();
-        cmbRole = new javax.swing.JComboBox<>();
+    private void addAt(
+            Container parent,
+            Component component,
+            int x,
+            int y,
+            int width,
+            int height)
+    {
+        component.setBounds(
+                x,
+                y,
+                width,
+                height
+        );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("PawCare 360 - Login");
-        setMinimumSize(new java.awt.Dimension(1500, 900));
-        setPreferredSize(new java.awt.Dimension(1500, 900));
-        setResizable(false);
-        setSize(new java.awt.Dimension(1500, 900));
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        parent.add(component);
+    }
 
-        lblTitle.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
-        lblTitle.setForeground(new java.awt.Color(74, 91, 106));
-        lblTitle.setText("PawCare 360");
-        getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 209, 600, 55));
+    // =========================================================
+    // INITIALIZE COMPONENTS
+    // =========================================================
 
-        lblSubtitle.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        lblSubtitle.setForeground(new java.awt.Color(110, 125, 135));
-        lblSubtitle.setText("Veterinary Clinic Management");
-        getContentPane().add(lblSubtitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 264, 600, 30));
+    private void initComponents()
+    {
+        setDefaultCloseOperation(
+                WindowConstants.EXIT_ON_CLOSE
+        );
 
-        lblUsernameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblUsernameLabel.setForeground(new java.awt.Color(74, 91, 106));
-        lblUsernameLabel.setText("Username");
-        getContentPane().add(lblUsernameLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 329, 600, 25));
+        setTitle(
+                "PawCare 360 - Login"
+        );
 
-        lblPassword.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblPassword.setForeground(new java.awt.Color(74, 91, 106));
-        lblPassword.setText("Password");
-        getContentPane().add(lblPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 421, 600, 25));
+        setSize(
+                1500,
+                900
+        );
 
-        lblError.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
-        lblError.setForeground(java.awt.Color.red);
-        getContentPane().add(lblError, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 600, 600, 25));
+        setMinimumSize(
+                new Dimension(
+                        1500,
+                        900
+                )
+        );
 
-        txtUsername.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        getContentPane().add(txtUsername, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 356, 600, 50));
-        getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 448, 600, 50));
+        // =====================================================
+        // BACKGROUND
+        // =====================================================
 
-        btnLogin.setBackground(new java.awt.Color(157, 201, 163));
-        btnLogin.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnLogin.setForeground(new java.awt.Color(74, 91, 106));
-        btnLogin.setText("Login");
-        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 635, 600, 55));
+        backgroundPanel =
+                new GradientPanel();
 
-        lblRole.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblRole.setForeground(new java.awt.Color(74, 91, 106));
-        lblRole.setText("Role");
-        getContentPane().add(lblRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 513, 600, 25));
+        backgroundPanel.setLayout(null);
 
-        cmbRole.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        cmbRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Admin", "Veterinarian", "Nurse", "Receptionist", " " }));
-        getContentPane().add(cmbRole, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 540, 600, 50));
+        setContentPane(
+                backgroundPanel
+        );
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+        // =====================================================
+        // LEFT SIDE BRANDING
+        // =====================================================
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnLogin;
-    private javax.swing.JComboBox<String> cmbRole;
-    private javax.swing.JLabel lblError;
-    private javax.swing.JLabel lblPassword;
-    private javax.swing.JLabel lblRole;
-    private javax.swing.JLabel lblSubtitle;
-    private javax.swing.JLabel lblTitle;
-    private javax.swing.JLabel lblUsernameLabel;
-    private javax.swing.JPasswordField txtPassword;
-    private javax.swing.JTextField txtUsername;
-    // End of variables declaration//GEN-END:variables
+        JLabel lblBrand =
+                new JLabel(
+                        "PAWCARE 360"
+                );
+
+        lblBrand.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        42
+                )
+        );
+
+        lblBrand.setForeground(
+                WHITE
+        );
+
+        addAt(
+                backgroundPanel,
+                lblBrand,
+                90,
+                170,
+                500,
+                60
+        );
+
+        // =====================================================
+        // CLEAN GREEN BRAND LINE
+        // =====================================================
+
+        JPanel brandLine =
+                new JPanel();
+
+        brandLine.setBackground(
+                BRAND_GREEN
+        );
+
+        addAt(
+                backgroundPanel,
+                brandLine,
+                95,
+                235,
+                90,
+                4
+        );
+
+        // =====================================================
+        // CLINIC TITLE
+        // =====================================================
+
+        JLabel lblClinic =
+                new JLabel(
+                        "<html>"
+                        + "<div style='text-align:left;'>"
+                        + "Veterinary Clinic<br>"
+                        + "Management System"
+                        + "</div>"
+                        + "</html>"
+                );
+
+        lblClinic.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        22
+                )
+        );
+
+        lblClinic.setForeground(
+                WHITE
+        );
+
+        addAt(
+                backgroundPanel,
+                lblClinic,
+                95,
+                275,
+                400,
+                80
+        );
+
+        // =====================================================
+        // TAGLINE
+        // =====================================================
+
+        JLabel lblTagline =
+                new JLabel(
+                        "<html>"
+                        + "<div style='text-align:left;'>"
+                        + "Caring for pets.<br>"
+                        + "Managing with care."
+                        + "</div>"
+                        + "</html>"
+                );
+
+        lblTagline.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.ITALIC,
+                        17
+                )
+        );
+
+        lblTagline.setForeground(
+                new Color(
+                        220,
+                        225,
+                        220
+                )
+        );
+
+        addAt(
+                backgroundPanel,
+                lblTagline,
+                95,
+                400,
+                400,
+                70
+        );
+
+        // =====================================================
+        // GREEN PAW
+        // =====================================================
+
+        JLabel lblPaw =
+                new JLabel("🐾");
+
+        lblPaw.setFont(
+                new Font(
+                        "Segoe UI Emoji",
+                        Font.PLAIN,
+                        70
+                )
+        );
+
+        lblPaw.setForeground(
+                BRAND_GREEN
+        );
+
+        addAt(
+                backgroundPanel,
+                lblPaw,
+                90,
+                515,
+                120,
+                100
+        );
+
+        // =====================================================
+        // LOGIN CARD
+        // =====================================================
+
+        loginCard =
+                new RoundedPanel(
+                        30,
+                        WHITE
+                );
+
+        loginCard.setLayout(null);
+
+        addAt(
+                backgroundPanel,
+                loginCard,
+                720,
+                125,
+                600,
+                620
+        );
+
+        // =====================================================
+        // CARD TITLE
+        // =====================================================
+
+        lblTitle =
+                new JLabel(
+                        "Welcome Back"
+                );
+
+        lblTitle.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        30
+                )
+        );
+
+        lblTitle.setForeground(
+                NAVY
+        );
+
+        addAt(
+                loginCard,
+                lblTitle,
+                55,
+                38,
+                490,
+                45
+        );
+
+        // =====================================================
+        // CARD SUBTITLE
+        // =====================================================
+
+        lblSubtitle =
+                new JLabel(
+                        "Sign in to continue to PawCare360"
+                );
+
+        lblSubtitle.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        15
+                )
+        );
+
+        lblSubtitle.setForeground(
+                MUTED
+        );
+
+        addAt(
+                loginCard,
+                lblSubtitle,
+                58,
+                78,
+                490,
+                30
+        );
+
+        // =====================================================
+        // USERNAME LABEL
+        // =====================================================
+
+        lblUsernameLabel =
+                createLabel(
+                        "Username"
+                );
+
+        addAt(
+                loginCard,
+                lblUsernameLabel,
+                55,
+                125,
+                490,
+                25
+        );
+
+        // =====================================================
+        // USERNAME FIELD
+        // =====================================================
+
+        txtUsername =
+                createTextField();
+
+        addAt(
+                loginCard,
+                txtUsername,
+                55,
+                152,
+                490,
+                46
+        );
+
+        // =====================================================
+        // PASSWORD LABEL
+        // =====================================================
+
+        lblPassword =
+                createLabel(
+                        "Password"
+                );
+
+        addAt(
+                loginCard,
+                lblPassword,
+                55,
+                215,
+                490,
+                25
+        );
+
+        // =====================================================
+        // PASSWORD FIELD
+        // =====================================================
+
+        txtPassword =
+                new JPasswordField();
+
+        stylePasswordField(
+                txtPassword
+        );
+
+        addAt(
+                loginCard,
+                txtPassword,
+                55,
+                242,
+                490,
+                46
+        );
+
+        // =====================================================
+        // SHOW PASSWORD
+        // =====================================================
+
+        chkShowPassword =
+                new JCheckBox(
+                        "Show Password"
+                );
+
+        chkShowPassword.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        13
+                )
+        );
+
+        chkShowPassword.setForeground(
+                NAVY
+        );
+
+        chkShowPassword.setBackground(
+                WHITE
+        );
+
+        chkShowPassword.setFocusPainted(
+                false
+        );
+
+        chkShowPassword.addActionListener(
+                e ->
+                {
+                    if (chkShowPassword.isSelected())
+                    {
+                        txtPassword.setEchoChar(
+                                (char) 0
+                        );
+                    }
+                    else
+                    {
+                        txtPassword.setEchoChar(
+                                passwordEchoChar
+                        );
+                    }
+                }
+        );
+
+        addAt(
+                loginCard,
+                chkShowPassword,
+                52,
+                294,
+                180,
+                28
+        );
+
+        // =====================================================
+        // ROLE LABEL
+        // =====================================================
+
+        lblRole =
+                createLabel(
+                        "Role"
+                );
+
+        addAt(
+                loginCard,
+                lblRole,
+                55,
+                330,
+                490,
+                25
+        );
+
+        // =====================================================
+        // ROLE COMBO BOX
+        // =====================================================
+
+        cmbRole =
+                new JComboBox<>();
+
+        cmbRole.setModel(
+                new DefaultComboBoxModel<>(
+                        new String[]
+                        {
+                            "Admin",
+                            "Manager",
+                            "Veterinarian",
+                            "Nurse",
+                            "Groomer",
+                            "Receptionist"
+                        }
+                )
+        );
+
+        cmbRole.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        cmbRole.setBackground(
+                WHITE
+        );
+
+        cmbRole.setForeground(
+                TEXT
+        );
+
+        cmbRole.setFocusable(
+                false
+        );
+
+        addAt(
+                loginCard,
+                cmbRole,
+                55,
+                357,
+                490,
+                44
+        );
+
+        // =====================================================
+        // ERROR LABEL
+        // =====================================================
+
+        lblError =
+                new JLabel(" ");
+
+        lblError.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        12
+                )
+        );
+
+        lblError.setForeground(
+                ERROR
+        );
+
+        addAt(
+                loginCard,
+                lblError,
+                55,
+                405,
+                490,
+                22
+        );
+
+        // =====================================================
+        // LOGIN BUTTON
+        // =====================================================
+
+        btnLogin =
+                new RoundedButton(
+                        "LOGIN",
+                        BRAND_GREEN,
+                        BRAND_GREEN
+                );
+
+        btnLogin.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        15
+                )
+        );
+
+        addAt(
+                loginCard,
+                btnLogin,
+                55,
+                445,
+                490,
+                50
+        );
+
+        // =====================================================
+        // LOADING LABEL
+        // =====================================================
+
+        lblLoading =
+                new JLabel(
+                        "Loading PawCare360..."
+                );
+
+        lblLoading.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        12
+                )
+        );
+
+        lblLoading.setForeground(
+                NAVY
+        );
+
+        lblLoading.setHorizontalAlignment(
+                SwingConstants.CENTER
+        );
+
+        addAt(
+                loginCard,
+                lblLoading,
+                55,
+                505,
+                490,
+                24
+        );
+
+        // =====================================================
+        // GREEN PROGRESS BAR
+        // =====================================================
+
+        progressBar =
+                new JProgressBar(
+                        0,
+                        100
+                );
+
+        progressBar.setValue(0);
+
+        progressBar.setStringPainted(
+                true
+        );
+
+        progressBar.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        11
+                )
+        );
+        progressBar.setUI(new BasicProgressBarUI());
+
+        progressBar.setForeground(
+                NAVY
+        );
+
+        progressBar.setBackground(
+                new Color(
+                        225,
+                        230,
+                        225
+                )
+        );
+
+        progressBar.setBorderPainted(
+                false
+        );
+
+        addAt(
+                loginCard,
+                progressBar,
+                55,
+                535,
+                490,
+                18
+        );
+
+        // =====================================================
+        // HIDE LOADING INITIALLY
+        // =====================================================
+
+        lblLoading.setVisible(
+                false
+        );
+
+        progressBar.setVisible(
+                false
+        );
+    }
+
+    // =========================================================
+    // LABEL CREATOR
+    // =========================================================
+
+    private JLabel createLabel(
+            String text)
+    {
+        JLabel label =
+                new JLabel(text);
+
+        label.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.BOLD,
+                        13
+                )
+        );
+
+        label.setForeground(
+                TEXT
+        );
+
+        return label;
+    }
+
+    // =========================================================
+    // TEXT FIELD
+    // =========================================================
+
+    private JTextField createTextField()
+    {
+        JTextField field =
+                new JTextField();
+
+        field.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        field.setForeground(
+                TEXT
+        );
+
+        field.setBackground(
+                WHITE
+        );
+
+        field.setBorder(
+                new RoundedBorder(
+                        new Color(
+                                205,
+                                212,
+                                220
+                        ),
+                        12
+                )
+        );
+
+        return field;
+    }
+
+    // =========================================================
+    // PASSWORD FIELD
+    // =========================================================
+
+    private void stylePasswordField(
+            JPasswordField field)
+    {
+        field.setFont(
+                new Font(
+                        "Segoe UI",
+                        Font.PLAIN,
+                        14
+                )
+        );
+
+        field.setForeground(
+                TEXT
+        );
+
+        field.setBackground(
+                WHITE
+        );
+
+        field.setBorder(
+                new RoundedBorder(
+                        new Color(
+                                205,
+                                212,
+                                220
+                        ),
+                        12
+                )
+        );
+    }
+
+    // =========================================================
+    // CUSTOM BACKGROUND
+    // =========================================================
+
+    private static class GradientPanel
+            extends JPanel
+    {
+        @Override
+        protected void paintComponent(
+                Graphics g)
+        {
+            super.paintComponent(g);
+
+            Graphics2D g2 =
+                    (Graphics2D) g.create();
+
+            g2.setRenderingHint(
+                    RenderingHints.KEY_RENDERING,
+                    RenderingHints.VALUE_RENDER_QUALITY
+            );
+
+            g2.setRenderingHint(
+                    RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON
+            );
+
+            // =================================================
+            // NAVY → BEIGE GRADIENT
+            // =================================================
+
+            GradientPaint gradient =
+                    new GradientPaint(
+                            0,
+                            0,
+                            DARK_NAVY,
+                            getWidth(),
+                            getHeight(),
+                            BEIGE
+                    );
+
+            g2.setPaint(
+                    gradient
+            );
+
+            g2.fillRect(
+                    0,
+                    0,
+                    getWidth(),
+                    getHeight()
+            );
+
+            // =================================================
+            // SOFT GREEN CIRCLE
+            // =================================================
+
+            g2.setColor(
+                    new Color(
+                            157,
+                            201,
+                            163,
+                            80
+                    )
+            );
+
+            g2.fillOval(
+                    -120,
+                    610,
+                    350,
+                    350
+            );
+
+            // =================================================
+            // SOFT BEIGE CIRCLE
+            // =================================================
+
+            g2.setColor(
+                    new Color(
+                            232,
+                            226,
+                            211,
+                            100
+                    )
+            );
+
+            g2.fillOval(
+                    420,
+                    -170,
+                    330,
+                    330
+            );
+
+            // =================================================
+            // GREEN DECORATIVE CIRCLE
+            // =================================================
+
+            g2.setColor(
+                    new Color(
+                            157,
+                            201,
+                            163,
+                            45
+                    )
+            );
+
+            g2.fillOval(
+                    250,
+                    680,
+                    180,
+                    180
+            );
+
+            g2.dispose();
+        }
+    }
+
+    // =========================================================
+    // ROUNDED PANEL
+    // =========================================================
+
+    private static class RoundedPanel
+            extends JPanel
+    {
+        private final int radius;
+        private final Color background;
+
+        RoundedPanel(
+                int radius,
+                Color background)
+        {
+            this.radius =
+                    radius;
+
+            this.background =
+                    background;
+
+            setOpaque(
+                    false
+            );
+        }
+
+        @Override
+        protected void paintComponent(
+                Graphics g)
+        {
+            Graphics2D g2 =
+                    (Graphics2D) g.create();
+
+            g2.setRenderingHint(
+                    RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON
+            );
+
+            // =================================================
+            // SHADOW
+            // =================================================
+
+            g2.setColor(
+                    new Color(
+                            0,
+                            0,
+                            0,
+                            45
+                    )
+            );
+
+            g2.fillRoundRect(
+                    5,
+                    7,
+                    getWidth() - 10,
+                    getHeight() - 10,
+                    radius,
+                    radius
+            );
+
+            // =================================================
+            // CARD
+            // =================================================
+
+            g2.setColor(
+                    background
+            );
+
+            g2.fillRoundRect(
+                    0,
+                    0,
+                    getWidth() - 8,
+                    getHeight() - 8,
+                    radius,
+                    radius
+            );
+
+            g2.dispose();
+
+            super.paintComponent(
+                    g
+            );
+        }
+    }
+
+    // =========================================================
+    // ROUNDED BORDER
+    // =========================================================
+
+    private static class RoundedBorder
+            extends AbstractBorder
+    {
+        private final Color color;
+        private final int radius;
+
+        RoundedBorder(
+                Color color,
+                int radius)
+        {
+            this.color =
+                    color;
+
+            this.radius =
+                    radius;
+        }
+
+        @Override
+        public void paintBorder(
+                Component c,
+                Graphics g,
+                int x,
+                int y,
+                int width,
+                int height)
+        {
+            Graphics2D g2 =
+                    (Graphics2D) g.create();
+
+            g2.setRenderingHint(
+                    RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON
+            );
+
+            g2.setColor(
+                    color
+            );
+
+            g2.drawRoundRect(
+                    x,
+                    y,
+                    width - 1,
+                    height - 1,
+                    radius,
+                    radius
+            );
+
+            g2.dispose();
+        }
+
+        @Override
+        public Insets getBorderInsets(
+                Component c)
+        {
+            return new Insets(
+                    8,
+                    12,
+                    8,
+                    12
+            );
+        }
+    }
+
+    // =========================================================
+    // ROUNDED BUTTON
+    // =========================================================
+
+    private static class RoundedButton
+            extends JButton
+    {
+        private final Color buttonColor;
+        private final Color borderColor;
+
+        RoundedButton(
+                String text,
+                Color buttonColor,
+                Color borderColor)
+        {
+            super(text);
+
+            this.buttonColor =
+                    buttonColor;
+
+            this.borderColor =
+                    borderColor;
+
+            setForeground(
+                    WHITE
+            );
+
+            setBackground(
+                    buttonColor
+            );
+
+            setFocusPainted(
+                    false
+            );
+
+            setBorderPainted(
+                    false
+            );
+
+            setContentAreaFilled(
+                    false
+            );
+
+            setOpaque(
+                    false
+            );
+
+            setCursor(
+                    new Cursor(
+                            Cursor.HAND_CURSOR
+                    )
+            );
+        }
+
+        @Override
+        protected void paintComponent(
+                Graphics g)
+        {
+            Graphics2D g2 =
+                    (Graphics2D) g.create();
+
+            g2.setRenderingHint(
+                    RenderingHints.KEY_ANTIALIASING,
+                    RenderingHints.VALUE_ANTIALIAS_ON
+            );
+
+            Color fill =
+                    buttonColor;
+
+            if (getModel().isPressed())
+            {
+                fill =
+                        buttonColor.darker();
+            }
+            else if (getModel().isRollover())
+            {
+                fill =
+                        new Color(
+                                25,
+                                58,
+                                88
+                        );
+            }
+
+            // =================================================
+            // BUTTON
+            // =================================================
+
+            g2.setColor(
+                    fill
+            );
+
+            g2.fillRoundRect(
+                    0,
+                    0,
+                    getWidth(),
+                    getHeight(),
+                    14,
+                    14
+            );
+
+            // =================================================
+            // GREEN BORDER
+            // =================================================
+
+            g2.setColor(
+                    borderColor
+            );
+
+            g2.setStroke(
+                    new BasicStroke(
+                            1.5f
+                    )
+            );
+
+            g2.drawRoundRect(
+                    1,
+                    1,
+                    getWidth() - 3,
+                    getHeight() - 3,
+                    14,
+                    14
+            );
+
+            g2.dispose();
+
+            super.paintComponent(
+                    g
+            );
+        }
+    }
+
+    // =========================================================
+    // MAIN
+    // =========================================================
+
+    /*
+     * Temporary direct test.
+     *
+     * This directly opens LoginForm.
+     * After the UI is confirmed, LoginController
+     * will be connected to it.
+     */
+    public static void main(
+            String[] args)
+    {
+        EventQueue.invokeLater(
+                () ->
+                {
+                    LoginForm form =
+                            new LoginForm();
+
+                    form.setVisible(
+                            true
+                    );
+                }
+        );
+    }
 }
