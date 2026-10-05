@@ -6,6 +6,7 @@ package service;
 
 import dao.AppointmentDAO;
 import exception.AppointmentConflictException;
+import exception.ValidationException;
 import model.Appointment;
 
 import java.sql.Timestamp;
@@ -25,29 +26,29 @@ public class AppointmentService
     {
         if (appointment.getCustomerId() <= 0) 
         {
-            throw new IllegalArgumentException("Please select a customer.");
+            throw new ValidationException("Please select a customer.");
         }
         if (appointment.getPetId() <= 0) 
         {
-            throw new IllegalArgumentException("Please select a pet.");
+            throw new ValidationException("Please select a pet.");
         }
         if (appointment.getStaffId() == null || appointment.getStaffId() <= 0) 
         {
-            throw new IllegalArgumentException("Please select a staff member.");
+            throw new ValidationException("Please select a staff member.");
         }
         if (appointment.getServiceId() <= 0) 
         {
-            throw new IllegalArgumentException("Please select a service.");
+            throw new ValidationException("Please select a service.");
         }
 
         Timestamp datetime = appointment.getAppointmentDatetime();
         if (datetime == null) 
         {
-            throw new IllegalArgumentException("Please select a date and time.");
+            throw new ValidationException("Please select a date and time.");
         }
         if (datetime.before(new Timestamp(System.currentTimeMillis()))) 
         {
-            throw new IllegalArgumentException("Appointment date/time cannot be in the past.");
+            throw new ValidationException("Appointment date/time cannot be in the past.");
         }
 
         if (appointmentDAO.hasConflict(appointment.getStaffId(), datetime)) 

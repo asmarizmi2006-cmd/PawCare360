@@ -1,27 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
 
 import dao.BoardingRoomDAO;
 import model.BoardingRoom;
 
 import java.util.List;
+import java.util.Optional;
 
-public class BoardingRoomService {
-
+public class BoardingRoomService
+{
     private final BoardingRoomDAO roomDAO = new BoardingRoomDAO();
 
-    public List<BoardingRoom> getAllRooms() {
+    public List<BoardingRoom> getAllRooms()
+    {
         return roomDAO.getAllRooms();
     }
 
-    public List<BoardingRoom> getAvailableRooms() {
+    public List<BoardingRoom> getAvailableRooms()
+    {
         return roomDAO.getAvailableRooms();
     }
 
-    public void updateRoomStatus(int roomId, String status) {
+    public Optional<BoardingRoom> getRoomById(int roomId)
+    {
+        return roomDAO.getRoomById(roomId);
+    }
+
+    public void updateRoomStatus(int roomId, String status)
+    {
         roomDAO.updateRoomStatus(roomId, status);
     }
 }

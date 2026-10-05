@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="revenue" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="782" leftMargin="30" rightMargin="30" topMargin="25" bottomMargin="25" whenNoDataType="AllSectionsNoDetail">
+	<style name="Base" isDefault="true" fontName="SansSerif" fontSize="9"/>
+	<subDataset name="ByPeriod">
+		<field name="label" class="java.lang.String"/>
+		<field name="billed" class="java.math.BigDecimal"/>
+		<field name="collected" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="RANGE" class="java.lang.String"/>
+	<parameter name="GENERATED" class="java.lang.String"/>
+	<parameter name="PERIOD_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="invoice_id" class="java.lang.Integer"/>
+	<field name="invoice_date" class="java.sql.Timestamp"/>
+	<field name="period" class="java.lang.String"/>
+	<field name="customer_name" class="java.lang.String"/>
+	<field name="pet_name" class="java.lang.String"/>
+	<field name="total_amount" class="java.math.BigDecimal"/>
+	<field name="paid_amount" class="java.math.BigDecimal"/>
+	<field name="balance" class="java.math.BigDecimal"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="methods" class="java.lang.String"/>
+	<variable name="SumTotal" class="java.math.BigDecimal" calculation="Sum"><variableExpression><![CDATA[$F{total_amount}]]></variableExpression><initialValueExpression><![CDATA[java.math.BigDecimal.ZERO]]></initialValueExpression></variable>
+	<variable name="SumPaid" class="java.math.BigDecimal" calculation="Sum"><variableExpression><![CDATA[$F{paid_amount}]]></variableExpression><initialValueExpression><![CDATA[java.math.BigDecimal.ZERO]]></initialValueExpression></variable>
+	<variable name="SumBal" class="java.math.BigDecimal" calculation="Sum"><variableExpression><![CDATA[$F{balance}]]></variableExpression><initialValueExpression><![CDATA[java.math.BigDecimal.ZERO]]></initialValueExpression></variable>
+	<title>
+		<band height="64">
+			<rectangle><reportElement x="0" y="0" width="782" height="46" backcolor="#16A34A"/><graphicElement><pen lineWidth="0"/></graphicElement></rectangle>
+			<staticText><reportElement x="12" y="5" width="500" height="22" forecolor="#FFFFFF"/><textElement><font size="16" isBold="true"/></textElement><text><![CDATA[PawCare360 - Revenue &amp; Collections Report]]></text></staticText>
+			<textField><reportElement x="12" y="27" width="500" height="14" forecolor="#FFFFFF"/><textFieldExpression><![CDATA["Period: " + $P{RANGE}]]></textFieldExpression></textField>
+			<textField><reportElement x="560" y="27" width="214" height="14" forecolor="#FFFFFF"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Generated: " + $P{GENERATED}]]></textFieldExpression></textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22">
+			<rectangle><reportElement x="0" y="2" width="782" height="18" backcolor="#E5E7EB"/><graphicElement><pen lineWidth="0"/></graphicElement></rectangle>
+			<staticText><reportElement x="4" y="4" width="50" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Inv #]]></text></staticText>
+			<staticText><reportElement x="58" y="4" width="90" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Date]]></text></staticText>
+			<staticText><reportElement x="152" y="4" width="150" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Customer]]></text></staticText>
+			<staticText><reportElement x="306" y="4" width="100" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Pet]]></text></staticText>
+			<staticText><reportElement x="410" y="4" width="75" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Total]]></text></staticText>
+			<staticText><reportElement x="490" y="4" width="75" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Paid]]></text></staticText>
+			<staticText><reportElement x="570" y="4" width="75" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Balance]]></text></staticText>
+			<staticText><reportElement x="655" y="4" width="55" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Status]]></text></staticText>
+			<staticText><reportElement x="712" y="4" width="70" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Method]]></text></staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16">
+			<textField><reportElement x="4" y="1" width="50" height="14"/><textFieldExpression><![CDATA[$F{invoice_id}]]></textFieldExpression></textField>
+			<textField pattern="yyyy-MM-dd HH:mm" isBlankWhenNull="true"><reportElement x="58" y="1" width="90" height="14"/><textFieldExpression><![CDATA[$F{invoice_date}]]></textFieldExpression></textField>
+			<textField isBlankWhenNull="true"><reportElement x="152" y="1" width="150" height="14"/><textFieldExpression><![CDATA[$F{customer_name}]]></textFieldExpression></textField>
+			<textField isBlankWhenNull="true"><reportElement x="306" y="1" width="100" height="14"/><textFieldExpression><![CDATA[$F{pet_name}]]></textFieldExpression></textField>
+			<textField pattern="#,##0.00"><reportElement x="410" y="1" width="75" height="14"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{total_amount}]]></textFieldExpression></textField>
+			<textField pattern="#,##0.00"><reportElement x="490" y="1" width="75" height="14"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{paid_amount}]]></textFieldExpression></textField>
+			<textField pattern="#,##0.00"><reportElement x="570" y="1" width="75" height="14"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{balance}]]></textFieldExpression></textField>
+			<textField isBlankWhenNull="true"><reportElement x="655" y="1" width="55" height="14"><propertyExpression name="net.sf.jasperreports.style.forecolor"><![CDATA[$F{status}.equals("Paid") ? "#15803D" : ($F{status}.equals("Unpaid") ? "#B91C1C" : "#B45309")]]></propertyExpression></reportElement><textFieldExpression><![CDATA[$F{status}]]></textFieldExpression></textField>
+			<textField isBlankWhenNull="true"><reportElement x="712" y="1" width="70" height="14"/><textFieldExpression><![CDATA[$F{methods}]]></textFieldExpression></textField>
+			<line><reportElement x="0" y="15" width="782" height="1" forecolor="#F3F4F6"/></line>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="16">
+			<textField><reportElement x="600" y="2" width="150" height="12" forecolor="#6B7280"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER} + " of"]]></textFieldExpression></textField>
+			<textField evaluationTime="Report"><reportElement x="752" y="2" width="30" height="12" forecolor="#6B7280"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="270">
+			<rectangle><reportElement x="0" y="6" width="782" height="22" backcolor="#DCFCE7"/><graphicElement><pen lineWidth="0"/></graphicElement></rectangle>
+			<staticText><reportElement x="152" y="10" width="250" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[TOTALS (billed / collected / outstanding)]]></text></staticText>
+			<textField pattern="#,##0.00"><reportElement x="410" y="10" width="75" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><textFieldExpression><![CDATA[$V{SumTotal}]]></textFieldExpression></textField>
+			<textField pattern="#,##0.00"><reportElement x="490" y="10" width="75" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><textFieldExpression><![CDATA[$V{SumPaid}]]></textFieldExpression></textField>
+			<textField pattern="#,##0.00"><reportElement x="570" y="10" width="75" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><textFieldExpression><![CDATA[$V{SumBal}]]></textFieldExpression></textField>
+			<textField><reportElement x="0" y="34" width="782" height="14" forecolor="#374151"/><textFieldExpression><![CDATA["Collection rate: " + ($V{SumTotal}.signum() == 0 ? "0" : $V{SumPaid}.multiply(new java.math.BigDecimal(100)).divide($V{SumTotal}, 1, java.math.RoundingMode.HALF_UP).toString()) + "%   |   Invoices: " + $V{REPORT_COUNT}]]></textFieldExpression></textField>
+			<barChart>
+				<chart isShowLegend="true" evaluationTime="Report">
+					<reportElement x="0" y="54" width="782" height="210"/>
+					<chartTitle><titleExpression><![CDATA["Billed vs Collected by Month"]]></titleExpression></chartTitle>
+					<chartLegend/>
+				</chart>
+				<categoryDataset>
+					<dataset><datasetRun subDataset="ByPeriod"><dataSourceExpression><![CDATA[$P{PERIOD_DS}]]></dataSourceExpression></datasetRun></dataset>
+					<categorySeries>
+						<seriesExpression><![CDATA["Billed"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{label}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{billed}]]></valueExpression>
+					</categorySeries>
+					<categorySeries>
+						<seriesExpression><![CDATA["Collected"]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{label}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{collected}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<barPlot isShowLabels="false">
+					<plot><seriesColor seriesOrder="0" color="#16A34A"/><seriesColor seriesOrder="1" color="#0EA5E9"/></plot>
+					<itemLabel/>
+					<categoryAxisLabelExpression><![CDATA["Month"]]></categoryAxisLabelExpression>
+					<valueAxisLabelExpression><![CDATA["Amount"]]></valueAxisLabelExpression>
+				</barPlot>
+			</barChart>
+		</band>
+	</summary>
+</jasperReport>

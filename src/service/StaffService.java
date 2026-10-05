@@ -4,6 +4,7 @@
  */
 package service;
 
+import exception.ValidationException;
 import dao.StaffDAO;
 import model.Staff;
 
@@ -35,7 +36,7 @@ public class StaffService {
     public boolean updateStaff(Staff staff) {
 
         if (staff.getStaffId() <= 0) {
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Invalid staff ID."
             );
         }
@@ -49,7 +50,7 @@ public class StaffService {
     public boolean deleteStaff(int staffId) {
 
         if (staffId <= 0) {
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Invalid staff ID."
             );
         }
@@ -61,7 +62,7 @@ public class StaffService {
     private void validateStaff(Staff staff) {
 
         if (staff == null) {
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Staff information cannot be empty."
             );
         }
@@ -70,7 +71,7 @@ public class StaffService {
         if (staff.getFullName() == null
                 || staff.getFullName().trim().isEmpty()) {
 
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Staff full name is required."
             );
         }
@@ -78,7 +79,7 @@ public class StaffService {
         if (!staff.getFullName().matches(
                 "[a-zA-Z .']+")) {
 
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Full name can contain only letters, spaces, dots and apostrophes."
             );
         }
@@ -87,7 +88,7 @@ public class StaffService {
         if (staff.getRole() == null
                 || staff.getRole().trim().isEmpty()) {
 
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Staff role is required."
             );
         }
@@ -99,7 +100,7 @@ public class StaffService {
             if (!staff.getPhone().matches(
                     "^(07\\d{8}|\\+947\\d{8})$")) {
 
-                throw new IllegalArgumentException(
+                throw new ValidationException(
                         "Please enter a valid Sri Lankan mobile number."
                 );
             }
@@ -112,7 +113,7 @@ public class StaffService {
             if (!staff.getEmail().matches(
                     "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$")) {
 
-                throw new IllegalArgumentException(
+                throw new ValidationException(
                         "Please enter a valid email address."
                 );
             }

@@ -1,54 +1,27 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import model.Customer;
 import model.Pet;
-import util.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-public class DashboardDAO 
+// Dashboard queries
+public class DashboardDAO extends BaseDAO
 {
-
-    private int countRows(String tableName) 
+    private int countRows(String tableName)
     {
-        String sql = "SELECT COUNT(*) FROM " + tableName;
-
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) 
-        {
-            if (resultSet.next()) return resultSet.getInt(1);
-        } 
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-        }
-        return 0;
+        return queryOne("SELECT COUNT(*) FROM " + tableName, "count " + tableName,
+                rs -> rs.getInt(1)).orElse(0);
     }
 
-    private int countActive(String tableName) 
+    private int countActive(String tableName)
     {
-        String sql = "SELECT COUNT(*) FROM " + tableName + " WHERE status = 'Active'";
-
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) 
-        {
-            if (resultSet.next()) return resultSet.getInt(1);
-        } 
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-        }
-        return 0;
+        return queryOne("SELECT COUNT(*) FROM " + tableName + " WHERE status = 'Active'",
+                "count " + tableName, rs -> rs.getInt(1)).orElse(0);
     }
 
     public int countCustomers() { return countRows("customers"); }
@@ -57,58 +30,94 @@ public class DashboardDAO
     public int countActiveCustomers() { return countActive("customers"); }
     public int countActiveStaff() { return countActive("staff"); }
 
-    public List<Customer> getRecentCustomers(int limit) 
+    public List<Customer> getRecentCustomers(int limit)
     {
-        List<Customer> list = new ArrayList<>();
-        String sql = "SELECT * FROM customers ORDER BY customer_id DESC LIMIT ?";
-
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) 
+        return queryList("SELECT * FROM customers ORDER BY customer_id DESC LIMIT ?", "load customers", rs ->
         {
-            statement.setInt(1, limit);
-            try (ResultSet resultSet = statement.executeQuery()) 
-            {
-                while (resultSet.next()) 
-                {
-                    Customer customer = new Customer();
-                    customer.setCustomerId(resultSet.getInt("customer_id"));
-                    customer.setFullName(resultSet.getString("full_name"));
-                    customer.setStatus(resultSet.getString("status"));
-                    list.add(customer);
-                }
-            }
-        } 
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-        }
-        return list;
+            Customer customer = new Customer();
+            customer.setCustomerId(rs.getInt("customer_id"));
+            customer.setFullName(rs.getString("full_name"));
+            customer.setStatus(rs.getString("status"));
+            return customer;
+        }, limit);
     }
 
-    public List<Pet> getRecentPets(int limit) 
+    public List<Pet> getRecentPets(int limit)
     {
-        List<Pet> list = new ArrayList<>();
-        String sql = "SELECT * FROM pets ORDER BY pet_id DESC LIMIT ?";
+        return queryList("SELECT * FROM pets ORDER BY pet_id DESC LIMIT ?", "load pets", rs ->
+        {
+            Pet pet = new Pet();
+            pet.setPetName(rs.getString("pet_name"));
+            pet.setSpecies(rs.getString("species"));
+            return pet;
+        }, limit);
+    }
 
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) 
+    public List<String> getRecentAppointments(int limit)
+    {
+        String sql = "SELECT a.appointment_datetime, a.status, c.full_name, p.pet_name " +
+                     "FROM appointments a " +
+                     "JOIN customers c ON a.customer_id = c.customer_id " +
+                     "JOIN pets p ON a.pet_id = p.pet_id " +
+                     "ORDER BY a.appointment_datetime DESC LIMIT ?";
+        return queryList(sql, "load appointments",
+                rs -> rs.getString("pet_name") + "  (" + rs.getString("full_name") + ")  -  "
+                        + rs.getString("status"), limit);
+    }
+
+    public List<String> getRecentStaffNames(int limit)
+    {
+        return queryList("SELECT full_name, role, status FROM staff ORDER BY staff_id DESC LIMIT ?",
+                "load staff",
+                rs -> rs.getString("full_name") + "  -  " + rs.getString("role")
+                        + "  (" + rs.getString("status") + ")", limit);
+    }
+
+    // Counts, oldest first
+    public int[] getAppointmentsPerDayLast7()
+    {
+        int[] counts = new int[7];
+        String sql = "SELECT DATE(appointment_datetime) AS d, COUNT(*) AS c " +
+                     "FROM appointments " +
+                     "WHERE appointment_datetime >= DATE_SUB(CURDATE(), INTERVAL 6 DAY) " +
+                     "GROUP BY DATE(appointment_datetime)";
+        LocalDate today = LocalDate.now();
+        queryList(sql, "load appointment counts", rs ->
         {
-            statement.setInt(1, limit);
-            try (ResultSet resultSet = statement.executeQuery()) 
+            LocalDate day = rs.getDate("d").toLocalDate();
+            int index = 6 - (int) ChronoUnit.DAYS.between(day, today);
+            if (index >= 0 && index < 7)
             {
-                while (resultSet.next()) 
-                {
-                    Pet pet = new Pet();
-                    pet.setPetName(resultSet.getString("pet_name"));
-                    pet.setSpecies(resultSet.getString("species"));
-                    list.add(pet);
-                }
+                counts[index] = rs.getInt("c");
             }
-        } 
-        catch (Exception e) 
+            return index;
+        });
+        return counts;
+    }
+
+    public Map<String, Integer> getPetSpeciesBreakdown()
+    {
+        Map<String, Integer> map = new LinkedHashMap<>();
+        queryList("SELECT species, COUNT(*) AS c FROM pets GROUP BY species ORDER BY c DESC",
+                "load species counts", rs ->
         {
-            e.printStackTrace();
-        }
-        return list;
+            map.put(rs.getString("species"), rs.getInt("c"));
+            return 0;
+        });
+        return map;
+    }
+
+    // Money collected
+    public java.math.BigDecimal totalCollected()
+    {
+        return queryOne("SELECT COALESCE(SUM(paid_amount), 0) FROM invoices WHERE status <> 'Cancelled'",
+                "load revenue", rs -> rs.getBigDecimal(1)).orElse(java.math.BigDecimal.ZERO);
+    }
+
+    // Money still owed
+    public java.math.BigDecimal totalOutstanding()
+    {
+        return queryOne("SELECT COALESCE(SUM(total_amount - paid_amount), 0) FROM invoices WHERE status <> 'Cancelled'",
+                "load outstanding", rs -> rs.getBigDecimal(1)).orElse(java.math.BigDecimal.ZERO);
     }
 }

@@ -1,61 +1,41 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import model.BoardingRoom;
-import util.DBConnection;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
-public class BoardingRoomDAO {
-
-    public List<BoardingRoom> getAllRooms() {
-        List<BoardingRoom> list = new ArrayList<>();
-        String sql = "SELECT * FROM boarding_rooms ORDER BY room_id";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                list.add(mapRow(rs));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
+// Room data
+public class BoardingRoomDAO extends BaseDAO
+{
+    public List<BoardingRoom> getAllRooms()
+    {
+        return queryList("SELECT * FROM boarding_rooms ORDER BY room_id",
+                "load boarding rooms", BoardingRoomDAO::mapRow);
     }
 
-    public List<BoardingRoom> getAvailableRooms() {
-        List<BoardingRoom> list = new ArrayList<>();
-        String sql = "SELECT * FROM boarding_rooms WHERE status = 'Available' ORDER BY room_id";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
-                list.add(mapRow(rs));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return list;
+    public List<BoardingRoom> getAvailableRooms()
+    {
+        return queryList("SELECT * FROM boarding_rooms WHERE status = 'Available' ORDER BY room_id",
+                "load available rooms", BoardingRoomDAO::mapRow);
     }
 
-    public void updateRoomStatus(int roomId, String status) {
-        String sql = "UPDATE boarding_rooms SET status=? WHERE room_id=?";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, status);
-            ps.setInt(2, roomId);
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public Optional<BoardingRoom> getRoomById(int roomId)
+    {
+        return queryOne("SELECT * FROM boarding_rooms WHERE room_id = ?",
+                "load the boarding room", BoardingRoomDAO::mapRow, roomId);
     }
 
-    private BoardingRoom mapRow(ResultSet rs) throws SQLException {
+    public void updateRoomStatus(int roomId, String status)
+    {
+        executeUpdate("UPDATE boarding_rooms SET status = ? WHERE room_id = ?",
+                "update the room status", status, roomId);
+    }
+
+    private static BoardingRoom mapRow(ResultSet rs) throws SQLException
+    {
         BoardingRoom r = new BoardingRoom();
         r.setRoomId(rs.getInt("room_id"));
         r.setRoomNumber(rs.getString("room_number"));

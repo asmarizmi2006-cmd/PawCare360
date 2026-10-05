@@ -1,144 +1,59 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import model.Customer;
-import util.DBConnection;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
 
-public class CustomerDAO 
+// Customer data access
+public class CustomerDAO extends BaseDAO
 {
+    // Row mapper
+    private Customer map(ResultSet rs) throws SQLException
+    {
+        Customer c = new Customer();
+        c.setCustomerId(rs.getInt("customer_id"));
+        c.setFullName(rs.getString("full_name"));
+        c.setPhone(rs.getString("phone"));
+        c.setEmail(rs.getString("email"));
+        c.setAddress(rs.getString("address"));
+        c.setStatus(rs.getString("status"));
+        return c;
+    }
 
     // CREATE
-    public boolean addCustomer(Customer customer) 
+    public boolean addCustomer(Customer customer)
     {
-
-        String sql = "INSERT INTO customers "
-        + "(full_name, phone, email, address, status) "
-        + "VALUES (?, ?, ?, ?, ?)";
-
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) 
-        {
-
-            statement.setString(1, customer.getFullName());
-            statement.setString(2, customer.getPhone());
-            statement.setString(3, customer.getEmail());
-            statement.setString(4, customer.getAddress());
-            statement.setString(5, customer.getStatus());
-
-            return statement.executeUpdate() > 0;
-
-        } 
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-            return false;
-        }
+        return executeUpdate("INSERT INTO customers (full_name, phone, email, address, status) VALUES (?, ?, ?, ?, ?)",
+                "add customer", customer.getFullName(), customer.getPhone(), customer.getEmail(),
+                customer.getAddress(), customer.getStatus()) > 0;
     }
 
     // READ
-    public List<Customer> getAllCustomers() 
+    public List<Customer> getAllCustomers()
     {
-
-        List<Customer> customers = new ArrayList<>();
-
-        String sql = "SELECT * FROM customers";
-
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) 
-        {
-
-            while (resultSet.next()) 
-            {
-
-                Customer customer = new Customer();
-
-                customer.setCustomerId(
-                        resultSet.getInt("customer_id"));
-
-                customer.setFullName(
-                        resultSet.getString("full_name"));
-
-                customer.setPhone(
-                        resultSet.getString("phone"));
-
-                customer.setEmail(
-                        resultSet.getString("email"));
-
-                customer.setAddress(
-                        resultSet.getString("address"));
-                
-                customer.setStatus(
-                        resultSet.getString("status"));
-
-                customers.add(customer);
-            }
-
-        }
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-        }
-
-        return customers;
+        return queryList("SELECT * FROM customers", "load customers", this::map);
     }
 
     // UPDATE
-    public boolean updateCustomer(Customer customer) 
+    public boolean updateCustomer(Customer customer)
     {
-        String sql = "UPDATE customers SET "
-                + "full_name = ?, phone = ?, email = ?, address = ?, status = ? "
-                + "WHERE customer_id = ?";
-
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) 
-        {
-
-            statement.setString(1, customer.getFullName());
-            statement.setString(2, customer.getPhone());
-            statement.setString(3, customer.getEmail());
-            statement.setString(4, customer.getAddress());
-            statement.setString(5, customer.getStatus());
-            statement.setInt(6, customer.getCustomerId());
-
-            return statement.executeUpdate() > 0;
-
-        } 
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-            return false;
-        }
+        return executeUpdate("UPDATE customers SET full_name = ?, phone = ?, email = ?, address = ?, status = ? WHERE customer_id = ?",
+                "update customer", customer.getFullName(), customer.getPhone(), customer.getEmail(),
+                customer.getAddress(), customer.getStatus(), customer.getCustomerId()) > 0;
     }
 
     // DELETE
-    public boolean deleteCustomer(int customerId) 
+    public boolean deleteCustomer(int customerId)
     {
+        return executeUpdate("DELETE FROM customers WHERE customer_id = ?", "delete customer", customerId) > 0;
+    }
 
-        String sql = "DELETE FROM customers WHERE customer_id = ?";
-
-        try (Connection connection = DBConnection.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) 
-        {
-
-            statement.setInt(1, customerId);
-
-            return statement.executeUpdate() > 0;
-
-        } 
-        catch (Exception e) 
-        {
-            e.printStackTrace();
-            return false;
-        }
+    // Duplicate phone check
+    public boolean phoneExists(String phone, int excludeId)
+    {
+        return queryOne("SELECT COUNT(*) FROM customers WHERE phone = ? AND customer_id <> ?",
+                "check phone", rs -> rs.getInt(1) > 0, phone, excludeId).orElse(false);
     }
 }

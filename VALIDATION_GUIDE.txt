@@ -1,0 +1,250 @@
+PAWCARE360 - FINAL VALIDATION & EXCEPTION HANDLING GUIDE
+=========================================================
+
+This version has been reviewed and compiled successfully with Apache Ant.
+
+BUILD RESULT
+------------
+Command used:
+    ant clean jar
+
+Result:
+    BUILD SUCCESSFUL
+
+IMPORTANT
+---------
+The generated build/ and dist/ folders are intentionally NOT included in this
+source ZIP. NetBeans/Ant recreates them during Clean and Build. This also
+prevents old locked JasperReport files (for example invoice.jasper) from being
+carried into the project ZIP.
+
+MVC / EXCEPTION FLOW
+--------------------
+View (Swing Form)
+      |
+      v
+Controller  ---> validates user input
+      |
+      v
+Service     ---> business rules
+      |
+      v
+DAO         ---> database operations
+      |
+      v
+MySQL
+
+ValidationException:
+    Used for incorrect user input.
+
+DatabaseException:
+    Used for database/SQL problems.
+
+BaseController.guard():
+    Central place for controller exception handling.
+    Validation errors are shown as warnings.
+    Database errors are shown as errors.
+    Unexpected runtime errors are logged and shown safely.
+
+REUSABLE VALIDATOR
+------------------
+util.Validator contains reusable checks for:
+- Required text
+- Maximum length
+- Person/pet names
+- Sri Lankan mobile numbers
+- Optional email
+- Selected IDs
+- Strict YYYY-MM-DD dates
+- Money values
+- Positive whole numbers
+
+FORM VALIDATION COVERAGE
+------------------------
+
+1. LOGIN
+   - Username required
+   - Password required
+   - Role mismatch handled by InvalidRoleException
+   - Database/connection failures handled safely
+
+2. CUSTOMER
+   - Full name required and letters/spaces/punctuation only
+   - Sri Lankan phone validation
+   - Email format validation
+   - Address required and minimum length
+   - Status validation
+   - Customer ID validation for update/delete
+   - Delete confirmation
+   - Database exception handled by BaseController
+
+3. STAFF
+   - Full name validation
+   - Role required
+   - Sri Lankan phone validation
+   - Email validation
+   - Specialization length validation
+   - Hire date required and strict date validation
+   - Status validation
+   - Staff selection required for update/delete
+
+4. PET
+   - Customer/owner required
+   - Pet name validation
+   - Species required
+   - Gender required
+   - Breed length validation
+   - Date of birth format validation
+   - Date of birth cannot be in the future
+   - Weight must be a valid non-negative number
+   - Notes length validation
+   - Pet selection/ID validation for update/delete
+
+5. SERVICES
+   - Service name required
+   - Category required
+   - Price must be valid and non-negative
+   - Duration must be a positive whole number
+   - Description length validation
+   - Active/Inactive status validation
+   - Selection required for update/delete
+
+6. APPOINTMENTS
+   - Customer required
+   - Pet required
+   - Staff required
+   - Service required
+   - Date/time required and strict format
+   - Appointment cannot be in the past
+   - Reason and notes length limits
+   - Appointment conflicts handled by AppointmentConflictException
+   - Database errors handled
+
+7. GROOMING
+   - Grooming service required
+   - Customer, pet and staff required
+   - Date/time required and strict format
+   - Appointment cannot be in the past
+   - Reason and notes length limits
+   - Conflict/database/unexpected exceptions handled
+
+8. BOARDING
+   - Customer required
+   - Pet required
+   - Available room required
+   - Check-in/check-out dates required
+   - Check-out must be after check-in
+   - Valid boarding status required
+   - Notes length validation
+   - Booking/check-out/delete errors handled
+
+9. TREATMENT
+   - Appointment required
+   - Staff optional where the form allows it
+   - Diagnosis required
+   - Treatment date required and cannot be in the future
+   - Treatment details required
+   - Notes length validation
+   - Treatment selection required for update/delete
+
+10. PRESCRIPTION / MEDICINE
+    Prescription:
+      - Medicine selection required
+      - Quantity must be a positive whole number
+      - Dosage required
+      - Instructions required
+      - Medicine/database errors handled
+
+    Medicine stock:
+      - Medicine name required
+      - Category required
+      - Unit price valid/non-negative
+      - Stock must be a positive whole number
+      - Active/Inactive status validation
+      - Selection required for update/delete
+
+11. BILLING / INVOICE
+    - Customer required
+    - At least one invoice item required
+    - Quantity positive
+    - Unit price valid/non-negative
+    - Discount valid/non-negative and cannot exceed subtotal
+    - Tax rate valid and cannot exceed 100%
+    - Paid amount valid/non-negative and cannot exceed total
+    - Payment method validated
+    - Notes length validation
+    - Invoice selection required for payment/print/cancel
+    - Payment cannot exceed remaining balance
+    - Stock and database exceptions handled
+
+12. REPORTS
+    - Start date required
+    - End date required
+    - Start date cannot be after end date
+    - Invoice selection required for invoice reports
+    - JasperReports errors handled
+    - Database errors handled
+
+FORMS THAT DO NOT NEED DATA VALIDATION
+--------------------------------------
+Dashboard and navigation screens are display/navigation screens and do not
+collect database records requiring field validation.
+
+TEST CHECKLIST
+--------------
+For every data-entry form:
+
+[ ] Submit with every required field empty
+[ ] Enter invalid text in numeric fields
+[ ] Enter invalid phone number
+[ ] Enter invalid email
+[ ] Enter invalid date
+[ ] Enter negative money/quantity/weight where applicable
+[ ] Try Update without selecting a record
+[ ] Try Delete without selecting a record
+[ ] Confirm Delete cancellation
+[ ] Submit valid data
+[ ] Verify database record is created/updated
+[ ] Verify table refreshes
+[ ] Verify statistics refresh
+[ ] Stop MySQL and test database error handling
+
+NETBEANS BUILD
+--------------
+Open the PawCare360 folder as a NetBeans project.
+
+Then:
+    Right-click project
+    -> Clean and Build
+
+Expected:
+    BUILD SUCCESSFUL
+
+If Windows reports that build/classes/reports/invoice.jasper cannot be deleted:
+    1. Close PawCare360.
+    2. Stop any running NetBeans process.
+    3. Close report preview windows.
+    4. Close NetBeans if necessary.
+    5. Delete ONLY the build/ folder.
+    6. Reopen the project.
+    7. Run Clean and Build again.
+
+DO NOT DELETE:
+    src/
+    nbproject/
+    lib/
+    reports/
+    database files
+    project configuration
+
+COMMENTS
+--------
+The controllers include section comments around:
+- Event wiring
+- Loading
+- Form-to-model conversion
+- Validation
+- Save/update/delete operations
+- Exception handling
+
+The generated NetBeans initComponents() sections should not be manually edited.

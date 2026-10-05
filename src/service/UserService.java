@@ -4,12 +4,14 @@
  */
 package service;
 
+import exception.ValidationException;
 import dao.UserDAO;
+import exception.InvalidRoleException;
 import model.User;
 
+// Service layer (
 public class UserService 
 {
-
     private final UserDAO userDAO;
 
     public UserService() 
@@ -17,15 +19,21 @@ public class UserService
         userDAO = new UserDAO();
     }
 
-    public User login(String username, String password) 
+    // Method overloading 
+    public User login(String username, String password) throws InvalidRoleException 
+    {
+        return login(username, password, null);
+    }
+
+    public User login(String username, String password, String selectedRole) throws InvalidRoleException 
     {
         if (username == null || username.trim().isEmpty()) 
         {
-            throw new IllegalArgumentException("Username cannot be empty.");
+            throw new ValidationException("Username cannot be empty.");
         }
         if (password == null || password.trim().isEmpty()) 
         {
-            throw new IllegalArgumentException("Password cannot be empty.");
+            throw new ValidationException("Password cannot be empty.");
         }
 
         User user = userDAO.getUserByUsername(username);
@@ -38,9 +46,15 @@ public class UserService
         {
             return null;
         }
-        if (!user.getPasswordHash().equals(password)) 
+        if (!util.PasswordUtil.matches(password, user.getPasswordHash())) 
         {
             return null;
+        }
+        // Custom exception 
+        if (selectedRole != null && !user.getRole().equalsIgnoreCase(selectedRole)) 
+        {
+            throw new InvalidRoleException(
+                "This account is registered as " + user.getRole() + ", not " + selectedRole + ".");
         }
         return user;
     }

@@ -1,0 +1,4 @@
+# Copy to db.properties (next to the jar / project root)
+db.url=jdbc:mysql://localhost:3306/pawcare360
+db.user=root
+db.password=

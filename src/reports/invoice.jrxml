@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="invoice" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="30" bottomMargin="30" whenNoDataType="AllSectionsNoDetail">
+	<style name="Base" isDefault="true" fontName="SansSerif" fontSize="9"/>
+	<parameter name="INV_NO" class="java.lang.String"/>
+	<parameter name="INV_DATE" class="java.lang.String"/>
+	<parameter name="CUSTOMER" class="java.lang.String"/>
+	<parameter name="PHONE" class="java.lang.String"/>
+	<parameter name="PET" class="java.lang.String"/>
+	<parameter name="STATUS" class="java.lang.String"/>
+	<parameter name="SUBTOTAL" class="java.math.BigDecimal"/>
+	<parameter name="DISCOUNT" class="java.math.BigDecimal"/>
+	<parameter name="TAX" class="java.math.BigDecimal"/>
+	<parameter name="TOTAL" class="java.math.BigDecimal"/>
+	<parameter name="PAID" class="java.math.BigDecimal"/>
+	<parameter name="BALANCE" class="java.math.BigDecimal"/>
+	<parameter name="PAY_TEXT" class="java.lang.String"/>
+	<field name="item_type" class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.Integer"/>
+	<field name="unit_price" class="java.math.BigDecimal"/>
+	<field name="line_total" class="java.math.BigDecimal"/>
+	<title>
+		<band height="110">
+			<rectangle><reportElement x="0" y="0" width="515" height="50" backcolor="#16A34A"/><graphicElement><pen lineWidth="0"/></graphicElement></rectangle>
+			<staticText><reportElement x="12" y="6" width="300" height="24" forecolor="#FFFFFF"/><textElement><font size="18" isBold="true"/></textElement><text><![CDATA[PawCare360 Veterinary]]></text></staticText>
+			<staticText><reportElement x="12" y="30" width="300" height="14" forecolor="#FFFFFF"/><text><![CDATA[Pet care & clinic management]]></text></staticText>
+			<staticText><reportElement x="380" y="10" width="127" height="30" forecolor="#FFFFFF"/><textElement textAlignment="Right"><font size="20" isBold="true"/></textElement><text><![CDATA[INVOICE]]></text></staticText>
+			<staticText><reportElement x="0" y="62" width="70" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Invoice No:]]></text></staticText>
+			<textField><reportElement x="70" y="62" width="150" height="14"/><textFieldExpression><![CDATA["#" + $P{INV_NO}]]></textFieldExpression></textField>
+			<staticText><reportElement x="0" y="78" width="70" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Date:]]></text></staticText>
+			<textField><reportElement x="70" y="78" width="150" height="14"/><textFieldExpression><![CDATA[$P{INV_DATE}]]></textFieldExpression></textField>
+			<staticText><reportElement x="0" y="94" width="70" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Status:]]></text></staticText>
+			<textField><reportElement x="70" y="94" width="150" height="14"/><textFieldExpression><![CDATA[$P{STATUS}]]></textFieldExpression></textField>
+			<staticText><reportElement x="300" y="62" width="60" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Customer:]]></text></staticText>
+			<textField><reportElement x="360" y="62" width="155" height="14"/><textFieldExpression><![CDATA[$P{CUSTOMER}]]></textFieldExpression></textField>
+			<staticText><reportElement x="300" y="78" width="60" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Phone:]]></text></staticText>
+			<textField isBlankWhenNull="true"><reportElement x="360" y="78" width="155" height="14"/><textFieldExpression><![CDATA[$P{PHONE}]]></textFieldExpression></textField>
+			<staticText><reportElement x="300" y="94" width="60" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Pet:]]></text></staticText>
+			<textField isBlankWhenNull="true"><reportElement x="360" y="94" width="155" height="14"/><textFieldExpression><![CDATA[$P{PET}]]></textFieldExpression></textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22">
+			<rectangle><reportElement x="0" y="2" width="515" height="18" backcolor="#E5E7EB"/><graphicElement><pen lineWidth="0"/></graphicElement></rectangle>
+			<staticText><reportElement x="4" y="4" width="70" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Type]]></text></staticText>
+			<staticText><reportElement x="80" y="4" width="230" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Description]]></text></staticText>
+			<staticText><reportElement x="315" y="4" width="40" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Qty]]></text></staticText>
+			<staticText><reportElement x="360" y="4" width="75" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Unit Price]]></text></staticText>
+			<staticText><reportElement x="440" y="4" width="71" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Line Total]]></text></staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="18">
+			<textField isBlankWhenNull="true"><reportElement x="4" y="2" width="70" height="14"/><textFieldExpression><![CDATA[$F{item_type}]]></textFieldExpression></textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true"><reportElement x="80" y="2" width="230" height="14"/><textFieldExpression><![CDATA[$F{description}]]></textFieldExpression></textField>
+			<textField isBlankWhenNull="true"><reportElement x="315" y="2" width="40" height="14"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression></textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true"><reportElement x="360" y="2" width="75" height="14"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{unit_price}]]></textFieldExpression></textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true"><reportElement x="440" y="2" width="71" height="14"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{line_total}]]></textFieldExpression></textField>
+			<line><reportElement x="0" y="17" width="515" height="1" forecolor="#E5E7EB"/></line>
+		</band>
+	</detail>
+	<summary>
+		<band height="170">
+			<staticText><reportElement x="300" y="8" width="130" height="14"/><textElement textAlignment="Right"/><text><![CDATA[Subtotal]]></text></staticText>
+			<textField pattern="#,##0.00"><reportElement x="440" y="8" width="71" height="14"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$P{SUBTOTAL}]]></textFieldExpression></textField>
+			<staticText><reportElement x="300" y="24" width="130" height="14"/><textElement textAlignment="Right"/><text><![CDATA[Discount]]></text></staticText>
+			<textField pattern="#,##0.00"><reportElement x="440" y="24" width="71" height="14"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$P{DISCOUNT}]]></textFieldExpression></textField>
+			<staticText><reportElement x="300" y="40" width="130" height="14"/><textElement textAlignment="Right"/><text><![CDATA[Tax]]></text></staticText>
+			<textField pattern="#,##0.00"><reportElement x="440" y="40" width="71" height="14"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$P{TAX}]]></textFieldExpression></textField>
+			<rectangle><reportElement x="300" y="58" width="215" height="20" backcolor="#DCFCE7"/><graphicElement><pen lineWidth="0"/></graphicElement></rectangle>
+			<staticText><reportElement x="304" y="61" width="126" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[TOTAL]]></text></staticText>
+			<textField pattern="#,##0.00"><reportElement x="440" y="61" width="71" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><textFieldExpression><![CDATA[$P{TOTAL}]]></textFieldExpression></textField>
+			<staticText><reportElement x="300" y="82" width="130" height="14"/><textElement textAlignment="Right"/><text><![CDATA[Paid]]></text></staticText>
+			<textField pattern="#,##0.00"><reportElement x="440" y="82" width="71" height="14"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$P{PAID}]]></textFieldExpression></textField>
+			<staticText><reportElement x="300" y="98" width="130" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Balance Due]]></text></staticText>
+			<textField pattern="#,##0.00"><reportElement x="440" y="98" width="71" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><textFieldExpression><![CDATA[$P{BALANCE}]]></textFieldExpression></textField>
+			<staticText><reportElement x="0" y="8" width="200" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Payments received]]></text></staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true"><reportElement x="0" y="24" width="270" height="60"/><textFieldExpression><![CDATA[$P{PAY_TEXT}]]></textFieldExpression></textField>
+			<staticText><reportElement x="0" y="140" width="515" height="16" forecolor="#6B7280"/><textElement textAlignment="Center"/><text><![CDATA[Thank you for trusting PawCare360 with your pet.]]></text></staticText>
+		</band>
+	</summary>
+</jasperReport>

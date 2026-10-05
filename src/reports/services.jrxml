@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="services" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="782" leftMargin="30" rightMargin="30" topMargin="25" bottomMargin="25" whenNoDataType="AllSectionsNoDetail">
+	<style name="Base" isDefault="true" fontName="SansSerif" fontSize="9"/>
+	<subDataset name="Counts">
+		<field name="label" class="java.lang.String"/>
+		<field name="total" class="java.lang.Integer"/>
+	</subDataset>
+	<parameter name="RANGE" class="java.lang.String"/>
+	<parameter name="GENERATED" class="java.lang.String"/>
+	<parameter name="CATEGORY_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="STATUS_DS" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<field name="appointment_id" class="java.lang.Integer"/>
+	<field name="appointment_datetime" class="java.sql.Timestamp"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="service_name" class="java.lang.String"/>
+	<field name="category" class="java.lang.String"/>
+	<field name="price" class="java.math.BigDecimal"/>
+	<field name="staff_name" class="java.lang.String"/>
+	<field name="customer_name" class="java.lang.String"/>
+	<field name="pet_name" class="java.lang.String"/>
+	<variable name="SvcCount" class="java.lang.Integer" resetType="Group" resetGroup="Svc" calculation="Count"><variableExpression><![CDATA[$F{appointment_id}]]></variableExpression></variable>
+	<variable name="SvcValue" class="java.math.BigDecimal" resetType="Group" resetGroup="Svc" calculation="Sum"><variableExpression><![CDATA[$F{price}]]></variableExpression><initialValueExpression><![CDATA[java.math.BigDecimal.ZERO]]></initialValueExpression></variable>
+	<variable name="AllValue" class="java.math.BigDecimal" calculation="Sum"><variableExpression><![CDATA[$F{price}]]></variableExpression><initialValueExpression><![CDATA[java.math.BigDecimal.ZERO]]></initialValueExpression></variable>
+	<group name="Svc">
+		<groupExpression><![CDATA[$F{service_name}]]></groupExpression>
+		<groupHeader>
+			<band height="20">
+				<rectangle><reportElement x="0" y="2" width="782" height="16" backcolor="#DCFCE7"/><graphicElement><pen lineWidth="0"/></graphicElement></rectangle>
+				<textField><reportElement x="4" y="3" width="500" height="14"/><textElement><font isBold="true"/></textElement><textFieldExpression><![CDATA[$F{service_name} + "  (" + $F{category} + ")"]]></textFieldExpression></textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<textField><reportElement x="400" y="3" width="260" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><textFieldExpression><![CDATA["Bookings: " + $V{SvcCount} + "   Value:"]]></textFieldExpression></textField>
+				<textField pattern="#,##0.00"><reportElement x="665" y="3" width="95" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><textFieldExpression><![CDATA[$V{SvcValue}]]></textFieldExpression></textField>
+			</band>
+		</groupFooter>
+	</group>
+	<title>
+		<band height="64">
+			<rectangle><reportElement x="0" y="0" width="782" height="46" backcolor="#16A34A"/><graphicElement><pen lineWidth="0"/></graphicElement></rectangle>
+			<staticText><reportElement x="12" y="5" width="500" height="22" forecolor="#FFFFFF"/><textElement><font size="16" isBold="true"/></textElement><text><![CDATA[PawCare360 - Service Performance Report]]></text></staticText>
+			<textField><reportElement x="12" y="27" width="500" height="14" forecolor="#FFFFFF"/><textFieldExpression><![CDATA["Period: " + $P{RANGE}]]></textFieldExpression></textField>
+			<textField><reportElement x="560" y="27" width="214" height="14" forecolor="#FFFFFF"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Generated: " + $P{GENERATED}]]></textFieldExpression></textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20">
+			<rectangle><reportElement x="0" y="2" width="782" height="16" backcolor="#E5E7EB"/><graphicElement><pen lineWidth="0"/></graphicElement></rectangle>
+			<staticText><reportElement x="4" y="3" width="40" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Appt]]></text></staticText>
+			<staticText><reportElement x="50" y="3" width="100" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Date]]></text></staticText>
+			<staticText><reportElement x="155" y="3" width="150" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Customer]]></text></staticText>
+			<staticText><reportElement x="310" y="3" width="110" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Pet]]></text></staticText>
+			<staticText><reportElement x="425" y="3" width="150" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Staff]]></text></staticText>
+			<staticText><reportElement x="580" y="3" width="80" height="14"/><textElement><font isBold="true"/></textElement><text><![CDATA[Status]]></text></staticText>
+			<staticText><reportElement x="665" y="3" width="95" height="14"/><textElement textAlignment="Right"><font isBold="true"/></textElement><text><![CDATA[Price]]></text></staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15">
+			<textField><reportElement x="4" y="1" width="40" height="13"/><textFieldExpression><![CDATA[$F{appointment_id}]]></textFieldExpression></textField>
+			<textField pattern="yyyy-MM-dd HH:mm" isBlankWhenNull="true"><reportElement x="50" y="1" width="100" height="13"/><textFieldExpression><![CDATA[$F{appointment_datetime}]]></textFieldExpression></textField>
+			<textField isBlankWhenNull="true"><reportElement x="155" y="1" width="150" height="13"/><textFieldExpression><![CDATA[$F{customer_name}]]></textFieldExpression></textField>
+			<textField isBlankWhenNull="true"><reportElement x="310" y="1" width="110" height="13"/><textFieldExpression><![CDATA[$F{pet_name}]]></textFieldExpression></textField>
+			<textField isBlankWhenNull="true"><reportElement x="425" y="1" width="150" height="13"/><textFieldExpression><![CDATA[$F{staff_name}]]></textFieldExpression></textField>
+			<textField isBlankWhenNull="true"><reportElement x="580" y="1" width="80" height="13"/><textFieldExpression><![CDATA[$F{status}]]></textFieldExpression></textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true"><reportElement x="665" y="1" width="95" height="13"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA[$F{price}]]></textFieldExpression></textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="16">
+			<textField><reportElement x="600" y="2" width="150" height="12" forecolor="#6B7280"/><textElement textAlignment="Right"/><textFieldExpression><![CDATA["Page " + $V{PAGE_NUMBER} + " of"]]></textFieldExpression></textField>
+			<textField evaluationTime="Report"><reportElement x="752" y="2" width="30" height="12" forecolor="#6B7280"/><textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression></textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="250">
+			<textField><reportElement x="0" y="6" width="782" height="16"/><textElement><font size="11" isBold="true"/></textElement><textFieldExpression><![CDATA["Total appointments: " + $V{REPORT_COUNT} + "   |   Total service value: " + new java.text.DecimalFormat("#,##0.00").format($V{AllValue})]]></textFieldExpression></textField>
+			<pieChart>
+				<chart isShowLegend="true" evaluationTime="Report">
+					<reportElement x="0" y="28" width="390" height="215"/>
+					<chartTitle><titleExpression><![CDATA["Bookings by Category"]]></titleExpression></chartTitle>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset><datasetRun subDataset="Counts"><dataSourceExpression><![CDATA[$P{CATEGORY_DS}]]></dataSourceExpression></datasetRun></dataset>
+					<keyExpression><![CDATA[$F{label}]]></keyExpression>
+					<valueExpression><![CDATA[$F{total}]]></valueExpression>
+				</pieDataset>
+				<piePlot isShowLabels="false"><plot/></piePlot>
+			</pieChart>
+			<pieChart>
+				<chart isShowLegend="true" evaluationTime="Report">
+					<reportElement x="392" y="28" width="390" height="215"/>
+					<chartTitle><titleExpression><![CDATA["Bookings by Status"]]></titleExpression></chartTitle>
+					<chartLegend/>
+				</chart>
+				<pieDataset>
+					<dataset><datasetRun subDataset="Counts"><dataSourceExpression><![CDATA[$P{STATUS_DS}]]></dataSourceExpression></datasetRun></dataset>
+					<keyExpression><![CDATA[$F{label}]]></keyExpression>
+					<valueExpression><![CDATA[$F{total}]]></valueExpression>
+				</pieDataset>
+				<piePlot isShowLabels="false"><plot/></piePlot>
+			</pieChart>
+		</band>
+	</summary>
+</jasperReport>

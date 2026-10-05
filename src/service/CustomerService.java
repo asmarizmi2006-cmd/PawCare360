@@ -5,6 +5,9 @@
 package service;
 
 import dao.CustomerDAO;
+import exception.DuplicateRecordException;
+import exception.ValidationException;
+import util.Validator;
 import model.Customer;
 
 import java.util.List;
@@ -22,20 +25,20 @@ public class CustomerService
     // CREATE
     public boolean addCustomer(Customer customer) 
     {
-
-        if (customer.getFullName() == null
-                || customer.getFullName().trim().isEmpty()) 
+        validate(customer);
+        if (customerDAO.phoneExists(customer.getPhone(), 0))
         {
-            throw new IllegalArgumentException("Customer name is required.");
+            throw new DuplicateRecordException("A customer with this phone already exists.");
         }
-
-        if (customer.getPhone() == null
-                || customer.getPhone().trim().isEmpty()) 
-        {
-            throw new IllegalArgumentException("Phone number is required.");
-        }
-
         return customerDAO.addCustomer(customer);
+    }
+
+    // Shared checks
+    private void validate(Customer c)
+    {
+        c.setFullName(Validator.requireName(c.getFullName(), "Customer name"));
+        c.setPhone(Validator.requirePhone(c.getPhone(), "Phone"));
+        c.setEmail(Validator.optionalEmail(c.getEmail(), "Email"));
     }
 
     // READ
@@ -50,15 +53,14 @@ public class CustomerService
 
         if (customer.getCustomerId() <= 0) 
         {
-            throw new IllegalArgumentException("Invalid customer ID.");
+            throw new ValidationException("Invalid customer ID.");
         }
 
-        if (customer.getFullName() == null
-                || customer.getFullName().trim().isEmpty()) 
+        validate(customer);
+        if (customerDAO.phoneExists(customer.getPhone(), customer.getCustomerId()))
         {
-            throw new IllegalArgumentException("Customer name is required.");
+            throw new DuplicateRecordException("Another customer has this phone.");
         }
-
         return customerDAO.updateCustomer(customer);
     }
 
@@ -68,7 +70,7 @@ public class CustomerService
 
         if (customerId <= 0) 
         {
-            throw new IllegalArgumentException("Invalid customer ID.");
+            throw new ValidationException("Invalid customer ID.");
         }
 
         return customerDAO.deleteCustomer(customerId);

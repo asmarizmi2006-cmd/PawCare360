@@ -4,6 +4,7 @@
  */
 package service;
 
+import exception.ValidationException;
 import dao.PetDAO;
 import model.Pet;
 
@@ -23,14 +24,14 @@ public class PetService
     {
         if (pet.getCustomerId() <= 0) 
         {
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Please select a customer."
             );
         }
         if (pet.getPetName() == null
                 || pet.getPetName().trim().isEmpty()) 
         {
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Pet name is required."
             );
         }
@@ -38,14 +39,14 @@ public class PetService
         if (pet.getSpecies() == null
                 || pet.getSpecies().trim().isEmpty()) 
         {
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Species is required."
             );
         }
 
         if (pet.getWeight() < 0) 
         {
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Weight cannot be negative."
             );
         }
@@ -64,14 +65,14 @@ public class PetService
     {
         if (pet.getPetId() <= 0) 
         {
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Invalid pet ID."
             );
         }
 
         if (pet.getCustomerId() <= 0) 
         {
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Please select a customer."
             );
         }
@@ -79,7 +80,7 @@ public class PetService
         if (pet.getPetName() == null
                 || pet.getPetName().trim().isEmpty()) 
         {
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Pet name is required."
             );
         }
@@ -87,14 +88,14 @@ public class PetService
         if (pet.getSpecies() == null
                 || pet.getSpecies().trim().isEmpty()) 
         {
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Species is required."
             );
         }
 
         if (pet.getWeight() < 0) 
         {
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Weight cannot be negative."
             );
         }
@@ -107,7 +108,7 @@ public class PetService
     {
         if (petId <= 0) 
         {
-            throw new IllegalArgumentException(
+            throw new ValidationException(
                     "Invalid pet ID."
             );
         }

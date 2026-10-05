@@ -1,421 +1,438 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package view;
 
-import model.Customer;
-import model.Pet;
-import service.DashboardService;
 
-import javax.swing.DefaultListModel;
-import javax.swing.JOptionPane;
-import java.util.List;
+/**
+ * DashboardForm: passive view (designer form).
+ * Logic lives in the controller.
+ */
+public class DashboardForm extends javax.swing.JFrame {
 
-public class DashboardForm extends javax.swing.JFrame 
-{
 
-    private final DashboardService dashboardService;
-    private String loggedInUser;
-
-    public DashboardForm() 
-    {
-        this("Guest");
-    }
-
-    public DashboardForm(String username) 
-    {
+    public DashboardForm() {
         initComponents();
-
-        dashboardService = new DashboardService();
-        loggedInUser = username;
-
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
-
-        lblUserInfo.setText("Signed in as: " + loggedInUser);
-
-        loadCounts();
-        loadRecentLists();
-        setupButtonActions();
-
-        sidebarPanel1.setNavigationListener(this::handleSidebarNavigation);
     }
 
-    private void loadCounts() 
-    {
-        lblCustomerCount.setText(String.valueOf(dashboardService.getCustomerCount()));
-        lblPetCount.setText(String.valueOf(dashboardService.getPetCount()));
-        lblStaffCount.setText(String.valueOf(dashboardService.getStaffCount()));
-        lblActiveCustomerCount.setText(String.valueOf(dashboardService.getActiveCustomerCount()));
-        lblActiveStaffCount.setText(String.valueOf(dashboardService.getActiveStaffCount()));
+    public DashboardForm(String username) {
+        this();
     }
 
-    private void loadRecentLists() 
-    {
-        DefaultListModel<String> customerModel = new DefaultListModel<>();
-        List<Customer> recentCustomers = dashboardService.getRecentCustomers();
-        for (Customer c : recentCustomers) 
-        {
-            customerModel.addElement(c.getFullName() + "  (" + c.getStatus() + ")");
-        }
-        lstRecentCustomers.setModel(customerModel);
-
-        DefaultListModel<String> petModel = new DefaultListModel<>();
-        List<Pet> recentPets = dashboardService.getRecentPets();
-        for (Pet p : recentPets) 
-        {
-            petModel.addElement(p.getPetName() + "  -  " + p.getSpecies());
-        }
-        lstRecentPets.setModel(petModel);
+    // Stat card text
+    public void setStat(int index, String text) {
+        javax.swing.JLabel[] cards = {lblCardCustomer, lblCardPet, lblCardStaff, lblCardRevenue, lblCardOutstanding};
+        cards[index].setText(text);
     }
 
-    private void setupButtonActions() 
-    {
-        btnRegisterCustomer.addActionListener(e -> 
-        {
-            new CustomerForm().setVisible(true);
-            dispose();
-        });
-
-        btnAddPet.addActionListener(e -> 
-        {
-            new PetForm().setVisible(true);
-            dispose();
-        });
-
-        btnNewAppointment.addActionListener(e -> 
-        {
-            JOptionPane.showMessageDialog(this,
-                "Appointments module coming soon.",
-                "Not available yet",
-                JOptionPane.INFORMATION_MESSAGE);
-        });
-
-        btnRecordPayment.addActionListener(e -> 
-        {
-            JOptionPane.showMessageDialog(this,
-                "Billing module coming soon.",
-                "Not available yet",
-                JOptionPane.INFORMATION_MESSAGE);
-        });
+    public void setUserInfo(String text) {
+        lblUserInfo.setText(text);
     }
 
-    private void handleSidebarNavigation(String destination) 
-    {
-        switch (destination) 
+    public void setRecentCustomers(java.util.List<String> lines) {
+        fill(tblRecentCustomers, lines);
+    }
+
+    public void setRecentPets(java.util.List<String> lines) {
+        fill(tblRecentPets, lines);
+    }
+
+    public void setRecentAppointments(java.util.List<String> lines) {
+        fill(tblRecentAppointments, lines);
+    }
+
+    public void setRecentStaff(java.util.List<String> lines) {
+        fill(tblRecentStaff, lines);
+    }
+
+    public void setBarData(int[] data) {
+        BarChartPanel bar = getBarChartPanel();
+        if (bar != null)
         {
-            case "Customers":
-                new CustomerForm().setVisible(true);
-                dispose();
-                break;
-            case "Pet Patients":
-                new PetForm().setVisible(true);
-                dispose();
-                break;
-            default:
-                JOptionPane.showMessageDialog(this,
-                    destination + " module coming soon.",
-                    "Not available yet",
-                    JOptionPane.INFORMATION_MESSAGE);
+            bar.setData(data);
         }
     }
 
+    public void setDonutData(java.util.Map<String, Integer> data) {
+        DonutChartPanel donut = getDonutChartPanel();
+        if (donut != null)
+        {
+            donut.setData(data);
+        }
+    }
 
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
+    // List rows
+    private void fill(javax.swing.JTable table, java.util.List<String> lines) {
+        Object title = table.getColumnModel().getColumn(0).getHeaderValue();
+        javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(new Object[]{title}, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        for (String line : lines) {
+            model.addRow(new Object[]{line});
+        }
+        table.setModel(model);
+    }
+
+    public view.SidebarPanel getSidebarPanel1() {
+        return BeanFinder.find(getContentPane(), SidebarPanel.class);
+    }
+
+    public view.BarChartPanel getBarChartPanel() {
+        return BeanFinder.find(getContentPane(), BarChartPanel.class);
+    }
+
+    public view.DonutChartPanel getDonutChartPanel() {
+        return BeanFinder.find(getContentPane(), DonutChartPanel.class);
+    }
+
+    public javax.swing.JButton getBtnNewAppointment() {
+        return btnNewAppointment;
+    }
+
+    public javax.swing.JButton getBtnRegisterCustomer() {
+        return btnRegisterCustomer;
+    }
+
+    public javax.swing.JButton getBtnAddPet() {
+        return btnAddPet;
+    }
+
+    public javax.swing.JButton getBtnRecordPayment() {
+        return btnRecordPayment;
+    }
+
+    public javax.swing.JTable getTblRecentCustomers() {
+        return tblRecentCustomers;
+    }
+
+    public javax.swing.JTable getTblRecentPets() {
+        return tblRecentPets;
+    }
+
+    public javax.swing.JTable getTblRecentAppointments() {
+        return tblRecentAppointments;
+    }
+
+    public javax.swing.JTable getTblRecentStaff() {
+        return tblRecentStaff;
+    }
+
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        sidebarPanel1 = new view.SidebarPanel();
         pnlDashboardContent = new javax.swing.JPanel();
         lblWelcome = new javax.swing.JLabel();
         lblUserInfo = new javax.swing.JLabel();
-        lblPetTitle = new javax.swing.JLabel();
-        lblPetCount = new javax.swing.JLabel();
-        lblCustomerTitle1 = new javax.swing.JLabel();
-        lblCustomerCount = new javax.swing.JLabel();
-        lblStaffTitle = new javax.swing.JLabel();
-        lblStaffCount = new javax.swing.JLabel();
-        lblActiveCustomerTitle = new javax.swing.JLabel();
-        lblActiveCustomerCount = new javax.swing.JLabel();
-        lblActiveStaffTitle = new javax.swing.JLabel();
-        lblActiveStaffCount = new javax.swing.JLabel();
+        pnlCardCustomer = new javax.swing.JPanel();
+        pnlAccentCustomer = new javax.swing.JPanel();
+        lblCardTitleCustomer = new javax.swing.JLabel();
+        lblCardCustomer = new javax.swing.JLabel();
+        lblCardSubCustomer = new javax.swing.JLabel();
+        pnlCardPet = new javax.swing.JPanel();
+        pnlAccentPet = new javax.swing.JPanel();
+        lblCardTitlePet = new javax.swing.JLabel();
+        lblCardPet = new javax.swing.JLabel();
+        lblCardSubPet = new javax.swing.JLabel();
+        pnlCardStaff = new javax.swing.JPanel();
+        pnlAccentStaff = new javax.swing.JPanel();
+        lblCardTitleStaff = new javax.swing.JLabel();
+        lblCardStaff = new javax.swing.JLabel();
+        lblCardSubStaff = new javax.swing.JLabel();
+        pnlCardRevenue = new javax.swing.JPanel();
+        pnlAccentRevenue = new javax.swing.JPanel();
+        lblCardTitleRevenue = new javax.swing.JLabel();
+        lblCardRevenue = new javax.swing.JLabel();
+        lblCardSubRevenue = new javax.swing.JLabel();
+        pnlCardOutstanding = new javax.swing.JPanel();
+        pnlAccentOutstanding = new javax.swing.JPanel();
+        lblCardTitleOutstanding = new javax.swing.JLabel();
+        lblCardOutstanding = new javax.swing.JLabel();
+        lblCardSubOutstanding = new javax.swing.JLabel();
+        lblBarTitle = new javax.swing.JLabel();
+        lblPieTitle = new javax.swing.JLabel();
         lblQuickActions = new javax.swing.JLabel();
         btnNewAppointment = new javax.swing.JButton();
         btnRegisterCustomer = new javax.swing.JButton();
         btnAddPet = new javax.swing.JButton();
         btnRecordPayment = new javax.swing.JButton();
-        lblRecentCustomers = new javax.swing.JLabel();
-        lblRecentPets = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        lstRecentCustomers = new javax.swing.JList<>();
+        tblRecentCustomers = new javax.swing.JTable();
         jScrollPane2 = new javax.swing.JScrollPane();
-        lstRecentPets = new javax.swing.JList<>();
-        pnlCardCustomers = new javax.swing.JPanel();
-        pnlCardPets = new javax.swing.JPanel();
-        pnlCardStaff = new javax.swing.JPanel();
-        pnlCardActiveCustomers = new javax.swing.JPanel();
-        pnlCardActiveStaff = new javax.swing.JPanel();
+        tblRecentPets = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tblRecentAppointments = new javax.swing.JTable();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblRecentStaff = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setFocusableWindowState(false);
-        setMinimumSize(new java.awt.Dimension(1500, 900));
+        setTitle("PawCare 360 - Dashboard");
+        setMinimumSize(new java.awt.Dimension(1300, 800));
         setPreferredSize(new java.awt.Dimension(1500, 900));
         setSize(new java.awt.Dimension(1500, 900));
 
-        sidebarPanel1.setMinimumSize(new java.awt.Dimension(250, 900));
-        getContentPane().add(sidebarPanel1, java.awt.BorderLayout.WEST);
-
-        pnlDashboardContent.setBackground(new java.awt.Color(250, 246, 240));
+        pnlDashboardContent.setBackground(new java.awt.Color(247, 248, 250));
         pnlDashboardContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblWelcome.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblWelcome.setForeground(new java.awt.Color(74, 91, 106));
-        lblWelcome.setText("Welcome to PawCare 360");
-        pnlDashboardContent.add(lblWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 15, 500, 35));
+        lblWelcome.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
+        lblWelcome.setForeground(new java.awt.Color(44, 62, 80));
+        lblWelcome.setText("Dashboard");
+        pnlDashboardContent.add(lblWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 15, 500, 38));
 
-        lblUserInfo.setForeground(new java.awt.Color(110, 125, 135));
-        lblUserInfo.setText("Signed in as...");
-        pnlDashboardContent.add(lblUserInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 400, 20));
+        lblUserInfo.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
+        lblUserInfo.setForeground(new java.awt.Color(130, 140, 150));
+        lblUserInfo.setText("Welcome back");
+        pnlDashboardContent.add(lblUserInfo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 53, 700, 20));
 
-        lblPetTitle.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
-        lblPetTitle.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Grey"));
-        lblPetTitle.setText("PETS");
-        pnlDashboardContent.add(lblPetTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(265, 100, 220, 16));
+        pnlCardCustomer.setBackground(new java.awt.Color(255, 255, 255));
+        pnlCardCustomer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(225, 225, 225)));
+        pnlCardCustomer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblPetCount.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
-        lblPetCount.setForeground(new java.awt.Color(74, 91, 106));
-        lblPetCount.setText("0");
-        pnlDashboardContent.add(lblPetCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(265, 122, 220, 36));
+        pnlAccentCustomer.setBackground(new java.awt.Color(90, 140, 220));
+        pnlAccentCustomer.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlCardCustomer.add(pnlAccentCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 13, 34, 4));
 
-        lblCustomerTitle1.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
-        lblCustomerTitle1.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Grey"));
-        lblCustomerTitle1.setText("CUSTOMERS");
-        pnlDashboardContent.add(lblCustomerTitle1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 220, 16));
+        lblCardTitleCustomer.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblCardTitleCustomer.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardTitleCustomer.setText("Customers");
+        pnlCardCustomer.add(lblCardTitleCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 27, 190, 18));
 
-        lblCustomerCount.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
-        lblCustomerCount.setForeground(new java.awt.Color(74, 91, 106));
-        lblCustomerCount.setText("0");
-        pnlDashboardContent.add(lblCustomerCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 122, 220, 36));
+        lblCardCustomer.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblCardCustomer.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardCustomer.setText("0");
+        pnlCardCustomer.add(lblCardCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 50, 190, 36));
 
-        lblStaffTitle.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
-        lblStaffTitle.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Grey"));
-        lblStaffTitle.setText("STAFF");
-        pnlDashboardContent.add(lblStaffTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 100, 220, 16));
+        lblCardSubCustomer.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        lblCardSubCustomer.setForeground(new java.awt.Color(130, 140, 150));
+        lblCardSubCustomer.setText("Registered customers");
+        pnlCardCustomer.add(lblCardSubCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 88, 190, 16));
 
-        lblStaffCount.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
-        lblStaffCount.setForeground(new java.awt.Color(74, 91, 106));
-        lblStaffCount.setText("0");
-        pnlDashboardContent.add(lblStaffCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 122, 220, 36));
+        pnlDashboardContent.add(pnlCardCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 85, 220, 115));
 
-        lblActiveCustomerTitle.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
-        lblActiveCustomerTitle.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Grey"));
-        lblActiveCustomerTitle.setText("ACTIVE CUSTOMER");
-        pnlDashboardContent.add(lblActiveCustomerTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(735, 100, 220, 16));
+        pnlCardPet.setBackground(new java.awt.Color(255, 255, 255));
+        pnlCardPet.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(225, 225, 225)));
+        pnlCardPet.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblActiveCustomerCount.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
-        lblActiveCustomerCount.setForeground(new java.awt.Color(74, 91, 106));
-        lblActiveCustomerCount.setText("0");
-        pnlDashboardContent.add(lblActiveCustomerCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(735, 122, 220, 36));
+        pnlAccentPet.setBackground(new java.awt.Color(95, 185, 130));
+        pnlAccentPet.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlCardPet.add(pnlAccentPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 13, 34, 4));
 
-        lblActiveStaffTitle.setFont(new java.awt.Font("Segoe UI", 1, 10)); // NOI18N
-        lblActiveStaffTitle.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Grey"));
-        lblActiveStaffTitle.setText("ACTIVE STAFF");
-        pnlDashboardContent.add(lblActiveStaffTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 100, 220, 16));
+        lblCardTitlePet.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblCardTitlePet.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardTitlePet.setText("Pets");
+        pnlCardPet.add(lblCardTitlePet, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 27, 190, 18));
 
-        lblActiveStaffCount.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
-        lblActiveStaffCount.setForeground(new java.awt.Color(74, 91, 106));
-        lblActiveStaffCount.setText("0");
-        pnlDashboardContent.add(lblActiveStaffCount, new org.netbeans.lib.awtextra.AbsoluteConstraints(970, 122, 220, 36));
+        lblCardPet.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblCardPet.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardPet.setText("0");
+        pnlCardPet.add(lblCardPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 50, 190, 36));
 
-        lblQuickActions.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        lblQuickActions.setForeground(javax.swing.UIManager.getDefaults().getColor("Actions.Grey"));
-        lblQuickActions.setText("QUICK ACTIONS");
-        pnlDashboardContent.add(lblQuickActions, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 210, 300, 25));
+        lblCardSubPet.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        lblCardSubPet.setForeground(new java.awt.Color(130, 140, 150));
+        lblCardSubPet.setText("Registered pets");
+        pnlCardPet.add(lblCardSubPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 88, 190, 16));
 
-        btnNewAppointment.setBackground(new java.awt.Color(157, 201, 163));
-        btnNewAppointment.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        btnNewAppointment.setForeground(new java.awt.Color(74, 91, 106));
-        btnNewAppointment.setText("New Appoinment");
-        btnNewAppointment.addActionListener(this::btnNewAppointmentActionPerformed);
-        pnlDashboardContent.add(btnNewAppointment, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 245, 290, 55));
-
-        btnRegisterCustomer.setBackground(new java.awt.Color(157, 201, 163));
-        btnRegisterCustomer.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        btnRegisterCustomer.setForeground(new java.awt.Color(74, 91, 106));
-        btnRegisterCustomer.setText("Register Customer");
-        btnRegisterCustomer.addActionListener(this::btnRegisterCustomerActionPerformed);
-        pnlDashboardContent.add(btnRegisterCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 245, 290, 55));
-
-        btnAddPet.setBackground(new java.awt.Color(157, 201, 163));
-        btnAddPet.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        btnAddPet.setForeground(new java.awt.Color(74, 91, 106));
-        btnAddPet.setText("Add Pet");
-        btnAddPet.addActionListener(this::btnAddPetActionPerformed);
-        pnlDashboardContent.add(btnAddPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 245, 290, 55));
-
-        btnRecordPayment.setBackground(new java.awt.Color(157, 201, 163));
-        btnRecordPayment.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
-        btnRecordPayment.setForeground(new java.awt.Color(74, 91, 106));
-        btnRecordPayment.setText("Record Payment");
-        btnRecordPayment.addActionListener(this::btnRecordPaymentActionPerformed);
-        pnlDashboardContent.add(btnRecordPayment, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 245, 290, 55));
-
-        lblRecentCustomers.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblRecentCustomers.setText("RECENT CUSTOMERS");
-        pnlDashboardContent.add(lblRecentCustomers, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 320, 300, 25));
-
-        lblRecentPets.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblRecentPets.setText("RECENT PET PATIENTS");
-        pnlDashboardContent.add(lblRecentPets, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 320, 300, 25));
-
-        lstRecentCustomers.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(lstRecentCustomers);
-
-        pnlDashboardContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 590, 300));
-
-        lstRecentPets.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane2.setViewportView(lstRecentPets);
-
-        pnlDashboardContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 350, 590, 300));
-
-        pnlCardCustomers.setBackground(new java.awt.Color(255, 255, 255));
-        pnlCardCustomers.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 217, 217)));
-
-        javax.swing.GroupLayout pnlCardCustomersLayout = new javax.swing.GroupLayout(pnlCardCustomers);
-        pnlCardCustomers.setLayout(pnlCardCustomersLayout);
-        pnlCardCustomersLayout.setHorizontalGroup(
-            pnlCardCustomersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 218, Short.MAX_VALUE)
-        );
-        pnlCardCustomersLayout.setVerticalGroup(
-            pnlCardCustomersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 108, Short.MAX_VALUE)
-        );
-
-        pnlDashboardContent.add(pnlCardCustomers, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 220, 110));
-
-        pnlCardPets.setBackground(new java.awt.Color(255, 255, 255));
-        pnlCardPets.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 217, 217)));
-
-        javax.swing.GroupLayout pnlCardPetsLayout = new javax.swing.GroupLayout(pnlCardPets);
-        pnlCardPets.setLayout(pnlCardPetsLayout);
-        pnlCardPetsLayout.setHorizontalGroup(
-            pnlCardPetsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 218, Short.MAX_VALUE)
-        );
-        pnlCardPetsLayout.setVerticalGroup(
-            pnlCardPetsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 108, Short.MAX_VALUE)
-        );
-
-        pnlDashboardContent.add(pnlCardPets, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 80, 220, 110));
+        pnlDashboardContent.add(pnlCardPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 85, 220, 115));
 
         pnlCardStaff.setBackground(new java.awt.Color(255, 255, 255));
-        pnlCardStaff.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 217, 217)));
+        pnlCardStaff.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(225, 225, 225)));
+        pnlCardStaff.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout pnlCardStaffLayout = new javax.swing.GroupLayout(pnlCardStaff);
-        pnlCardStaff.setLayout(pnlCardStaffLayout);
-        pnlCardStaffLayout.setHorizontalGroup(
-            pnlCardStaffLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 218, Short.MAX_VALUE)
-        );
-        pnlCardStaffLayout.setVerticalGroup(
-            pnlCardStaffLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 108, Short.MAX_VALUE)
-        );
+        pnlAccentStaff.setBackground(new java.awt.Color(230, 160, 70));
+        pnlAccentStaff.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlCardStaff.add(pnlAccentStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 13, 34, 4));
 
-        pnlDashboardContent.add(pnlCardStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 80, 220, 110));
+        lblCardTitleStaff.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblCardTitleStaff.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardTitleStaff.setText("Staff");
+        pnlCardStaff.add(lblCardTitleStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 27, 190, 18));
 
-        pnlCardActiveCustomers.setBackground(new java.awt.Color(255, 255, 255));
-        pnlCardActiveCustomers.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 217, 217)));
+        lblCardStaff.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblCardStaff.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardStaff.setText("0");
+        pnlCardStaff.add(lblCardStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 50, 190, 36));
 
-        javax.swing.GroupLayout pnlCardActiveCustomersLayout = new javax.swing.GroupLayout(pnlCardActiveCustomers);
-        pnlCardActiveCustomers.setLayout(pnlCardActiveCustomersLayout);
-        pnlCardActiveCustomersLayout.setHorizontalGroup(
-            pnlCardActiveCustomersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 218, Short.MAX_VALUE)
-        );
-        pnlCardActiveCustomersLayout.setVerticalGroup(
-            pnlCardActiveCustomersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 108, Short.MAX_VALUE)
-        );
+        lblCardSubStaff.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        lblCardSubStaff.setForeground(new java.awt.Color(130, 140, 150));
+        lblCardSubStaff.setText("Clinic staff members");
+        pnlCardStaff.add(lblCardSubStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 88, 190, 16));
 
-        pnlDashboardContent.add(pnlCardActiveCustomers, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 80, 220, 110));
+        pnlDashboardContent.add(pnlCardStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 85, 220, 115));
 
-        pnlCardActiveStaff.setBackground(new java.awt.Color(255, 255, 255));
-        pnlCardActiveStaff.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(217, 217, 217)));
+        pnlCardRevenue.setBackground(new java.awt.Color(255, 255, 255));
+        pnlCardRevenue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(225, 225, 225)));
+        pnlCardRevenue.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        javax.swing.GroupLayout pnlCardActiveStaffLayout = new javax.swing.GroupLayout(pnlCardActiveStaff);
-        pnlCardActiveStaff.setLayout(pnlCardActiveStaffLayout);
-        pnlCardActiveStaffLayout.setHorizontalGroup(
-            pnlCardActiveStaffLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 218, Short.MAX_VALUE)
-        );
-        pnlCardActiveStaffLayout.setVerticalGroup(
-            pnlCardActiveStaffLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 108, Short.MAX_VALUE)
-        );
+        pnlAccentRevenue.setBackground(new java.awt.Color(150, 110, 210));
+        pnlAccentRevenue.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlCardRevenue.add(pnlAccentRevenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 13, 34, 4));
 
-        pnlDashboardContent.add(pnlCardActiveStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 80, 220, 110));
+        lblCardTitleRevenue.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblCardTitleRevenue.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardTitleRevenue.setText("Revenue (LKR)");
+        pnlCardRevenue.add(lblCardTitleRevenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 27, 190, 18));
+
+        lblCardRevenue.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblCardRevenue.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardRevenue.setText("0");
+        pnlCardRevenue.add(lblCardRevenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 50, 190, 36));
+
+        lblCardSubRevenue.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        lblCardSubRevenue.setForeground(new java.awt.Color(130, 140, 150));
+        lblCardSubRevenue.setText("Payments collected");
+        pnlCardRevenue.add(lblCardSubRevenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 88, 190, 16));
+
+        pnlDashboardContent.add(pnlCardRevenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 85, 220, 115));
+
+        pnlCardOutstanding.setBackground(new java.awt.Color(255, 255, 255));
+        pnlCardOutstanding.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(225, 225, 225)));
+        pnlCardOutstanding.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pnlAccentOutstanding.setBackground(new java.awt.Color(60, 175, 170));
+        pnlAccentOutstanding.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        pnlCardOutstanding.add(pnlAccentOutstanding, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 13, 34, 4));
+
+        lblCardTitleOutstanding.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblCardTitleOutstanding.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardTitleOutstanding.setText("Outstanding (LKR)");
+        pnlCardOutstanding.add(lblCardTitleOutstanding, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 27, 190, 18));
+
+        lblCardOutstanding.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblCardOutstanding.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardOutstanding.setText("0");
+        pnlCardOutstanding.add(lblCardOutstanding, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 50, 190, 36));
+
+        lblCardSubOutstanding.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        lblCardSubOutstanding.setForeground(new java.awt.Color(130, 140, 150));
+        lblCardSubOutstanding.setText("Unpaid balances");
+        pnlCardOutstanding.add(lblCardSubOutstanding, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 88, 190, 16));
+
+        pnlDashboardContent.add(pnlCardOutstanding, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 85, 220, 115));
+
+        lblBarTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblBarTitle.setForeground(new java.awt.Color(44, 62, 80));
+        lblBarTitle.setText("Appointments · Last 7 Days");
+        pnlDashboardContent.add(lblBarTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 215, 400, 22));
+
+        lblPieTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblPieTitle.setForeground(new java.awt.Color(44, 62, 80));
+        lblPieTitle.setText("Pets by Species");
+        pnlDashboardContent.add(lblPieTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 215, 400, 22));
+
+        lblQuickActions.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        lblQuickActions.setForeground(new java.awt.Color(130, 140, 150));
+        lblQuickActions.setText("QUICK ACTIONS");
+        pnlDashboardContent.add(lblQuickActions, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 300, 20));
+
+        btnNewAppointment.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnNewAppointment.setForeground(new java.awt.Color(44, 62, 80));
+        btnNewAppointment.setBackground(new java.awt.Color(157, 201, 163));
+        btnNewAppointment.setText("New Appointment");
+        pnlDashboardContent.add(btnNewAppointment, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 445, 290, 50));
+
+        btnRegisterCustomer.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRegisterCustomer.setForeground(new java.awt.Color(44, 62, 80));
+        btnRegisterCustomer.setBackground(new java.awt.Color(157, 201, 163));
+        btnRegisterCustomer.setText("Register Customer");
+        pnlDashboardContent.add(btnRegisterCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 445, 290, 50));
+
+        btnAddPet.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAddPet.setForeground(new java.awt.Color(44, 62, 80));
+        btnAddPet.setBackground(new java.awt.Color(157, 201, 163));
+        btnAddPet.setText("Add Pet");
+        pnlDashboardContent.add(btnAddPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 445, 290, 50));
+
+        btnRecordPayment.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRecordPayment.setForeground(new java.awt.Color(44, 62, 80));
+        btnRecordPayment.setBackground(new java.awt.Color(157, 201, 163));
+        btnRecordPayment.setText("Record Payment");
+        pnlDashboardContent.add(btnRecordPayment, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 445, 290, 50));
+
+        tblRecentCustomers.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Recent Customers"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblRecentCustomers);
+
+        pnlDashboardContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 510, 288, 200));
+
+        tblRecentPets.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Recent Pet Patients"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tblRecentPets);
+
+        pnlDashboardContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(328, 510, 288, 200));
+
+        tblRecentAppointments.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Recent Appointments"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(tblRecentAppointments);
+
+        pnlDashboardContent.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(636, 510, 288, 200));
+
+        tblRecentStaff.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Recent Staff"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane4.setViewportView(tblRecentStaff);
+
+        pnlDashboardContent.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(944, 510, 288, 200));
 
         getContentPane().add(pnlDashboardContent, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnNewAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewAppointmentActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnNewAppointmentActionPerformed
-
-    private void btnRegisterCustomerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegisterCustomerActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRegisterCustomerActionPerformed
-
-    private void btnAddPetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddPetActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnAddPetActionPerformed
-
-    private void btnRecordPaymentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRecordPaymentActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRecordPaymentActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            ex.printStackTrace();
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new DashboardForm().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddPet;
@@ -424,29 +441,42 @@ public class DashboardForm extends javax.swing.JFrame
     private javax.swing.JButton btnRegisterCustomer;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblActiveCustomerCount;
-    private javax.swing.JLabel lblActiveCustomerTitle;
-    private javax.swing.JLabel lblActiveStaffCount;
-    private javax.swing.JLabel lblActiveStaffTitle;
-    private javax.swing.JLabel lblCustomerCount;
-    private javax.swing.JLabel lblCustomerTitle1;
-    private javax.swing.JLabel lblPetCount;
-    private javax.swing.JLabel lblPetTitle;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JLabel lblBarTitle;
+    private javax.swing.JLabel lblCardCustomer;
+    private javax.swing.JLabel lblCardOutstanding;
+    private javax.swing.JLabel lblCardPet;
+    private javax.swing.JLabel lblCardRevenue;
+    private javax.swing.JLabel lblCardStaff;
+    private javax.swing.JLabel lblCardSubCustomer;
+    private javax.swing.JLabel lblCardSubOutstanding;
+    private javax.swing.JLabel lblCardSubPet;
+    private javax.swing.JLabel lblCardSubRevenue;
+    private javax.swing.JLabel lblCardSubStaff;
+    private javax.swing.JLabel lblCardTitleCustomer;
+    private javax.swing.JLabel lblCardTitleOutstanding;
+    private javax.swing.JLabel lblCardTitlePet;
+    private javax.swing.JLabel lblCardTitleRevenue;
+    private javax.swing.JLabel lblCardTitleStaff;
+    private javax.swing.JLabel lblPieTitle;
     private javax.swing.JLabel lblQuickActions;
-    private javax.swing.JLabel lblRecentCustomers;
-    private javax.swing.JLabel lblRecentPets;
-    private javax.swing.JLabel lblStaffCount;
-    private javax.swing.JLabel lblStaffTitle;
     private javax.swing.JLabel lblUserInfo;
     private javax.swing.JLabel lblWelcome;
-    private javax.swing.JList<String> lstRecentCustomers;
-    private javax.swing.JList<String> lstRecentPets;
-    private javax.swing.JPanel pnlCardActiveCustomers;
-    private javax.swing.JPanel pnlCardActiveStaff;
-    private javax.swing.JPanel pnlCardCustomers;
-    private javax.swing.JPanel pnlCardPets;
+    private javax.swing.JPanel pnlAccentCustomer;
+    private javax.swing.JPanel pnlAccentOutstanding;
+    private javax.swing.JPanel pnlAccentPet;
+    private javax.swing.JPanel pnlAccentRevenue;
+    private javax.swing.JPanel pnlAccentStaff;
+    private javax.swing.JPanel pnlCardCustomer;
+    private javax.swing.JPanel pnlCardOutstanding;
+    private javax.swing.JPanel pnlCardPet;
+    private javax.swing.JPanel pnlCardRevenue;
     private javax.swing.JPanel pnlCardStaff;
     private javax.swing.JPanel pnlDashboardContent;
-    private view.SidebarPanel sidebarPanel1;
+    private javax.swing.JTable tblRecentAppointments;
+    private javax.swing.JTable tblRecentCustomers;
+    private javax.swing.JTable tblRecentPets;
+    private javax.swing.JTable tblRecentStaff;
     // End of variables declaration//GEN-END:variables
 }

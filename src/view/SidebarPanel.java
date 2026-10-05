@@ -8,7 +8,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.RoundRectangle2D;
-import java.beans.BeanInfo;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -16,7 +15,7 @@ import java.util.Map;
 
 public class SidebarPanel extends JPanel implements Serializable {
 
-    /** Fired when the user clicks a nav item; screenName is its label, e.g. "CUSTOMERS". */
+    // Navigation callback
     public interface NavigationListener {
         void onNavigate(String screenName);
     }
@@ -26,21 +25,21 @@ public class SidebarPanel extends JPanel implements Serializable {
     public static final Color SAGE = new Color(164, 190, 143);
 
     private static final String[] ITEMS = {
-            "DASHBOARD", "CUSTOMERS", "PET PATIENTS", "APPOINTMENTS",
+            "DASHBOARD", "CUSTOMERS", "PET PATIENTS", "STAFF", "SERVICES", "APPOINTMENTS",
             "TREATMENTS", "GROOMING", "BOARDING", "BILLING", "REPORTS"
     };
 
     private final Map<String, JButton> navButtons = new LinkedHashMap<>();
-    private JPanel staffCard;
+    private JButton logoutButton;
     private String activeItem = "DASHBOARD";
     private NavigationListener navigationListener;
 
-    /** Required no-arg constructor so the NetBeans Palette/GUI Builder can instantiate this bean. */
+    // Designer constructor
     public SidebarPanel() {
         this("DASHBOARD");
     }
 
-    /** Convenience constructor for hand-coded screens that know their active item up front. */
+    // Active item constructor
     public SidebarPanel(String activeItem) {
         this.activeItem = activeItem;
         setLayout(null);
@@ -52,14 +51,55 @@ public class SidebarPanel extends JPanel implements Serializable {
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                repositionStaffCard();
+                repositionLogout();
             }
         });
     }
 
     // ---- Bean properties -------------------------------------------------
 
-    /** Bean property so it can also be set from the NetBeans Properties panel at design time. */
+    // Find or add sidebar
+    public static SidebarPanel attach(JFrame frame, String active, NavigationListener listener) {
+        SidebarPanel found = find(frame.getContentPane());
+        if (found == null) {
+            found = new SidebarPanel();
+            Container root = frame.getContentPane();
+            if (root.getLayout() instanceof BorderLayout) {
+                root.add(found, BorderLayout.WEST);
+            } else {
+                Component[] old = root.getComponents();
+                JPanel wrap = new JPanel(new BorderLayout());
+                JPanel body = new JPanel(root.getLayout());
+                for (Component c : old) {
+                    body.add(c);
+                }
+                wrap.add(found, BorderLayout.WEST);
+                wrap.add(body, BorderLayout.CENTER);
+                root.removeAll();
+                root.setLayout(new BorderLayout());
+                root.add(wrap, BorderLayout.CENTER);
+            }
+        }
+        found.setActiveItem(active);
+        found.setNavigationListener(listener);
+        return found;
+    }
+
+    private static SidebarPanel find(Container c) {
+        for (Component child : c.getComponents()) {
+            if (child instanceof SidebarPanel) {
+                return (SidebarPanel) child;
+            }
+            if (child instanceof Container) {
+                SidebarPanel r = find((Container) child);
+                if (r != null) {
+                    return r;
+                }
+            }
+        }
+        return null;
+    }
+
     public String getActiveItem() {
         return activeItem;
     }
@@ -92,7 +132,7 @@ public class SidebarPanel extends JPanel implements Serializable {
         number.setForeground(SAGE);
         add(number);
 
-        JLabel clinic = new JLabel("VETERINARY \u2022 PET CARE");
+        JLabel clinic = new JLabel("VETERINARY • PET CARE");
         clinic.setBounds(30, 105, 190, 18);
         clinic.setFont(new Font("Segoe UI", Font.BOLD, 9));
         clinic.setForeground(new Color(139, 157, 164));
@@ -121,36 +161,23 @@ public class SidebarPanel extends JPanel implements Serializable {
             add(button);
         }
 
-        staffCard = new RoundedPanel(NAVY_LIGHT, 16);
-        staffCard.setLayout(null);
-        staffCard.setBounds(25, 735, 200, 100);
-        add(staffCard);
-
-        JLabel userTitle = new JLabel("CURRENT USER");
-        userTitle.setBounds(15, 13, 150, 15);
-        userTitle.setFont(new Font("Segoe UI", Font.BOLD, 8));
-        userTitle.setForeground(new Color(130, 149, 156));
-        staffCard.add(userTitle);
-
-        JLabel user = new JLabel("Reception Desk");
-        user.setBounds(15, 34, 160, 20);
-        user.setFont(new Font("Segoe UI", Font.BOLD, 11));
-        user.setForeground(Color.WHITE);
-        staffCard.add(user);
-
-        JLabel status = new JLabel("\u25CF Online");
-        status.setBounds(15, 61, 100, 18);
-        status.setFont(new Font("Segoe UI", Font.PLAIN, 9));
-        status.setForeground(SAGE);
-        staffCard.add(status);
+        // Logout button
+        logoutButton = new LogoutButton("LOGOUT");
+        logoutButton.setBounds(25, 790, 200, 46);
+        logoutButton.addActionListener(e -> {
+            if (navigationListener != null) {
+                navigationListener.onNavigate("LOGOUT");
+            }
+        });
+        add(logoutButton);
     }
 
-    private void repositionStaffCard() {
-        if (staffCard == null) return;
+    private void repositionLogout() {
+        if (logoutButton == null) return;
         int h = getHeight();
         if (h <= 0) return;
-        int y = Math.max(h - 165, 400);
-        staffCard.setBounds(25, y, 200, 100);
+        int y = Math.max(h - 110, 745);
+        logoutButton.setBounds(25, y, 200, 46);
     }
 
     private void highlightActive() {
@@ -181,8 +208,7 @@ public class SidebarPanel extends JPanel implements Serializable {
         button.setBackground(normalBg);
         button.setForeground(normalFg);
 
-        // Clear any previously-added hover listeners before re-adding, so
-        // switching the active item doesn't stack duplicate listeners.
+        // Remove old hover
         for (var listener : button.getMouseListeners()) {
             if (listener instanceof NavHoverListener) {
                 button.removeMouseListener(listener);
@@ -211,24 +237,55 @@ public class SidebarPanel extends JPanel implements Serializable {
         public void mouseExited(MouseEvent e) { button.setBackground(normal); }
     }
 
-    private static class RoundedPanel extends JPanel {
-        private final Color backgroundColor;
-        private final int radius;
+    // Black outlined logout
+    private static class LogoutButton extends JButton {
+        private boolean hovering = false;
 
-        RoundedPanel(Color backgroundColor, int radius) {
-            this.backgroundColor = backgroundColor;
-            this.radius = radius;
+        LogoutButton(String text) {
+            super(text);
+            setHorizontalAlignment(SwingConstants.LEFT);
+            setFont(new Font("Segoe UI", Font.BOLD, 13));
+            setForeground(SAGE);
+            setContentAreaFilled(false);
+            setBorderPainted(false);
+            setFocusPainted(false);
             setOpaque(false);
+            setCursor(new Cursor(Cursor.HAND_CURSOR));
+            setBorder(BorderFactory.createEmptyBorder(0, 44, 0, 10));
+
+            addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) { hovering = true; repaint(); }
+                @Override
+                public void mouseExited(MouseEvent e) { hovering = false; repaint(); }
+            });
         }
 
+        // Hand-painted look
         @Override
-        protected void paintComponent(Graphics graphics) {
-            Graphics2D g2 = (Graphics2D) graphics.create();
+        protected void paintComponent(Graphics g) {
+            Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(backgroundColor);
-            g2.fill(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, radius, radius));
+
+            g2.setColor(hovering ? new Color(28, 28, 28) : Color.BLACK);
+            g2.fill(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, 10, 10));
+
+            g2.setColor(SAGE);
+            g2.setStroke(new BasicStroke(1.8f));
+            g2.draw(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, 10, 10));
+
+            // Exit icon
+            g2.setStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+            int ix = 14, iy = getHeight() / 2 - 10;
+            g2.drawPolyline(
+                    new int[]{ix + 9, ix + 9, ix + 22, ix + 22, ix + 9, ix + 9},
+                    new int[]{iy + 6, iy, iy, iy + 20, iy + 20, iy + 14}, 6);
+            g2.fillPolygon(
+                    new int[]{ix, ix + 7, ix + 7, ix + 15, ix + 15, ix + 7, ix + 7},
+                    new int[]{iy + 10, iy + 4, iy + 8, iy + 8, iy + 12, iy + 12, iy + 16}, 7);
             g2.dispose();
-            super.paintComponent(graphics);
+
+            super.paintComponent(g);
         }
     }
 

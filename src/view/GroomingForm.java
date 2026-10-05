@@ -4,19 +4,100 @@
  */
 package view;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import java.awt.Color;
+import java.util.List;
+
 /**
  *
  * @author HP
  */
-public class GroomingForm extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GroomingForm.class.getName());
+public class GroomingForm extends javax.swing.JFrame
+{
+    private static final Color OK_COLOR = new Color(60, 140, 90);
+    private static final Color ERR_COLOR = new Color(200, 60, 60);
 
-    /**
-     * Creates new form GroomingForm
-     */
-    public GroomingForm() {
+    public GroomingForm()
+    {
         initComponents();
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH); // Full screen
+        setLocationRelativeTo(null);
+    }
+
+    // Getters
+    public JButton getBtnBook() { return btnBook; }
+    public JButton getBtnUpdate() { return btnUpdate; }
+    public JButton getBtnCancelAppointment() { return btnCancelAppointment; }
+    public JButton getBtnClear() { return btnClear; }
+    public JComboBox<String> getCmbCustomer() { return cmbCustomer; }
+    public JComboBox<String> getCmbPet() { return cmbPet; }
+    public JComboBox<String> getCmbStaff() { return cmbStaff; }
+    public JComboBox<String> getCmbService() { return cmbService; }
+    public JTable getTable() { return tblGroomings; }
+    public JTextField getTxtDate() { return txtDate; }
+    public JTextField getTxtTime() { return txtTime; }
+    public JTextField getTxtReason() { return txtReason; }
+    public JTextField getTxtNotes() { return txtNotes; }
+
+    // Display helpers
+    public void setItems(JComboBox<String> combo, List<String> items)
+    {
+        combo.removeAllItems();
+        items.forEach(combo::addItem);
+    }
+
+    public void setRows(List<Object[]> rows)
+    {
+        DefaultTableModel model = new DefaultTableModel(
+                new Object[]{"ID", "Customer", "Pet", "Staff", "Service", "Date & Time", "Status"}, 0)
+        {
+            @Override
+            public boolean isCellEditable(int row, int column)
+            {
+                return false;
+            }
+        };
+        rows.forEach(model::addRow);
+        tblGroomings.setModel(model);
+    }
+
+    public void setStats(int today, int scheduled, int completed, int cancelled)
+    {
+        lblTodayCount.setText(String.valueOf(today));
+        lblScheduledCount.setText(String.valueOf(scheduled));
+        lblCompletedCount.setText(String.valueOf(completed));
+        lblCancelledCount.setText(String.valueOf(cancelled));
+    }
+
+    public void showMessage(String text, boolean ok)
+    {
+        lblMessage.setForeground(ok ? OK_COLOR : ERR_COLOR);
+        lblMessage.setText(text);
+    }
+
+    public void clearForm()
+    {
+        if (cmbCustomer.getItemCount() > 0) cmbCustomer.setSelectedIndex(0);
+        if (cmbStaff.getItemCount() > 0) cmbStaff.setSelectedIndex(0);
+        if (cmbService.getItemCount() > 0) cmbService.setSelectedIndex(0);
+        txtDate.setText("");
+        txtTime.setText("");
+        txtReason.setText("");
+        txtNotes.setText("");
+        tblGroomings.clearSelection();
+        lblMessage.setText("");
+    }
+
+    public void fillForm(String date, String time, String reason, String notes)
+    {
+        txtDate.setText(date);
+        txtTime.setText(time);
+        txtReason.setText(reason);
+        txtNotes.setText(notes);
     }
 
     /**
@@ -28,7 +109,6 @@ public class GroomingForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        sidebarPanel1 = new view.SidebarPanel();
         pnlGroomingContent = new javax.swing.JPanel();
         pnlCardToday = new javax.swing.JPanel();
         lblTodayTitle = new javax.swing.JLabel();
@@ -76,7 +156,6 @@ public class GroomingForm extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1500, 900));
         setPreferredSize(new java.awt.Dimension(1500, 900));
         setSize(new java.awt.Dimension(1500, 900));
-        getContentPane().add(sidebarPanel1, java.awt.BorderLayout.WEST);
 
         pnlGroomingContent.setBackground(new java.awt.Color(250, 246, 240));
         pnlGroomingContent.setMinimumSize(new java.awt.Dimension(1200, 900));
@@ -204,24 +283,18 @@ public class GroomingForm extends javax.swing.JFrame {
         lblCustomerLabel.setForeground(new java.awt.Color(113, 128, 140));
         lblCustomerLabel.setText("CUSTOMER");
         pnlGroomingDetails.add(lblCustomerLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 270, 18));
-
-        txtDate.addActionListener(this::txtDateActionPerformed);
         pnlGroomingDetails.add(txtDate, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 366, 32));
 
         lblTimeTable.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         lblTimeTable.setForeground(new java.awt.Color(113, 128, 140));
         lblTimeTable.setText("TIME (HH:MM)");
         pnlGroomingDetails.add(lblTimeTable, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 160, 366, 18));
-
-        txtTime.addActionListener(this::txtTimeActionPerformed);
         pnlGroomingDetails.add(txtTime, new org.netbeans.lib.awtextra.AbsoluteConstraints(406, 180, 366, 32));
 
         lblReasonLabel.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         lblReasonLabel.setForeground(new java.awt.Color(113, 128, 140));
         lblReasonLabel.setText("REASON");
         pnlGroomingDetails.add(lblReasonLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(792, 160, 366, 18));
-
-        txtReason.addActionListener(this::txtReasonActionPerformed);
         pnlGroomingDetails.add(txtReason, new org.netbeans.lib.awtextra.AbsoluteConstraints(792, 180, 370, 32));
         pnlGroomingDetails.add(txtNotes, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 1140, 70));
 
@@ -237,28 +310,24 @@ public class GroomingForm extends javax.swing.JFrame {
         btnBook.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnBook.setForeground(new java.awt.Color(74, 91, 106));
         btnBook.setText("Book Appointment");
-        btnBook.addActionListener(this::btnBookActionPerformed);
         pnlGroomingDetails.add(btnBook, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 355, 270, 45));
 
         btnUpdate.setBackground(new java.awt.Color(190, 210, 230));
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdate.setForeground(new java.awt.Color(74, 91, 106));
         btnUpdate.setText("Update Status");
-        btnUpdate.addActionListener(this::btnUpdateActionPerformed);
         pnlGroomingDetails.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 355, 270, 45));
 
         btnCancelAppointment.setBackground(new java.awt.Color(220, 170, 170));
         btnCancelAppointment.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnCancelAppointment.setForeground(new java.awt.Color(120, 40, 40));
         btnCancelAppointment.setText("Cancel");
-        btnCancelAppointment.addActionListener(this::btnCancelAppointmentActionPerformed);
         pnlGroomingDetails.add(btnCancelAppointment, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 355, 270, 45));
 
         btnClear.setBackground(new java.awt.Color(235, 235, 230));
         btnClear.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnClear.setForeground(new java.awt.Color(74, 91, 106));
         btnClear.setText("Clear");
-        btnClear.addActionListener(this::btnClearActionPerformed);
         pnlGroomingDetails.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 355, 270, 45));
 
         pnlGroomingContent.add(pnlGroomingDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 1180, 420));
@@ -287,59 +356,6 @@ public class GroomingForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void txtDateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtDateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtDateActionPerformed
-
-    private void txtTimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimeActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtTimeActionPerformed
-
-    private void txtReasonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtReasonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtReasonActionPerformed
-
-    private void btnBookActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnBookActionPerformed
-
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
-    private void btnCancelAppointmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelAppointmentActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnCancelAppointmentActionPerformed
-
-    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnClearActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
-            logger.log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new GroomingForm().setVisible(true));
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBook;
@@ -379,7 +395,6 @@ public class GroomingForm extends javax.swing.JFrame {
     private javax.swing.JPanel pnlCardToday;
     private javax.swing.JPanel pnlGroomingContent;
     private javax.swing.JPanel pnlGroomingDetails;
-    private view.SidebarPanel sidebarPanel1;
     private javax.swing.JTable tblGroomings;
     private javax.swing.JTextField txtDate;
     private javax.swing.JTextField txtNotes;

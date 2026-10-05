@@ -1,0 +1,39 @@
+PAWCARE360 - FINAL SETUP
+
+1. Open the PawCare360 folder in NetBeans.
+2. Make sure JDK 21 is selected.
+3. Start MySQL in XAMPP.
+4. Run database/pawcare360_full.sql in MySQL Workbench or phpMyAdmin.
+5. Check db.properties:
+   db.url=jdbc:mysql://localhost:3306/pawcare360?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Colombo
+   db.user=root
+   db.password=
+6. In NetBeans: Clean and Build.
+7. Run LoginForm.
+
+DEMO LOGIN
+admin / admin123
+manager / manager123
+vet / vet123
+nurse / nurse123
+groomer / groomer123
+reception / reception123
+
+KEYBOARD EVENTS
+- ENTER moves to the next editable field.
+- Last-field ENTER keeps the existing action (Save/Add/Login/etc.).
+- SHIFT+ENTER is left available for text editing.
+- Combo-box ENTER is not intercepted while the drop-down is open.
+
+MOUSE EVENTS
+- Table row clicks are wired by controllers to load records where editing is supported.
+- Buttons use ActionListener events.
+- Sidebar navigation is handled centrally.
+- Delete operations use confirmation dialogs.
+
+DATABASE ARCHITECTURE
+View -> Controller -> Service -> DAO -> MySQL
+
+IMPORTANT
+Do not edit NetBeans-generated initComponents() code unless necessary.
+See docs/DB_AND_EVENTS_GUIDE.md for details.

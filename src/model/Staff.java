@@ -4,16 +4,13 @@
  */
 package model;
 
-public class Staff {
+public class Staff extends Person
+{
 
     private int staffId;
-    private String fullName;
     private String role;
-    private String phone;
-    private String email;
     private String specialization;
     private String hireDate;
-    private String status;
 
     // Empty constructor
     public Staff() {
@@ -25,13 +22,13 @@ public class Staff {
                  String hireDate, String status) {
 
         this.staffId = staffId;
-        this.fullName = fullName;
+        setFullName(fullName);
         this.role = role;
-        this.phone = phone;
-        this.email = email;
+        setPhone(phone);
+        setEmail(email);
         this.specialization = specialization;
         this.hireDate = hireDate;
-        this.status = status;
+        setStatus(status);
     }
 
     // Getters and Setters
@@ -44,36 +41,12 @@ public class Staff {
         this.staffId = staffId;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
     public String getRole() {
         return role;
     }
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getSpecialization() {
@@ -92,11 +65,9 @@ public class Staff {
         this.hireDate = hireDate;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    @Override
+    public String getPersonType()
+    {
+        return "Staff";
     }
 }

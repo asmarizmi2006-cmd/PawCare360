@@ -1,201 +1,63 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package dao;
 
 import model.Staff;
-import util.DBConnection;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
-public class StaffDAO {
+// Staff data access
+public class StaffDAO extends BaseDAO
+{
+    // Row mapper
+    private Staff map(ResultSet rs) throws SQLException
+    {
+        Staff s = new Staff();
+        s.setStaffId(rs.getInt("staff_id"));
+        s.setFullName(rs.getString("full_name"));
+        s.setRole(rs.getString("role"));
+        s.setPhone(rs.getString("phone"));
+        s.setEmail(rs.getString("email"));
+        s.setSpecialization(rs.getString("specialization"));
+        Date hireDate = rs.getDate("hire_date");
+        s.setHireDate(hireDate != null ? hireDate.toString() : "");
+        s.setStatus(rs.getString("status"));
+        return s;
+    }
+
+    // Blank to null
+    private Date toDate(String text)
+    {
+        return (text == null || text.trim().isEmpty()) ? null : Date.valueOf(text);
+    }
 
     // ADD STAFF
-    
-    public boolean addStaff(Staff staff) {
-
-        String sql = "INSERT INTO staff "
-                + "(full_name, role, phone, email, specialization, hire_date, status) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement pst = con.prepareStatement(sql)) {
-
-            pst.setString(1, staff.getFullName());
-            pst.setString(2, staff.getRole());
-            pst.setString(3, staff.getPhone());
-            pst.setString(4, staff.getEmail());
-            pst.setString(5, staff.getSpecialization());
-
-            // Convert String date to SQL Date
-            if (staff.getHireDate() == null
-                    || staff.getHireDate().trim().isEmpty()) {
-
-                pst.setNull(6, Types.DATE);
-
-            } else {
-
-                pst.setDate(
-                        6,
-                        Date.valueOf(staff.getHireDate())
-                );
-            }
-
-            pst.setString(7, staff.getStatus());
-
-            return pst.executeUpdate() > 0;
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-            return false;
-        }
+    public boolean addStaff(Staff staff)
+    {
+        return executeUpdate("INSERT INTO staff (full_name, role, phone, email, specialization, hire_date, status) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                "add staff", staff.getFullName(), staff.getRole(), staff.getPhone(), staff.getEmail(),
+                staff.getSpecialization(), toDate(staff.getHireDate()), staff.getStatus()) > 0;
     }
 
-       // GET ALL STAFF
-    
-    public List<Staff> getAllStaff() {
-
-        List<Staff> staffList = new ArrayList<>();
-
-        String sql = "SELECT * FROM staff ORDER BY staff_id";
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement pst = con.prepareStatement(sql);
-             ResultSet rs = pst.executeQuery()) {
-
-            while (rs.next()) {
-
-                Staff staff = new Staff();
-
-                staff.setStaffId(
-                        rs.getInt("staff_id")
-                );
-
-                staff.setFullName(
-                        rs.getString("full_name")
-                );
-
-                staff.setRole(
-                        rs.getString("role")
-                );
-
-                staff.setPhone(
-                        rs.getString("phone")
-                );
-
-                staff.setEmail(
-                        rs.getString("email")
-                );
-
-                staff.setSpecialization(
-                        rs.getString("specialization")
-                );
-
-                Date hireDate =
-                        rs.getDate("hire_date");
-
-                if (hireDate != null) {
-
-                    staff.setHireDate(
-                            hireDate.toString()
-                    );
-
-                } else {
-
-                    staff.setHireDate("");
-                }
-
-                staff.setStatus(
-                        rs.getString("status")
-                );
-
-                staffList.add(staff);
-            }
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-
-        return staffList;
+    // GET ALL STAFF
+    public List<Staff> getAllStaff()
+    {
+        return queryList("SELECT * FROM staff ORDER BY staff_id", "load staff", this::map);
     }
 
-    
     // UPDATE STAFF
-    
-    public boolean updateStaff(Staff staff) {
-
-        String sql = "UPDATE staff SET "
-                + "full_name = ?, "
-                + "role = ?, "
-                + "phone = ?, "
-                + "email = ?, "
-                + "specialization = ?, "
-                + "hire_date = ?, "
-                + "status = ? "
-                + "WHERE staff_id = ?";
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement pst = con.prepareStatement(sql)) {
-
-            pst.setString(1, staff.getFullName());
-            pst.setString(2, staff.getRole());
-            pst.setString(3, staff.getPhone());
-            pst.setString(4, staff.getEmail());
-            pst.setString(5, staff.getSpecialization());
-
-            if (staff.getHireDate() == null
-                    || staff.getHireDate().trim().isEmpty()) {
-
-                pst.setNull(6, Types.DATE);
-
-            } else {
-
-                pst.setDate(
-                        6,
-                        Date.valueOf(staff.getHireDate())
-                );
-            }
-
-            pst.setString(7, staff.getStatus());
-
-            pst.setInt(
-                    8,
-                    staff.getStaffId()
-            );
-
-            return pst.executeUpdate() > 0;
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-            return false;
-        }
+    public boolean updateStaff(Staff staff)
+    {
+        return executeUpdate("UPDATE staff SET full_name = ?, role = ?, phone = ?, email = ?, specialization = ?, hire_date = ?, status = ? WHERE staff_id = ?",
+                "update staff", staff.getFullName(), staff.getRole(), staff.getPhone(), staff.getEmail(),
+                staff.getSpecialization(), toDate(staff.getHireDate()), staff.getStatus(),
+                staff.getStaffId()) > 0;
     }
 
- 
     // DELETE STAFF
-  
-    public boolean deleteStaff(int staffId) {
-
-        String sql =
-                "DELETE FROM staff WHERE staff_id = ?";
-
-        try (Connection con = DBConnection.getConnection();
-             PreparedStatement pst = con.prepareStatement(sql)) {
-
-            pst.setInt(1, staffId);
-
-            return pst.executeUpdate() > 0;
-
-        } catch (Exception e) {
-
-            e.printStackTrace();
-            return false;
-        }
+    public boolean deleteStaff(int staffId)
+    {
+        return executeUpdate("DELETE FROM staff WHERE staff_id = ?", "delete staff", staffId) > 0;
     }
 }

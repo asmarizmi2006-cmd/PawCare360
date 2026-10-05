@@ -1,5 +1,6 @@
 package service;
 
+import exception.ValidationException;
 import dao.ServiceDAO;
 import model.ServiceItem;
 
@@ -36,13 +37,13 @@ public class ServiceService {
 
     private void validate(ServiceItem s) {
         if (s.getServiceName() == null || s.getServiceName().trim().isEmpty()) {
-            throw new IllegalArgumentException("Service name is required.");
+            throw new ValidationException("Service name is required.");
         }
         if (s.getPrice() == null || s.getPrice().compareTo(java.math.BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Price cannot be negative.");
+            throw new ValidationException("Price cannot be negative.");
         }
         if (s.getDurationMinutes() <= 0) {
-            throw new IllegalArgumentException("Duration must be greater than 0.");
+            throw new ValidationException("Duration must be greater than 0.");
         }
     }
 }
