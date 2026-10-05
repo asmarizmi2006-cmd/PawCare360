@@ -1,5 +1,16 @@
+# NetBeans build output
 build/
 dist/
+
+# NetBeans private settings
 nbproject/private/
+
+# Java compiled files
 *.class
+
+# Database configuration / credentials
 db.properties
+
+# Python cache
+__pycache__/
+*.pyc
