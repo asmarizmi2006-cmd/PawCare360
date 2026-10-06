@@ -111,8 +111,8 @@ public class LoginForm extends JFrame
     public LoginForm()
     {
         initComponents();
-
-        setResizable(false);
+        
+        setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
 
         lblError.setText(" ");
@@ -654,6 +654,8 @@ public class LoginForm extends JFrame
         stylePasswordField(
                 txtPassword
         );
+        
+        txtPassword.addActionListener(e -> btnLogin.doClick());
 
         addAt(
                 loginCard,

@@ -338,21 +338,21 @@ public class PrescriptionDialog extends javax.swing.JDialog {
         txtInstructions.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         pnlPrescription.add(txtInstructions, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 92, 652, 30));
 
+        btnAddMedicine.setBackground(new java.awt.Color(157, 201, 163));
         btnAddMedicine.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnAddMedicine.setForeground(new java.awt.Color(74, 91, 106));
-        btnAddMedicine.setBackground(new java.awt.Color(157, 201, 163));
         btnAddMedicine.setText("Add Medicine");
         pnlPrescription.add(btnAddMedicine, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 136, 150, 36));
 
+        btnRemoveLine.setBackground(new java.awt.Color(220, 170, 170));
         btnRemoveLine.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnRemoveLine.setForeground(new java.awt.Color(120, 40, 40));
-        btnRemoveLine.setBackground(new java.awt.Color(220, 170, 170));
         btnRemoveLine.setText("Remove Selected");
         pnlPrescription.add(btnRemoveLine, new org.netbeans.lib.awtextra.AbsoluteConstraints(172, 136, 180, 36));
 
+        btnClose.setBackground(new java.awt.Color(235, 235, 230));
         btnClose.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnClose.setForeground(new java.awt.Color(74, 91, 106));
-        btnClose.setBackground(new java.awt.Color(235, 235, 230));
         btnClose.setText("Close");
         pnlPrescription.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 136, 150, 36));
 

@@ -259,6 +259,7 @@ public class StaffForm extends javax.swing.JFrame {
         lblStaffListTitle.setText("ALL STAFF");
         pnlStaffContent.add(lblStaffListTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 550, 400, 25));
 
+        tblStaff.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblStaff.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -270,9 +271,10 @@ public class StaffForm extends javax.swing.JFrame {
                 "ID", "Full Name", "Role", "Phone", "Email", "Specialization", "Hire Date", "Status"
             }
         ));
+        tblStaff.setRowHeight(28);
         jScrollPane1.setViewportView(tblStaff);
 
-        pnlStaffContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 580, 1180, 160));
+        pnlStaffContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 580, 1180, 250));
 
         getContentPane().add(pnlStaffContent, java.awt.BorderLayout.CENTER);
 

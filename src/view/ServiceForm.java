@@ -250,6 +250,7 @@ public class ServiceForm extends javax.swing.JFrame {
         lblServiceListTitle.setText("ALL SERVICES");
         pnlServiceContent.add(lblServiceListTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 550, 400, 25));
 
+        tblServices.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblServices.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -261,9 +262,10 @@ public class ServiceForm extends javax.swing.JFrame {
                 "ID", "Service Name", "Category", "Price", "Duration (min)", "Description", "Status"
             }
         ));
+        tblServices.setRowHeight(28);
         jScrollPane1.setViewportView(tblServices);
 
-        pnlServiceContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 580, 1180, 160));
+        pnlServiceContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 580, 1180, 250));
 
         getContentPane().add(pnlServiceContent, java.awt.BorderLayout.CENTER);
 

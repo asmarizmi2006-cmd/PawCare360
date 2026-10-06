@@ -336,6 +336,7 @@ public class AppointmentForm extends javax.swing.JFrame
         lblRecentsAppointments.setText("RECENT APPOINTMENTS");
         pnlAppointmentContent.add(lblRecentsAppointments, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 630, 400, 25));
 
+        tblAppointments.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblAppointments.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -347,9 +348,10 @@ public class AppointmentForm extends javax.swing.JFrame
                 "ID", "Customer", "Pet", "Staff", "Service", "Date & Time", "Status"
             }
         ));
+        tblAppointments.setRowHeight(28);
         jScrollPane1.setViewportView(tblAppointments);
 
-        pnlAppointmentContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 658, 1180, 160));
+        pnlAppointmentContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 658, 1180, 250));
 
         getContentPane().add(pnlAppointmentContent, java.awt.BorderLayout.CENTER);
 

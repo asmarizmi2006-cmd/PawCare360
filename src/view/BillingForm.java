@@ -709,6 +709,7 @@ public class BillingForm extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblInvoices.setRowHeight(28);
         jScrollPane2.setViewportView(tblInvoices);
 
         pnlInvoices.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(14, 124, 560, 380));

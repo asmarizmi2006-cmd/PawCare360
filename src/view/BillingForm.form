@@ -1100,6 +1100,7 @@
                         <Column editable="false" title="Status" type="java.lang.Object"/>
                       </Table>
                     </Property>
+                    <Property name="rowHeight" type="int" value="28"/>
                   </Properties>
                 </Component>
               </SubComponents>

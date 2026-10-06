@@ -183,34 +183,36 @@ public class CustomerForm extends javax.swing.JFrame {
         cmbStatus.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(210, 214, 218)));
         pnlCustomerDetails.add(cmbStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 100, 260, 32));
 
+        btnClear.setBackground(new java.awt.Color(235, 235, 230));
         btnClear.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnClear.setForeground(new java.awt.Color(80, 80, 80));
+        btnClear.setForeground(new java.awt.Color(74, 91, 106));
         btnClear.setText("Clear");
         btnClear.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(210, 214, 218)));
-        pnlCustomerDetails.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 240, 240, 42));
+        pnlCustomerDetails.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 260, 270, 45));
 
-        btnAdd1.setBackground(new java.awt.Color(62, 107, 82));
+        btnAdd1.setBackground(new java.awt.Color(157, 201, 163));
         btnAdd1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnAdd1.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdd1.setForeground(new java.awt.Color(74, 91, 106));
         btnAdd1.setText("Add Customer");
-        pnlCustomerDetails.add(btnAdd1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 240, 200, 42));
+        pnlCustomerDetails.add(btnAdd1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, 270, 45));
 
-        btnUpdate1.setBackground(new java.awt.Color(232, 236, 238));
+        btnUpdate1.setBackground(new java.awt.Color(190, 210, 230));
         btnUpdate1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnUpdate1.setForeground(new java.awt.Color(80, 80, 80));
+        btnUpdate1.setForeground(new java.awt.Color(74, 91, 106));
         btnUpdate1.setText("Update");
-        pnlCustomerDetails.add(btnUpdate1, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 240, 200, 42));
+        pnlCustomerDetails.add(btnUpdate1, new org.netbeans.lib.awtextra.AbsoluteConstraints(337, 260, 270, 45));
 
-        btnDelete1.setBackground(new java.awt.Color(247, 220, 224));
+        btnDelete1.setBackground(new java.awt.Color(220, 170, 170));
         btnDelete1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnDelete1.setForeground(new java.awt.Color(122, 46, 54));
+        btnDelete1.setForeground(new java.awt.Color(120, 40, 40));
         btnDelete1.setText("Delete");
-        pnlCustomerDetails.add(btnDelete1, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 240, 200, 42));
+        pnlCustomerDetails.add(btnDelete1, new org.netbeans.lib.awtextra.AbsoluteConstraints(643, 260, 270, 45));
 
         pnlCustomerContent.add(pnlCustomerDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 280, 1240, 320));
 
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
+        tblCustomers.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblCustomers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -225,7 +227,7 @@ public class CustomerForm extends javax.swing.JFrame {
         tblCustomers.setRowHeight(28);
         jScrollPane1.setViewportView(tblCustomers);
 
-        pnlCustomerContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 620, 1240, 260));
+        pnlCustomerContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 620, 1240, 250));
 
         pnlTotalCustomers.setBackground(new java.awt.Color(255, 255, 255));
         pnlTotalCustomers.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

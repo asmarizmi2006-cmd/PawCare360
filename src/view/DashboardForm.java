@@ -8,14 +8,182 @@ package view;
 public class DashboardForm extends javax.swing.JFrame {
 
 
+    // Dashboard chart components
+    private view.BarChartPanel barChartPanel;
+    private view.DonutChartPanel donutChartPanel;
+
     public DashboardForm() {
         initComponents();
+        createDashboardCharts();
+        applyDashboardStyle();
         setExtendedState(javax.swing.JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
     }
 
     public DashboardForm(String username) {
         this();
+    }
+
+    // =========================================================
+    // DASHBOARD CHARTS
+    // =========================================================
+
+    private void createDashboardCharts()
+    {
+        // Remove any old chart components if this method is called again.
+        if (barChartPanel != null)
+        {
+            pnlDashboardContent.remove(barChartPanel);
+        }
+
+        if (donutChartPanel != null)
+        {
+            pnlDashboardContent.remove(donutChartPanel);
+        }
+
+        // Appointments bar chart
+        barChartPanel = new BarChartPanel();
+        barChartPanel.setBackground(java.awt.Color.WHITE);
+        barChartPanel.setBorder(
+                javax.swing.BorderFactory.createCompoundBorder(
+                        javax.swing.BorderFactory.createLineBorder(
+                                new java.awt.Color(218, 226, 231),
+                                1
+                        ),
+                        javax.swing.BorderFactory.createEmptyBorder(
+                                8, 8, 8, 8
+                        )
+                )
+        );
+
+        pnlDashboardContent.add(
+                barChartPanel,
+                new org.netbeans.lib.awtextra.AbsoluteConstraints(
+                        20, 245, 620, 215
+                )
+        );
+
+        // Pets by species donut chart
+        donutChartPanel = new DonutChartPanel();
+        donutChartPanel.setBackground(java.awt.Color.WHITE);
+        donutChartPanel.setBorder(
+                javax.swing.BorderFactory.createCompoundBorder(
+                        javax.swing.BorderFactory.createLineBorder(
+                                new java.awt.Color(218, 226, 231),
+                                1
+                        ),
+                        javax.swing.BorderFactory.createEmptyBorder(
+                                8, 8, 8, 8
+                        )
+                )
+        );
+
+        pnlDashboardContent.add(
+                donutChartPanel,
+                new org.netbeans.lib.awtextra.AbsoluteConstraints(
+                        660, 245, 580, 215
+                )
+        );
+
+        pnlDashboardContent.revalidate();
+        pnlDashboardContent.repaint();
+    }
+
+    // =========================================================
+    // PROFESSIONAL PAWCARE360 DASHBOARD STYLING
+    // =========================================================
+    private void applyDashboardStyle()
+    {
+        final java.awt.Color NAVY = new java.awt.Color(15, 39, 64);
+        final java.awt.Color TEXT = new java.awt.Color(31, 47, 61);
+        final java.awt.Color MUTED = new java.awt.Color(104, 120, 132);
+        final java.awt.Color GREEN = new java.awt.Color(104, 170, 119);
+        final java.awt.Color GREEN_SOFT = new java.awt.Color(232, 244, 234);
+        final java.awt.Color BORDER = new java.awt.Color(218, 226, 231);
+
+        pnlDashboardContent.setBackground(new java.awt.Color(244, 247, 248));
+
+        lblWelcome.setForeground(NAVY);
+        lblWelcome.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 28));
+        lblUserInfo.setForeground(MUTED);
+
+        styleStatCard(pnlCardCustomer, pnlAccentCustomer, lblCardTitleCustomer, lblCardCustomer, lblCardSubCustomer);
+        styleStatCard(pnlCardPet, pnlAccentPet, lblCardTitlePet, lblCardPet, lblCardSubPet);
+        styleStatCard(pnlCardStaff, pnlAccentStaff, lblCardTitleStaff, lblCardStaff, lblCardSubStaff);
+        styleStatCard(pnlCardRevenue, pnlAccentRevenue, lblCardTitleRevenue, lblCardRevenue, lblCardSubRevenue);
+        styleStatCard(pnlCardOutstanding, pnlAccentOutstanding, lblCardTitleOutstanding, lblCardOutstanding, lblCardSubOutstanding);
+
+        pnlAccentCustomer.setBackground(GREEN);
+        pnlAccentPet.setBackground(new java.awt.Color(76, 154, 111));
+        pnlAccentStaff.setBackground(new java.awt.Color(88, 145, 179));
+        pnlAccentRevenue.setBackground(new java.awt.Color(120, 104, 180));
+        pnlAccentOutstanding.setBackground(new java.awt.Color(68, 159, 157));
+
+        lblBarTitle.setForeground(NAVY);
+        lblPieTitle.setForeground(NAVY);
+        lblQuickActions.setForeground(NAVY);
+        lblQuickActions.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 12));
+
+        styleQuickButton(btnNewAppointment, GREEN, NAVY);
+        styleQuickButton(btnRegisterCustomer, GREEN, NAVY);
+        styleQuickButton(btnAddPet, GREEN, NAVY);
+        styleQuickButton(btnRecordPayment, GREEN, NAVY);
+
+        styleTable(tblRecentCustomers);
+        styleTable(tblRecentPets);
+        styleTable(tblRecentAppointments);
+        styleTable(tblRecentStaff);
+    }
+
+    private void styleStatCard(javax.swing.JPanel card, javax.swing.JPanel accent,
+                               javax.swing.JLabel title, javax.swing.JLabel value,
+                               javax.swing.JLabel subtitle)
+    {
+        card.setBackground(java.awt.Color.WHITE);
+        card.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(218, 226, 231), 1),
+                javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1)
+        ));
+        accent.setBackground(new java.awt.Color(104, 170, 119));
+        title.setForeground(new java.awt.Color(31, 47, 61));
+        title.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+        value.setForeground(new java.awt.Color(15, 39, 64));
+        value.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 30));
+        subtitle.setForeground(new java.awt.Color(104, 120, 132));
+        subtitle.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 11));
+    }
+
+    private void styleQuickButton(javax.swing.JButton button, java.awt.Color green, java.awt.Color navy)
+    {
+        button.setBackground(new java.awt.Color(232, 244, 234));
+        button.setForeground(navy);
+        button.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 13));
+        button.setFocusPainted(false);
+        button.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+                javax.swing.BorderFactory.createLineBorder(green, 1),
+                javax.swing.BorderFactory.createEmptyBorder(6, 12, 6, 12)
+        ));
+        button.setOpaque(true);
+    }
+
+    private void styleTable(javax.swing.JTable table)
+    {
+        table.setBackground(java.awt.Color.WHITE);
+        table.setForeground(new java.awt.Color(39, 55, 69));
+        table.setFont(new java.awt.Font("Segoe UI", java.awt.Font.PLAIN, 12));
+        table.setRowHeight(32);
+        table.setShowGrid(false);
+        table.setIntercellSpacing(new java.awt.Dimension(0, 1));
+        table.setFillsViewportHeight(true);
+        table.setSelectionBackground(new java.awt.Color(232, 244, 234));
+        table.setSelectionForeground(new java.awt.Color(15, 39, 64));
+
+        javax.swing.table.JTableHeader header = table.getTableHeader();
+        header.setBackground(new java.awt.Color(15, 39, 64));
+        header.setForeground(new java.awt.Color(15, 39, 64));
+        header.setFont(new java.awt.Font("Segoe UI", java.awt.Font.BOLD, 14));
+        header.setPreferredSize(new java.awt.Dimension(0, 34));
+        header.setOpaque(true);
     }
 
     // Stat card text
@@ -80,11 +248,11 @@ public class DashboardForm extends javax.swing.JFrame {
     }
 
     public view.BarChartPanel getBarChartPanel() {
-        return BeanFinder.find(getContentPane(), BarChartPanel.class);
+        return barChartPanel;
     }
 
     public view.DonutChartPanel getDonutChartPanel() {
-        return BeanFinder.find(getContentPane(), DonutChartPanel.class);
+        return donutChartPanel;
     }
 
     public javax.swing.JButton getBtnNewAppointment() {
@@ -172,11 +340,11 @@ public class DashboardForm extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(1500, 900));
         setSize(new java.awt.Dimension(1500, 900));
 
-        pnlDashboardContent.setBackground(new java.awt.Color(247, 248, 250));
+        pnlDashboardContent.setBackground(new java.awt.Color(244, 247, 248));
         pnlDashboardContent.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblWelcome.setFont(new java.awt.Font("Segoe UI", 1, 26)); // NOI18N
-        lblWelcome.setForeground(new java.awt.Color(44, 62, 80));
+        lblWelcome.setForeground(new java.awt.Color(15, 39, 64));
         lblWelcome.setText("Dashboard");
         pnlDashboardContent.add(lblWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 15, 500, 38));
 
@@ -194,12 +362,12 @@ public class DashboardForm extends javax.swing.JFrame {
         pnlCardCustomer.add(pnlAccentCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 13, 34, 4));
 
         lblCardTitleCustomer.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblCardTitleCustomer.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardTitleCustomer.setForeground(new java.awt.Color(15, 39, 64));
         lblCardTitleCustomer.setText("Customers");
         pnlCardCustomer.add(lblCardTitleCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 27, 190, 18));
 
         lblCardCustomer.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblCardCustomer.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardCustomer.setForeground(new java.awt.Color(15, 39, 64));
         lblCardCustomer.setText("0");
         pnlCardCustomer.add(lblCardCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 50, 190, 36));
 
@@ -208,7 +376,7 @@ public class DashboardForm extends javax.swing.JFrame {
         lblCardSubCustomer.setText("Registered customers");
         pnlCardCustomer.add(lblCardSubCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 88, 190, 16));
 
-        pnlDashboardContent.add(pnlCardCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 85, 220, 115));
+        pnlDashboardContent.add(pnlCardCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 85, 225, 115));
 
         pnlCardPet.setBackground(new java.awt.Color(255, 255, 255));
         pnlCardPet.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(225, 225, 225)));
@@ -219,12 +387,12 @@ public class DashboardForm extends javax.swing.JFrame {
         pnlCardPet.add(pnlAccentPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 13, 34, 4));
 
         lblCardTitlePet.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblCardTitlePet.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardTitlePet.setForeground(new java.awt.Color(15, 39, 64));
         lblCardTitlePet.setText("Pets");
         pnlCardPet.add(lblCardTitlePet, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 27, 190, 18));
 
         lblCardPet.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblCardPet.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardPet.setForeground(new java.awt.Color(15, 39, 64));
         lblCardPet.setText("0");
         pnlCardPet.add(lblCardPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 50, 190, 36));
 
@@ -233,7 +401,7 @@ public class DashboardForm extends javax.swing.JFrame {
         lblCardSubPet.setText("Registered pets");
         pnlCardPet.add(lblCardSubPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 88, 190, 16));
 
-        pnlDashboardContent.add(pnlCardPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 85, 220, 115));
+        pnlDashboardContent.add(pnlCardPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(268, 85, 225, 115));
 
         pnlCardStaff.setBackground(new java.awt.Color(255, 255, 255));
         pnlCardStaff.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(225, 225, 225)));
@@ -244,12 +412,12 @@ public class DashboardForm extends javax.swing.JFrame {
         pnlCardStaff.add(pnlAccentStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 13, 34, 4));
 
         lblCardTitleStaff.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblCardTitleStaff.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardTitleStaff.setForeground(new java.awt.Color(15, 39, 64));
         lblCardTitleStaff.setText("Staff");
         pnlCardStaff.add(lblCardTitleStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 27, 190, 18));
 
         lblCardStaff.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblCardStaff.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardStaff.setForeground(new java.awt.Color(15, 39, 64));
         lblCardStaff.setText("0");
         pnlCardStaff.add(lblCardStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 50, 190, 36));
 
@@ -258,23 +426,23 @@ public class DashboardForm extends javax.swing.JFrame {
         lblCardSubStaff.setText("Clinic staff members");
         pnlCardStaff.add(lblCardSubStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 88, 190, 16));
 
-        pnlDashboardContent.add(pnlCardStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 85, 220, 115));
+        pnlDashboardContent.add(pnlCardStaff, new org.netbeans.lib.awtextra.AbsoluteConstraints(516, 85, 225, 115));
 
         pnlCardRevenue.setBackground(new java.awt.Color(255, 255, 255));
         pnlCardRevenue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(225, 225, 225)));
         pnlCardRevenue.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        pnlAccentRevenue.setBackground(new java.awt.Color(150, 110, 210));
+        pnlAccentRevenue.setBackground(new java.awt.Color(120, 152, 180));
         pnlAccentRevenue.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         pnlCardRevenue.add(pnlAccentRevenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 13, 34, 4));
 
         lblCardTitleRevenue.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblCardTitleRevenue.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardTitleRevenue.setForeground(new java.awt.Color(15, 39, 64));
         lblCardTitleRevenue.setText("Revenue (LKR)");
         pnlCardRevenue.add(lblCardTitleRevenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 27, 190, 18));
 
         lblCardRevenue.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblCardRevenue.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardRevenue.setForeground(new java.awt.Color(15, 39, 64));
         lblCardRevenue.setText("0");
         pnlCardRevenue.add(lblCardRevenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 50, 190, 36));
 
@@ -283,7 +451,7 @@ public class DashboardForm extends javax.swing.JFrame {
         lblCardSubRevenue.setText("Payments collected");
         pnlCardRevenue.add(lblCardSubRevenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 88, 190, 16));
 
-        pnlDashboardContent.add(pnlCardRevenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 85, 220, 115));
+        pnlDashboardContent.add(pnlCardRevenue, new org.netbeans.lib.awtextra.AbsoluteConstraints(764, 85, 225, 115));
 
         pnlCardOutstanding.setBackground(new java.awt.Color(255, 255, 255));
         pnlCardOutstanding.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(225, 225, 225)));
@@ -294,12 +462,12 @@ public class DashboardForm extends javax.swing.JFrame {
         pnlCardOutstanding.add(pnlAccentOutstanding, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 13, 34, 4));
 
         lblCardTitleOutstanding.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblCardTitleOutstanding.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardTitleOutstanding.setForeground(new java.awt.Color(15, 39, 64));
         lblCardTitleOutstanding.setText("Outstanding (LKR)");
         pnlCardOutstanding.add(lblCardTitleOutstanding, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 27, 190, 18));
 
         lblCardOutstanding.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lblCardOutstanding.setForeground(new java.awt.Color(44, 62, 80));
+        lblCardOutstanding.setForeground(new java.awt.Color(15, 39, 64));
         lblCardOutstanding.setText("0");
         pnlCardOutstanding.add(lblCardOutstanding, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 50, 190, 36));
 
@@ -308,47 +476,48 @@ public class DashboardForm extends javax.swing.JFrame {
         lblCardSubOutstanding.setText("Unpaid balances");
         pnlCardOutstanding.add(lblCardSubOutstanding, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 88, 190, 16));
 
-        pnlDashboardContent.add(pnlCardOutstanding, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 85, 220, 115));
+        pnlDashboardContent.add(pnlCardOutstanding, new org.netbeans.lib.awtextra.AbsoluteConstraints(1012, 85, 225, 115));
 
         lblBarTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblBarTitle.setForeground(new java.awt.Color(44, 62, 80));
+        lblBarTitle.setForeground(new java.awt.Color(15, 39, 64));
         lblBarTitle.setText("Appointments · Last 7 Days");
         pnlDashboardContent.add(lblBarTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 215, 400, 22));
 
         lblPieTitle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblPieTitle.setForeground(new java.awt.Color(44, 62, 80));
+        lblPieTitle.setForeground(new java.awt.Color(15, 39, 64));
         lblPieTitle.setText("Pets by Species");
-        pnlDashboardContent.add(lblPieTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 215, 400, 22));
+        pnlDashboardContent.add(lblPieTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 215, 590, 22));
 
         lblQuickActions.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
         lblQuickActions.setForeground(new java.awt.Color(130, 140, 150));
         lblQuickActions.setText("QUICK ACTIONS");
-        pnlDashboardContent.add(lblQuickActions, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 420, 300, 20));
+        pnlDashboardContent.add(lblQuickActions, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 475, 300, 20));
 
-        btnNewAppointment.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnNewAppointment.setForeground(new java.awt.Color(44, 62, 80));
         btnNewAppointment.setBackground(new java.awt.Color(157, 201, 163));
+        btnNewAppointment.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnNewAppointment.setForeground(new java.awt.Color(15, 39, 64));
         btnNewAppointment.setText("New Appointment");
-        pnlDashboardContent.add(btnNewAppointment, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 445, 290, 50));
+        pnlDashboardContent.add(btnNewAppointment, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 500, 290, 50));
 
-        btnRegisterCustomer.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnRegisterCustomer.setForeground(new java.awt.Color(44, 62, 80));
         btnRegisterCustomer.setBackground(new java.awt.Color(157, 201, 163));
+        btnRegisterCustomer.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRegisterCustomer.setForeground(new java.awt.Color(15, 39, 64));
         btnRegisterCustomer.setText("Register Customer");
-        pnlDashboardContent.add(btnRegisterCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 445, 290, 50));
+        pnlDashboardContent.add(btnRegisterCustomer, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 500, 290, 50));
 
-        btnAddPet.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnAddPet.setForeground(new java.awt.Color(44, 62, 80));
         btnAddPet.setBackground(new java.awt.Color(157, 201, 163));
+        btnAddPet.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnAddPet.setForeground(new java.awt.Color(15, 39, 64));
         btnAddPet.setText("Add Pet");
-        pnlDashboardContent.add(btnAddPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 445, 290, 50));
+        pnlDashboardContent.add(btnAddPet, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 500, 290, 50));
 
-        btnRecordPayment.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnRecordPayment.setForeground(new java.awt.Color(44, 62, 80));
         btnRecordPayment.setBackground(new java.awt.Color(157, 201, 163));
+        btnRecordPayment.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnRecordPayment.setForeground(new java.awt.Color(15, 39, 64));
         btnRecordPayment.setText("Record Payment");
-        pnlDashboardContent.add(btnRecordPayment, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 445, 290, 50));
+        pnlDashboardContent.add(btnRecordPayment, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 500, 290, 50));
 
+        tblRecentCustomers.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblRecentCustomers.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -367,8 +536,9 @@ public class DashboardForm extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblRecentCustomers);
 
-        pnlDashboardContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 510, 288, 200));
+        pnlDashboardContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 575, 290, 190));
 
+        tblRecentPets.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblRecentPets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -387,8 +557,9 @@ public class DashboardForm extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblRecentPets);
 
-        pnlDashboardContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(328, 510, 288, 200));
+        pnlDashboardContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 575, 290, 190));
 
+        tblRecentAppointments.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblRecentAppointments.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -407,8 +578,9 @@ public class DashboardForm extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(tblRecentAppointments);
 
-        pnlDashboardContent.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(636, 510, 288, 200));
+        pnlDashboardContent.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 575, 290, 190));
 
+        tblRecentStaff.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblRecentStaff.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -427,7 +599,7 @@ public class DashboardForm extends javax.swing.JFrame {
         });
         jScrollPane4.setViewportView(tblRecentStaff);
 
-        pnlDashboardContent.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(944, 510, 288, 200));
+        pnlDashboardContent.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(950, 575, 290, 190));
 
         getContentPane().add(pnlDashboardContent, java.awt.BorderLayout.CENTER);
 

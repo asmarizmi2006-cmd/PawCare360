@@ -546,6 +546,7 @@ public class PetForm extends javax.swing.JFrame {
         pnlDetails.add(lblName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 70, 220, 18));
 
         txtPetName.setForeground(new java.awt.Color(74, 91, 106));
+        txtPetName.setToolTipText("Enter the pet's name");
         pnlDetails.add(txtPetName, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 220, 32));
 
         lblSpecies.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
@@ -608,6 +609,7 @@ public class PetForm extends javax.swing.JFrame {
 
         txtNotes.setForeground(new java.awt.Color(74, 91, 106));
         txtNotes.setLineWrap(true);
+        txtNotes.setToolTipText("Enter important medical or clinical notes");
         txtNotes.setWrapStyleWord(true);
         jScrollPane1.setViewportView(txtNotes);
 
@@ -623,29 +625,29 @@ public class PetForm extends javax.swing.JFrame {
         txtPetId.setForeground(new java.awt.Color(74, 91, 106));
         pnlDetails.add(txtPetId, new org.netbeans.lib.awtextra.AbsoluteConstraints(1000, 155, 180, 32));
 
-        btnAdd.setBackground(new java.awt.Color(62, 107, 82));
+        btnAdd.setBackground(new java.awt.Color(157, 201, 163));
         btnAdd.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnAdd.setForeground(new java.awt.Color(255, 255, 255));
+        btnAdd.setForeground(new java.awt.Color(74, 91, 106));
         btnAdd.setText("Save Patient");
-        pnlDetails.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 235, 200, 42));
+        pnlDetails.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 270, 45));
 
         btnUpdate.setBackground(new java.awt.Color(190, 210, 230));
         btnUpdate.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnUpdate.setForeground(new java.awt.Color(74, 91, 106));
         btnUpdate.setText("Update");
-        pnlDetails.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 235, 200, 42));
+        pnlDetails.add(btnUpdate, new org.netbeans.lib.awtextra.AbsoluteConstraints(317, 230, 270, 45));
 
         btnDelete.setBackground(new java.awt.Color(220, 170, 170));
         btnDelete.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        btnDelete.setForeground(new java.awt.Color(74, 91, 106));
+        btnDelete.setForeground(new java.awt.Color(120, 40, 40));
         btnDelete.setText("Delete");
-        pnlDetails.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 235, 200, 42));
+        pnlDetails.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(613, 230, 270, 45));
 
         btnClear.setBackground(new java.awt.Color(235, 235, 230));
         btnClear.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnClear.setForeground(new java.awt.Color(74, 91, 106));
         btnClear.setText("Clear");
-        pnlDetails.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(980, 235, 200, 42));
+        pnlDetails.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 230, 270, 45));
 
         pnlContent.add(pnlDetails, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 1200, 290));
 
@@ -654,6 +656,7 @@ public class PetForm extends javax.swing.JFrame {
         lblRecords.setText("Recent Patient Records");
         pnlContent.add(lblRecords, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 482, 400, 24));
 
+        tblPets.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblPets.setForeground(new java.awt.Color(74, 91, 106));
         tblPets.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -671,9 +674,10 @@ public class PetForm extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblPets.setRowHeight(28);
         jScrollPane2.setViewportView(tblPets);
 
-        pnlContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 512, 1200, 270));
+        pnlContent.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 512, 1200, 250));
 
         getContentPane().add(pnlContent, java.awt.BorderLayout.CENTER);
 

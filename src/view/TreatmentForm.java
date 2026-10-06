@@ -348,6 +348,7 @@ public class TreatmentForm extends javax.swing.JFrame {
         lblTreatmentListTitle.setText("ALL TREATMENTS");
         pnlTreatmentContent.add(lblTreatmentListTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 630, 400, 25));
 
+        tblTreatments.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblTreatments.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
@@ -359,9 +360,10 @@ public class TreatmentForm extends javax.swing.JFrame {
                 "ID", "Appointment", "Pet", "Diagnosis", "Treatment Details", "Date", "Staff", "Notes"
             }
         ));
+        tblTreatments.setRowHeight(28);
         jScrollPane1.setViewportView(tblTreatments);
 
-        pnlTreatmentContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 658, 1180, 160));
+        pnlTreatmentContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 658, 1180, 250));
 
         getContentPane().add(pnlTreatmentContent, java.awt.BorderLayout.CENTER);
 
@@ -411,3 +413,26 @@ public class TreatmentForm extends javax.swing.JFrame {
     private javax.swing.JTextArea txtTreatmentDetails;
     // End of variables declaration//GEN-END:variables
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

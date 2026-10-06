@@ -337,6 +337,7 @@ public class GroomingForm extends javax.swing.JFrame
         lblRecentsGroomings.setText("RECENT GROOMINGS");
         pnlGroomingContent.add(lblRecentsGroomings, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 630, 400, 25));
 
+        tblGroomings.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblGroomings.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
@@ -348,9 +349,10 @@ public class GroomingForm extends javax.swing.JFrame
                 "ID", "Customer", "Pet", "Staff", "Service", "Date & Time", "Status"
             }
         ));
+        tblGroomings.setRowHeight(28);
         jScrollPane1.setViewportView(tblGroomings);
 
-        pnlGroomingContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 658, 1180, 160));
+        pnlGroomingContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 658, 1180, 250));
 
         getContentPane().add(pnlGroomingContent, java.awt.BorderLayout.CENTER);
 

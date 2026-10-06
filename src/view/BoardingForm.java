@@ -322,6 +322,7 @@ public class BoardingForm extends javax.swing.JFrame {
         lblBoardingListTitle.setText("ALL BOOKINGS");
         pnlBoardingContent.add(lblBoardingListTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 550, 400, 25));
 
+        tblBoarding.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblBoarding.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null, null},
@@ -333,9 +334,10 @@ public class BoardingForm extends javax.swing.JFrame {
                 "ID", "Customer", "Pet", "Room", "Check-in", "Check-out", "Days", "Total", "Status"
             }
         ));
+        tblBoarding.setRowHeight(28);
         jScrollPane1.setViewportView(tblBoarding);
 
-        pnlBoardingContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 580, 1180, 160));
+        pnlBoardingContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 580, 1180, 250));
 
         getContentPane().add(pnlBoardingContent, java.awt.BorderLayout.CENTER);
 
