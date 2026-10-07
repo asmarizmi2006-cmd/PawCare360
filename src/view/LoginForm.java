@@ -39,9 +39,8 @@ import javax.swing.border.AbstractBorder;
  */
 public class LoginForm extends JFrame
 {
-    // =========================================================
+   
     // PAWCARE360 BRAND COLORS
-    // =========================================================
 
     // Main navy
     private static final Color NAVY =
@@ -76,9 +75,9 @@ public class LoginForm extends JFrame
     private static final Color ERROR =
             new Color(190, 55, 55);
 
-    // =========================================================
+
     // COMPONENTS
-    // =========================================================
+    
 
     private JLabel lblTitle;
     private JLabel lblSubtitle;
@@ -104,9 +103,9 @@ public class LoginForm extends JFrame
 
     private char passwordEchoChar;
 
-    // =========================================================
+    
     // CONSTRUCTOR
-    // =========================================================
+   
 
     public LoginForm()
     {
@@ -124,27 +123,27 @@ public class LoginForm extends JFrame
                 txtPassword.getEchoChar();
     }
 
-    // =========================================================
+    
     // GET USERNAME
-    // =========================================================
+    
 
     public String getUsername()
     {
         return txtUsername.getText().trim();
     }
 
-    // =========================================================
+    
     // GET PASSWORD
-    // =========================================================
+    
 
     public char[] getPassword()
     {
         return txtPassword.getPassword();
     }
 
-    // =========================================================
+    
     // GET ROLE
-    // =========================================================
+    
 
     public String getRole()
     {
@@ -159,9 +158,9 @@ public class LoginForm extends JFrame
         return item.toString().trim();
     }
 
-    // =========================================================
+   
     // SHOW ERROR
-    // =========================================================
+   
 
     public void showError(String message)
     {
@@ -169,59 +168,54 @@ public class LoginForm extends JFrame
         lblError.setText(message);
     }
 
-    // =========================================================
+    
     // CLEAR PASSWORD
-    // =========================================================
+    
 
     public void clearPassword()
     {
         txtPassword.setText("");
     }
 
-    // =========================================================
+    
     // GET LOGIN BUTTON
-    // =========================================================
+    
 
     public JButton getBtnLogin()
     {
         return btnLogin;
     }
 
-    // =========================================================
+    
     // GET USERNAME FIELD
-    // =========================================================
+    
 
     public JTextField getTxtUsername()
     {
         return txtUsername;
     }
 
-    // =========================================================
+    
     // GET PASSWORD FIELD
-    // =========================================================
 
     public JPasswordField getTxtPassword()
     {
         return txtPassword;
     }
 
-    // =========================================================
     // GET ROLE COMBO
-    // =========================================================
 
     public JComboBox<String> getCmbRole()
     {
         return cmbRole;
     }
 
-    // =========================================================
+    
     // START GREEN LOADING BAR
-    // =========================================================
 
-    /**
-     * This method should only be called after
-     * username + password + role are successfully verified.
-     */
+   
+     // This method should only be called after username + password + role are successfully verified.
+   
     public void startLoading(Runnable afterLoading)
     {
         lblError.setText(" ");
@@ -298,9 +292,8 @@ public class LoginForm extends JFrame
         timer.start();
     }
 
-    // =========================================================
+    
     // COMPONENT POSITION HELPER
-    // =========================================================
 
     private void addAt(
             Container parent,
@@ -320,9 +313,8 @@ public class LoginForm extends JFrame
         parent.add(component);
     }
 
-    // =========================================================
+    
     // INITIALIZE COMPONENTS
-    // =========================================================
 
     private void initComponents()
     {
@@ -346,9 +338,8 @@ public class LoginForm extends JFrame
                 )
         );
 
-        // =====================================================
         // BACKGROUND
-        // =====================================================
+        
 
         backgroundPanel =
                 new GradientPanel();
@@ -359,9 +350,8 @@ public class LoginForm extends JFrame
                 backgroundPanel
         );
 
-        // =====================================================
+        
         // LEFT SIDE BRANDING
-        // =====================================================
 
         JLabel lblBrand =
                 new JLabel(
@@ -389,9 +379,8 @@ public class LoginForm extends JFrame
                 60
         );
 
-        // =====================================================
+        
         // CLEAN GREEN BRAND LINE
-        // =====================================================
 
         JPanel brandLine =
                 new JPanel();
@@ -409,9 +398,7 @@ public class LoginForm extends JFrame
                 4
         );
 
-        // =====================================================
         // CLINIC TITLE
-        // =====================================================
 
         JLabel lblClinic =
                 new JLabel(
@@ -444,9 +431,8 @@ public class LoginForm extends JFrame
                 80
         );
 
-        // =====================================================
         // TAGLINE
-        // =====================================================
+        
 
         JLabel lblTagline =
                 new JLabel(
@@ -483,9 +469,8 @@ public class LoginForm extends JFrame
                 70
         );
 
-        // =====================================================
         // GREEN PAW
-        // =====================================================
+        
 
         JLabel lblPaw =
                 new JLabel("🐾");
@@ -511,9 +496,8 @@ public class LoginForm extends JFrame
                 100
         );
 
-        // =====================================================
+        
         // LOGIN CARD
-        // =====================================================
 
         loginCard =
                 new RoundedPanel(
@@ -532,9 +516,8 @@ public class LoginForm extends JFrame
                 620
         );
 
-        // =====================================================
+        
         // CARD TITLE
-        // =====================================================
 
         lblTitle =
                 new JLabel(
@@ -562,9 +545,8 @@ public class LoginForm extends JFrame
                 45
         );
 
-        // =====================================================
+        
         // CARD SUBTITLE
-        // =====================================================
 
         lblSubtitle =
                 new JLabel(
@@ -592,9 +574,8 @@ public class LoginForm extends JFrame
                 30
         );
 
-        // =====================================================
+        
         // USERNAME LABEL
-        // =====================================================
 
         lblUsernameLabel =
                 createLabel(
@@ -610,10 +591,8 @@ public class LoginForm extends JFrame
                 25
         );
 
-        // =====================================================
         // USERNAME FIELD
-        // =====================================================
-
+        
         txtUsername =
                 createTextField();
 
@@ -626,9 +605,7 @@ public class LoginForm extends JFrame
                 46
         );
 
-        // =====================================================
         // PASSWORD LABEL
-        // =====================================================
 
         lblPassword =
                 createLabel(
@@ -644,9 +621,7 @@ public class LoginForm extends JFrame
                 25
         );
 
-        // =====================================================
         // PASSWORD FIELD
-        // =====================================================
 
         txtPassword =
                 new JPasswordField();
@@ -666,9 +641,7 @@ public class LoginForm extends JFrame
                 46
         );
 
-        // =====================================================
         // SHOW PASSWORD
-        // =====================================================
 
         chkShowPassword =
                 new JCheckBox(
@@ -722,9 +695,7 @@ public class LoginForm extends JFrame
                 28
         );
 
-        // =====================================================
         // ROLE LABEL
-        // =====================================================
 
         lblRole =
                 createLabel(
@@ -740,9 +711,7 @@ public class LoginForm extends JFrame
                 25
         );
 
-        // =====================================================
         // ROLE COMBO BOX
-        // =====================================================
 
         cmbRole =
                 new JComboBox<>();
@@ -790,9 +759,7 @@ public class LoginForm extends JFrame
                 44
         );
 
-        // =====================================================
         // ERROR LABEL
-        // =====================================================
 
         lblError =
                 new JLabel(" ");
@@ -818,9 +785,7 @@ public class LoginForm extends JFrame
                 22
         );
 
-        // =====================================================
         // LOGIN BUTTON
-        // =====================================================
 
         btnLogin =
                 new RoundedButton(
@@ -846,9 +811,8 @@ public class LoginForm extends JFrame
                 50
         );
 
-        // =====================================================
+        
         // LOADING LABEL
-        // =====================================================
 
         lblLoading =
                 new JLabel(
@@ -880,9 +844,7 @@ public class LoginForm extends JFrame
                 24
         );
 
-        // =====================================================
         // GREEN PROGRESS BAR
-        // =====================================================
 
         progressBar =
                 new JProgressBar(
@@ -930,9 +892,7 @@ public class LoginForm extends JFrame
                 18
         );
 
-        // =====================================================
         // HIDE LOADING INITIALLY
-        // =====================================================
 
         lblLoading.setVisible(
                 false
@@ -943,9 +903,7 @@ public class LoginForm extends JFrame
         );
     }
 
-    // =========================================================
     // LABEL CREATOR
-    // =========================================================
 
     private JLabel createLabel(
             String text)
@@ -968,9 +926,7 @@ public class LoginForm extends JFrame
         return label;
     }
 
-    // =========================================================
     // TEXT FIELD
-    // =========================================================
 
     private JTextField createTextField()
     {
@@ -1007,9 +963,7 @@ public class LoginForm extends JFrame
         return field;
     }
 
-    // =========================================================
     // PASSWORD FIELD
-    // =========================================================
 
     private void stylePasswordField(
             JPasswordField field)
@@ -1042,9 +996,7 @@ public class LoginForm extends JFrame
         );
     }
 
-    // =========================================================
     // CUSTOM BACKGROUND
-    // =========================================================
 
     private static class GradientPanel
             extends JPanel
@@ -1068,9 +1020,7 @@ public class LoginForm extends JFrame
                     RenderingHints.VALUE_ANTIALIAS_ON
             );
 
-            // =================================================
             // NAVY → BEIGE GRADIENT
-            // =================================================
 
             GradientPaint gradient =
                     new GradientPaint(
@@ -1093,9 +1043,8 @@ public class LoginForm extends JFrame
                     getHeight()
             );
 
-            // =================================================
+            
             // SOFT GREEN CIRCLE
-            // =================================================
 
             g2.setColor(
                     new Color(
@@ -1113,9 +1062,7 @@ public class LoginForm extends JFrame
                     350
             );
 
-            // =================================================
             // SOFT BEIGE CIRCLE
-            // =================================================
 
             g2.setColor(
                     new Color(
@@ -1133,9 +1080,7 @@ public class LoginForm extends JFrame
                     330
             );
 
-            // =================================================
             // GREEN DECORATIVE CIRCLE
-            // =================================================
 
             g2.setColor(
                     new Color(
@@ -1157,9 +1102,7 @@ public class LoginForm extends JFrame
         }
     }
 
-    // =========================================================
     // ROUNDED PANEL
-    // =========================================================
 
     private static class RoundedPanel
             extends JPanel
@@ -1194,9 +1137,7 @@ public class LoginForm extends JFrame
                     RenderingHints.VALUE_ANTIALIAS_ON
             );
 
-            // =================================================
             // SHADOW
-            // =================================================
 
             g2.setColor(
                     new Color(
@@ -1216,9 +1157,7 @@ public class LoginForm extends JFrame
                     radius
             );
 
-            // =================================================
             // CARD
-            // =================================================
 
             g2.setColor(
                     background
@@ -1241,9 +1180,7 @@ public class LoginForm extends JFrame
         }
     }
 
-    // =========================================================
     // ROUNDED BORDER
-    // =========================================================
 
     private static class RoundedBorder
             extends AbstractBorder
@@ -1308,9 +1245,8 @@ public class LoginForm extends JFrame
         }
     }
 
-    // =========================================================
     // ROUNDED BUTTON
-    // =========================================================
+    
 
     private static class RoundedButton
             extends JButton
@@ -1392,9 +1328,8 @@ public class LoginForm extends JFrame
                         );
             }
 
-            // =================================================
             // BUTTON
-            // =================================================
+            
 
             g2.setColor(
                     fill
@@ -1409,9 +1344,9 @@ public class LoginForm extends JFrame
                     14
             );
 
-            // =================================================
+            
             // GREEN BORDER
-            // =================================================
+            
 
             g2.setColor(
                     borderColor
@@ -1440,17 +1375,11 @@ public class LoginForm extends JFrame
         }
     }
 
-    // =========================================================
+    
     // MAIN
-    // =========================================================
+   
 
-    /*
-     * Temporary direct test.
-     *
-     * This directly opens LoginForm.
-     * After the UI is confirmed, LoginController
-     * will be connected to it.
-     */
+    
     public static void main(
             String[] args)
     {
