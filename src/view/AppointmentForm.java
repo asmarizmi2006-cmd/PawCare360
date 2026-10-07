@@ -351,7 +351,7 @@ public class AppointmentForm extends javax.swing.JFrame
         tblAppointments.setRowHeight(28);
         jScrollPane1.setViewportView(tblAppointments);
 
-        pnlAppointmentContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 658, 1180, 250));
+        pnlAppointmentContent.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 658, 1180, 180));
 
         getContentPane().add(pnlAppointmentContent, java.awt.BorderLayout.CENTER);
 

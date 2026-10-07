@@ -13,28 +13,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * Common Swing UI behaviour used by PawCare360.
- *
- * Main purpose:
- * 1. Press ENTER to move to the next editable input field.
- * 2. Keep the behaviour consistent across every MVC screen.
- *
- * The method intentionally leaves the last field alone. This means an
- * existing ENTER action such as Save/Add/Login can still execute.
- */
+
 public final class UIHelper {
 
     private UIHelper() {
         // Utility class; no objects are required.
     }
 
-    /**
-     * Adds ENTER-key navigation to all editable text/combo inputs in a form.
-     *
-     * Components are ordered using their visual position (top-to-bottom,
-     * left-to-right), which works well with NetBeans AbsoluteLayout forms.
-     */
     public static void installEnterNavigation(Container root) {
         List<JComponent> fields = new ArrayList<>();
         collectInputFields(root, fields);
